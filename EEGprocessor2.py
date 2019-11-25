@@ -20,11 +20,14 @@ CP5 = np.zeros([])
 CP6 = np.zeros([])
 
 #create overall data structure session array (N trials)
-no_timesteps = 4000
+sampling_freq = 500 
+no_timesteps = 5000 # 10 seconds of data
+new_timesteps = 100 # reduced to averaged data (10 secs)
+baseline_duration = 35 # samples from new sampling frequency
 no_channels = 2
 no_trials = 5
-trial_count = 0
-ds_eeg = np.ndarray(shape=(no_trials, no_channels, no_timesteps), dtype=float)
+trial_count = 0 # init
+ds_eeg = np.ndarray(shape=(no_trials, no_channels, new_timesteps), dtype=float)
 
 
 
@@ -55,9 +58,47 @@ def butter_bandpass_filter(data, lowcut, highcut, fs, order=5):
 
 def spectral_bandpower(data):
     eeg_powered = np.square(data)
+    # Should add log(1 + x)?
     return eeg_powered
 
+# Moving Average
 
+def moving_average(data, sampling_freq):
+    ave_duration = 1*sampling_freq
+    ave_interval = 0.1*sampling_freq
+    new_timesteps = round(no_timesteps/ave_interval)
+    
+    ave_point = round(ave_duration*0.5)
+       
+    eeg_ave = np.ndarray([no_channels,new_timesteps])
+    ave_counter = 0
+    
+    for i in range(new_timesteps):
+        ave_start = round(ave_point - ave_duration*(0.5))
+        ave_end = round(ave_point + ave_duration*(0.5))
+        epoch = data[:, ave_start:ave_end]
+        get_ave = np.ndarray.tolist(epoch.mean(axis=1))
+        eeg_ave[:,ave_counter] = get_ave
+        ave_point = round(ave_point + ave_interval)
+        ave_counter = ave_counter + 1
+
+    print("eeg average")
+    print(eeg_ave)
+    return eeg_ave, new_timesteps
+
+"""
+# Baseline Correction
+
+def baseline_correction(data, bs_duration):
+    baseline = data[:,0:bs_duration]
+    ave_baseline = baseline.mean(axis=1)
+    # OUT [value value]
+    # multiply to shape of data
+    # subtract to shape of data
+    # eeg_basecorr = baseline - data
+    return
+    
+"""
 
 
 """ MAIN PROCESS PIPELINE """
@@ -76,7 +117,7 @@ while True:
 
         # Data Acquisition from LSL stream
         while True:
-            for i in range(no_timesteps-1): # 1750 samples (3.5s) baseline, 3000 samples (6.0s) trial, total of 4750 (change no_timesteps)
+            for i in range(no_timesteps-1): # 1750 samples (3.5s) baseline, 3500 samples (6.5s) trial, total of 5000 (change no_timesteps)
                 sample, timestamp = inlet.pull_sample()
                 C3 = np.append(C3, sample[0])
                 C4 = np.append(C4, sample[1])
@@ -113,20 +154,31 @@ while True:
         eeg_powered = spectral_bandpower(eeg_filtered)
         print("Mu power: ")
         print(eeg_powered)
+        
+        # Averaging over time
+        eeg_ave, new_timesteps = moving_average(eeg_powered, sampling_freq)
+        print("Averaging over time: ")
+        print(eeg_ave)
 
-        # Insert baseline correction and anything in between...
+        """
+        # Baseline Correction (3.5 secs = 35 samples)
+        #eeg_basecorr = 
+        baseline_correction(eeg_ave, baseline_duration)
+        print("Baseline corrected: ")
+        #print(eeg_basecorr)
+        """
 
         # Save time series for C3 and C4 in trials array (3rd D)
-        # Dimensions; (no_trials x no_channels x no_timesteps)
+        # Dimensions; (no_trials x no_channels x new_timesteps)
 
-        ds_eeg[trial_count,0,:] = eeg_powered[0,:]
-        ds_eeg[trial_count,1,:] = eeg_powered[1,:]
+        ds_eeg[trial_count,0,:] = eeg_ave[0,:]
+        ds_eeg[trial_count,1,:] = eeg_ave[1,:]
 
         # Plotting
         f, ax = plt.subplots(1)
-        x_point = np.arange(no_timesteps)
-        ax.plot(x_point, eeg_powered[0,:], 'ro')
-        ax.plot(x_point, eeg_powered[1,:], 'bo')
+        x_point = np.arange(new_timesteps)
+        ax.plot(x_point, eeg_ave[0,:], 'ro')
+        ax.plot(x_point, eeg_ave[1,:], 'bo')
         plt.show()
 
         # Clear Memory
@@ -139,7 +191,6 @@ while True:
         C2 = np.zeros([])
         CP5 = np.zeros([])
         CP6 = np.zeros([])
-
 
     elif get_readycue == "N":
         print("okay")
