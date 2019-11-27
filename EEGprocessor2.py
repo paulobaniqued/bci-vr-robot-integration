@@ -22,7 +22,7 @@ CP6 = np.zeros([])
 #create overall data structure session array (N trials)
 sampling_freq = 500 
 no_timesteps = 5000 # 10 seconds of data
-new_timesteps = 100 # reduced to averaged data (10 secs)
+new_timesteps = 100 # reduced to averaged data (10 seconds of data)
 baseline_duration = 35 # samples from new sampling frequency
 no_channels = 2
 no_trials = 5
@@ -86,19 +86,17 @@ def moving_average(data, sampling_freq):
     print(eeg_ave)
     return eeg_ave, new_timesteps
 
-"""
-# Baseline Correction
+# Baseline Correction (NOT COMPLETE!)
 
 def baseline_correction(data, bs_duration):
     baseline = data[:,0:bs_duration]
     ave_baseline = baseline.mean(axis=1)
-    # OUT [value value]
-    # multiply to shape of data
-    # subtract to shape of data
-    # eeg_basecorr = baseline - data
-    return
-    
-"""
+    print(ave_baseline) # [data data]
+    eeg_basecorr = np.zeros([])
+    eeg_basecorr[0].append([i - ave_baseline[0] for i in data[0,:]])
+    eeg_basecorr[1] = [i - ave_baseline[1] for i in data[1,:]]
+    return eeg_basecorr
+
 
 
 """ MAIN PROCESS PIPELINE """
@@ -160,14 +158,11 @@ while True:
         print("Averaging over time: ")
         print(eeg_ave)
 
-        """
-        # Baseline Correction (3.5 secs = 35 samples)
-        #eeg_basecorr = 
-        baseline_correction(eeg_ave, baseline_duration)
+        """# Baseline Correction (3.5 secs = 35 samples)
+        eeg_basecorr = baseline_correction(eeg_ave, baseline_duration)
         print("Baseline corrected: ")
-        #print(eeg_basecorr)
-        """
-
+        print(eeg_basecorr)"""
+        
         # Save time series for C3 and C4 in trials array (3rd D)
         # Dimensions; (no_trials x no_channels x new_timesteps)
 
