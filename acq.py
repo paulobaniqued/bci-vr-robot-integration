@@ -1,12 +1,13 @@
-"""Background EEG Acquisition Handler
+"""Background EEG Acquisition Handler and ERD/ERS processor
 Saves as 3D array (no_timesteps x no_channels x no_trials)
-Working as of 05-12-2019"""
+Working as of 13-12-2019"""
 
 from pylsl import StreamInlet, resolve_stream, StreamInfo, StreamOutlet
 from scipy.signal import butter, lfilter
 import numpy as np
 import mne
 import matplotlib.pyplot as plt
+import sys
 import time
 
 # LSL Outlet for Markers
@@ -102,18 +103,32 @@ def moving_average(data, sampling_frequency, no_rawtimesteps, no_newtimesteps):
     print(eeg_ave)
     return eeg_ave
 
-# Baseline Correction (NOT COMPLETE!)
+# Baseline Correction
 
-def baseline_correction(data, baseline_duration):
-    baseline = data[:,0:baseline_duration]
-    ave_baseline = baseline.mean(axis=1)
-    print(ave_baseline) # [data data]
-    eeg_basecorr = np.zeros([])
-    eeg_basecorr[0].append([i - ave_baseline[0] for i in data[0,:]])
-    eeg_basecorr[1] = [i - ave_baseline[1] for i in data[1,:]]
-    return eeg_basecorr
+def basecorr(data, baseline_duration, no_channels, no_newtimesteps):
+    baseline = data[:,0:int(baseline_duration*10)]
+    baseline_ave = baseline.mean(axis=1)
+    channel_base = 0
+    eeg_basecorr = np.ndarray(shape=(no_channels, no_newtimesteps), dtype=float)
+    print(baseline_ave)
 
+    for channel in range(no_channels):
+        eeg_basecorr[channel_base,:] = data[channel_base,:] - baseline_ave[channel_base]
+        channel_base = channel_base + 1
+    
+    return eeg_basecorr, baseline_ave
 
+# ERD/ERS Relative Power
+
+def erds(data, baseline_ave, no_channels, no_newtimesteps):
+    channel_base = 0
+    eeg_erds = np.ndarray(shape=(no_channels, no_newtimesteps), dtype=float)
+
+    for channel in range(no_channels):
+        eeg_erds[channel_base,:] = (data[channel_base,:]/baseline_ave[channel_base])*100
+        channel_base = channel_base + 1
+
+    return eeg_erds
 
 
 """ MAIN PROCESS PIPELINE """
@@ -152,42 +167,6 @@ while True:
             for i in range(6250-1): # 1750 samples (3.5s) baseline, 3250 samples (6.5s) trial, total of 5000 (change no_timesteps)
                 sample, timestamp = inlet.pull_sample()
                 C3 = np.append(C3, sample[0])
-                #C4[trial_count] = np.append(C4, sample[1])
-                #FC5[trial_count] = np.append(FC5, sample[2])
-                #FC6[trial_count] = np.append(FC6, sample[3])
-                #C1[trial_count] = np.append(C1, sample[4])
-                #C2[trial_count] = np.append(C2, sample[5])
-                #CP5[trial_count] = np.append(CP5, sample[6])
-                #CP6[trial_count] = np.append(CP6, sample[7])
-
-            print("sampling ended...")
-
-        elif now_ready == "5":
-            C3_base = C3[0:1749]
-            print("C3 base: ", C3_base, C3_base.shape)
-
-            C3_trial = C3[1750:4999]
-            print("C3 trial: ", C3_trial, C3_trial.shape)
-
-            C3, C4, FC5, FC6, C1, C2, CP5, CP6 = empty_channels()
-            print("C3 bin empty?: ", C3, C3.shape)
-            trial_count = trial_count + 1
-
-        elif now_ready == "6":
-            print("end of trials...")
-            break 
-
-
-"""
-    #get_readycue = input("Start sampling? Y/N: ") # Replace with LSL Receive String Marker for Get Ready
-
-    if now_ready3 == 2:
-
-        # Data Acquisition from LSL stream
-        while True:
-            for i in range(no_timesteps-1): # 1750 samples (3.5s) baseline, 3500 samples (6.5s) trial, total of 5000 (change no_timesteps)
-                sample, timestamp = inlet.pull_sample()
-                C3 = np.append(C3, sample[0])
                 C4 = np.append(C4, sample[1])
                 FC5 = np.append(FC5, sample[2])
                 FC6 = np.append(FC6, sample[3])
@@ -195,73 +174,71 @@ while True:
                 C2 = np.append(C2, sample[5])
                 CP5 = np.append(CP5, sample[6])
                 CP6 = np.append(CP6, sample[7])
-            break
+                eeg_raw = np.array([C3, C4, FC5, FC6, C1, C2, CP5, CP6])
 
-        print("C3 raw: ")
-        print(C3)
+            print("sampling ended...")
 
-        # Surface Laplacian
-        C3_oc = surface_laplacian(C3, FC5, C1, CP5)
-        C4_oc = surface_laplacian(C4, FC6, C2, CP6)
-        oc = np.array([C3_oc, C4_oc])
-        print("Output Channels: ")
-        print(oc)
-        print("Dimensions: ")
-        print(oc.shape)
+        elif now_ready == "5":
+            
+            eeg_rawtrials = eeg_raw[:,0:no_rawtimesteps] # 0 to 4999
+            print(np.shape(eeg_rawtrials))
 
-        # Bandpass Filter to Mu (500Hz, 9-11Hz)
-        fs = 500.0
-        lowcut = 9.0
-        highcut = 11.0
+            # Bandpass Filter to Mu (500Hz, 9-11Hz)
+            lowcut = 9.0
+            highcut = 11.0
 
-        eeg_filtered = butter_bandpass_filter(oc, lowcut, highcut, fs, order=5)
-        print("Mu signal: ")
-        print(eeg_filtered)
+            eeg_filtered = butter_bandpass_filter(eeg_rawtrials, lowcut, highcut, sampling_frequency, order=5)
+            print("Mu signal: ")
+            print(eeg_filtered)
 
-        # Get Mu Power
-        eeg_powered = spectral_bandpower(eeg_filtered)
-        print("Mu power: ")
-        print(eeg_powered)
-        
-        # Averaging over time
-        eeg_ave, new_timesteps = moving_average(eeg_powered, sampling_freq)
-        print("Averaging over time: ")
-        print(eeg_ave)
+            # Get Mu Power
+            eeg_powered = spectral_bandpower(eeg_filtered)
+            print("Mu power: ")
+            print(eeg_powered)
 
-        # Baseline Correction (3.5 secs = 35 samples)                                   comment out
-        eeg_basecorr = baseline_correction(eeg_ave, baseline_duration)
-        print("Baseline corrected: ")
-        print(eeg_basecorr)
-        
-        # Save time series for C3 and C4 in trials array (3rd D)
-        # Dimensions; (no_trials x no_channels x new_timesteps)
+            # Averaging Over Time
+            eeg_ave = moving_average(eeg_powered, sampling_frequency, no_rawtimesteps, no_newtimesteps)
+            print("Averaging over time: ")
+            print(eeg_ave)
 
-        ds_eeg[trial_count,0,:] = eeg_ave[0,:]
-        ds_eeg[trial_count,1,:] = eeg_ave[1,:]
+            # Baseline Correction
+            eeg_basecorr, baseline_ave = basecorr(eeg_ave, baseline_duration, no_channels, no_newtimesteps)
+            print("EEG Baseline-corrected: ")
+            print(eeg_basecorr)
 
-        # Plotting
-        f, ax = plt.subplots(1)
-        x_point = np.arange(new_timesteps)
-        ax.plot(x_point, eeg_ave[0,:], 'ro')
-        ax.plot(x_point, eeg_ave[1,:], 'bo')
-        plt.show()
+            # ERD / ERS percent change
+            eeg_erds = erds(eeg_basecorr, baseline_ave, no_channels, no_newtimesteps)
+            print("ERD / ERS Percent Change: ")
+            print(eeg_erds)
+            print(np.shape(eeg_erds))
 
-        # Clear Memory
-        # send something to Test_excel
-        trial_count = trial_count + 1
-        C3 = np.zeros([])
-        C4 = np.zeros([])
-        FC5 = np.zeros([])
-        FC6 = np.zeros([])
-        C1 = np.zeros([])
-        C2 = np.zeros([])
-        CP5 = np.zeros([])
-        CP6 = np.zeros([])
- 
+            # Plotting
+            f, ax = plt.subplots(1)
+            x_point = np.arange(no_newtimesteps)
+            ax.plot(x_point, eeg_erds[0,:], 'ro')
+            ax.plot(x_point, eeg_erds[1,:], 'bo')
+            ax.plot(x_point, eeg_erds[2,:], 'ro')
+            ax.plot(x_point, eeg_erds[3,:], 'bo')
+            ax.plot(x_point, eeg_erds[4,:], 'ro')
+            ax.plot(x_point, eeg_erds[5,:], 'bo')
+            ax.plot(x_point, eeg_erds[6,:], 'ro')
+            ax.plot(x_point, eeg_erds[7,:], 'bo')
+            plt.show()
 
-    #elif get_readycue == "":
-        #print("okay")
-        #print(ds_eeg)
-        #break
+            # Compile Data
+            ds_eeg[trial_count,:,:] = eeg_erds[:,:]
 
-"""
+            # Reset
+            C3, C4, FC5, FC6, C1, C2, CP5, CP6 = empty_channels()
+            print("C3 bin empty?: ", C3, C3.shape)
+            trial_count = trial_count + 1
+
+        elif now_ready == "6":
+            print("end of trials...")
+            print(ds_eeg)
+            print(np.shape(ds_eeg))
+
+            # Save as CSV
+            ds_eeg.tofile("test.csv")
+            
+            sys.exit()

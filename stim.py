@@ -1,6 +1,10 @@
+"""Motor Imagery Stimuli Presentation
+by Michal Pelikan and Paul Baniqued
+Working as of 13-12-2019"""
+
 #/////////////////////////////////////////////////////////////////////////PREPARED WORKSHEET
 import xlsxwriter
-import os
+import os, sys
 import time
 import random 
 from pylsl import StreamInlet, resolve_stream, StreamInfo, StreamOutlet
@@ -22,11 +26,6 @@ baseline_duration = 3.5
 cue_duration = 6.5
 rest_duration = 2.5
 sampling_duration = baseline_duration + cue_duration
-sampling_frequency = 500
-
-no_channels = 8
-no_rawtimesteps = sampling_frequency*sampling_duration # 5000
-no_newtimesteps = 100 # preprocessed data 100
 
 # 5R & 5L trials
 trial_list = ["R","R","R","R","R","L","L","L","L","L"]
@@ -88,6 +87,7 @@ def end_session():
     print("End of trials") 
     outlet.push_sample(['6']) #Marker6
     TestWorkbook.close() #close workbook so that the training data file saves
+    sys.exit()
 
 
 
@@ -133,7 +133,8 @@ if session == 'Y':
                     trial_number = trial_number + 1
                     rest(rest_duration) # Rest, send marker 5
 
-            end_session() # End of session, save data, send marker 6
+                if trial_number == 11:
+                    end_session() # End of session, save data, send marker 6
 
 elif session == 'N':
     print("not ready...")
