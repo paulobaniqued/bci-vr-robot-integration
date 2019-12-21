@@ -239,6 +239,6 @@ while True:
             print(np.shape(ds_eeg))
 
             # Save as CSV
-            ds_eeg.tofile("test.csv")
+            np.save("training_data.npy", ds_eeg)
             
             sys.exit()
