@@ -80,8 +80,8 @@ def succ_trials(trial_number, baseline_duration, cue_duration):
 
 def rest(rest_duration):
     print("Rest")
-    time.sleep(rest_duration)
     outlet.push_sample(['5']) #Marker5
+    time.sleep(rest_duration)
 
 def end_session():
     print("End of trials") 
