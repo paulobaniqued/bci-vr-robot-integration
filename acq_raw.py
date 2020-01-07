@@ -138,7 +138,7 @@ time.sleep(15)
 outlet.push_sample(['100']) # Create empty channels, set data structure
 C3, C4, FC5, FC6, C1, C2, CP5, CP6 = empty_channels()
 trial_count = 0
-ds_eeg = data_structure(no_trials, no_channels, no_newtimesteps)
+ds_eeg = data_structure(no_trials, no_channels, no_rawtimesteps)
 time.sleep(2.5)
 
 while True:
@@ -183,50 +183,21 @@ while True:
             eeg_rawtrials = eeg_raw[:,0:no_rawtimesteps] # 0 to 4999
             print(np.shape(eeg_rawtrials))
 
-            # Bandpass Filter to Mu (500Hz, 9-11Hz)
-            lowcut = 9.0
-            highcut = 11.0
-
-            eeg_filtered = butter_bandpass_filter(eeg_rawtrials, lowcut, highcut, sampling_frequency, order=5)
-            print("Mu signal: ")
-            print(eeg_filtered)
-
-            # Get Mu Power
-            eeg_powered = spectral_bandpower(eeg_filtered)
-            print("Mu power: ")
-            print(eeg_powered)
-
-            # Averaging Over Time
-            eeg_ave = moving_average(eeg_powered, sampling_frequency, no_rawtimesteps, no_newtimesteps)
-            print("Averaging over time: ")
-            print(eeg_ave)
-
-            # Baseline Correction
-            eeg_basecorr, baseline_ave = basecorr(eeg_ave, baseline_duration, no_channels, no_newtimesteps)
-            print("EEG Baseline-corrected: ")
-            print(eeg_basecorr)
-
-            # ERD / ERS percent change
-            eeg_erds = erds(eeg_basecorr, baseline_ave, no_channels, no_newtimesteps)
-            print("ERD / ERS Percent Change: ")
-            print(eeg_erds)
-            print(np.shape(eeg_erds))
-
             # Plotting
             f, ax = plt.subplots(1)
-            x_point = np.arange(no_newtimesteps)
-            ax.plot(x_point, eeg_erds[0,:])
-            ax.plot(x_point, eeg_erds[1,:])
-            ax.plot(x_point, eeg_erds[2,:])
-            ax.plot(x_point, eeg_erds[3,:])
-            ax.plot(x_point, eeg_erds[4,:])
-            ax.plot(x_point, eeg_erds[5,:])
-            ax.plot(x_point, eeg_erds[6,:])
-            ax.plot(x_point, eeg_erds[7,:])
+            x_point = np.arange(no_rawtimesteps)
+            ax.plot(x_point, eeg_rawtrials[0,:])
+            ax.plot(x_point, eeg_rawtrials[1,:])
+            ax.plot(x_point, eeg_rawtrials[2,:])
+            ax.plot(x_point, eeg_rawtrials[3,:])
+            ax.plot(x_point, eeg_rawtrials[4,:])
+            ax.plot(x_point, eeg_rawtrials[5,:])
+            ax.plot(x_point, eeg_rawtrials[6,:])
+            ax.plot(x_point, eeg_rawtrials[7,:])
             plt.show()
 
             # Compile Data
-            ds_eeg[trial_count,:,:] = eeg_erds[:,:]
+            ds_eeg[trial_count,:,:] = eeg_rawtrials[:,:]
 
             # Reset
             C3, C4, FC5, FC6, C1, C2, CP5, CP6 = empty_channels()
@@ -239,6 +210,6 @@ while True:
             print(np.shape(ds_eeg))
 
             # Save as CSV
-            np.save("training_data.npy", ds_eeg)
+            np.save("training_data_raw.npy", ds_eeg)
             
             sys.exit()

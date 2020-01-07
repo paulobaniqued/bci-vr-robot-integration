@@ -7,6 +7,7 @@ import xlsxwriter
 import os, sys
 import time
 import random 
+import numpy as np
 from pylsl import StreamInlet, resolve_stream, StreamInfo, StreamOutlet
 
 # LSL Outlet for Markers
@@ -22,8 +23,8 @@ SamplesWorksheet = TestWorkbook.add_worksheet( 'data' ) #Creates a spreadsheet w
 
 """ SESSION SETTINGS """
 startup_duration = 5
-baseline_duration = 3.5
-cue_duration = 6.5
+baseline_duration = 4.5
+cue_duration = 5.5
 rest_duration = 2.5
 sampling_duration = baseline_duration + cue_duration
 
@@ -31,6 +32,11 @@ sampling_duration = baseline_duration + cue_duration
 trial_list = ["R","R","R","R","R","L","L","L","L","L"]
 random.shuffle(trial_list)
 print("Trial list: ", trial_list)
+trial_order = trial_list
+trial_order.reverse()
+trial_order = np.array(trial_order)
+print("Trial order: ", trial_order)
+np.save("training_data_truth.npy", trial_order)
 no_trials = len(trial_list)
 print("Number of trials: ", no_trials)
 time.sleep(1)
@@ -42,8 +48,8 @@ time.sleep(1)
 """ FUNCTIONS """
 
 def first_trials(startup_duration):
-    outlet.push_sample(['1']) #Marker1
     print("Playing...") 
+    outlet.push_sample(['1']) #Marker1
     time.sleep(startup_duration)
     #os.system('cls')
 
