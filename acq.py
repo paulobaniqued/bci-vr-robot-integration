@@ -24,7 +24,7 @@ rest_duration = 2.5
 sampling_duration = baseline_duration + cue_duration
 sampling_frequency = 500
 
-no_trials = 10
+no_trials = 40
 no_channels = 8
 no_rawtimesteps = int(sampling_frequency*sampling_duration) # 5000
 no_newtimesteps = 100
@@ -212,6 +212,7 @@ while True:
             print(eeg_erds)
             print(np.shape(eeg_erds))
 
+            """
             # Plotting
             f, ax = plt.subplots(1)
             x_point = np.arange(no_newtimesteps)
@@ -224,6 +225,7 @@ while True:
             ax.plot(x_point, eeg_erds[6,:])
             ax.plot(x_point, eeg_erds[7,:])
             plt.show()
+            """
 
             # Compile Data
             ds_eeg[trial_count,:,:] = eeg_erds[:,:]

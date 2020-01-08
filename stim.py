@@ -23,17 +23,16 @@ SamplesWorksheet = TestWorkbook.add_worksheet( 'data' ) #Creates a spreadsheet w
 
 """ SESSION SETTINGS """
 startup_duration = 5
-baseline_duration = 4.5
-cue_duration = 5.5
+baseline_duration = 3.5
+cue_duration = 6.5
 rest_duration = 2.5
 sampling_duration = baseline_duration + cue_duration
 
 # 5R & 5L trials
-trial_list = ["R","R","R","R","R","L","L","L","L","L"]
+trial_list = ["R","R","R","R","R","L","L","L","L","L","R","R","R","R","R","L","L","L","L","L","R","R","R","R","R","L","L","L","L","L","R","R","R","R","R","L","L","L","L","L",]
 random.shuffle(trial_list)
-print("Trial list: ", trial_list)
-trial_order = trial_list
-trial_order.reverse()
+#print("Trial list: ", trial_list)
+trial_order = np.flip(trial_list)
 labels = np.array([])
 for label in trial_order:
     if label == "L":
@@ -41,6 +40,7 @@ for label in trial_order:
     elif label == "R":
         labels = np.append(labels, 1)
 labels = np.int64(labels)
+np.flip(labels)
 print("Trial order: ", trial_order)
 print("Labels: ", labels)
 np.save("training_labels.npy", labels)
@@ -144,7 +144,7 @@ if session == 'Y':
                     trial_number = trial_number + 1
                     rest(rest_duration) # Rest, send marker 5
 
-                if trial_number == 11:
+                if trial_number == no_trials + 1:
                     end_session() # End of session, save data, send marker 6
 
 elif session == 'N':
