@@ -34,14 +34,19 @@ random.shuffle(trial_list)
 print("Trial list: ", trial_list)
 trial_order = trial_list
 trial_order.reverse()
-trial_order = np.array(trial_order)
+labels = np.array([])
+for label in trial_order:
+    if label == "L":
+        labels = np.append(labels, 0)
+    elif label == "R":
+        labels = np.append(labels, 1)
+labels = np.int64(labels)
 print("Trial order: ", trial_order)
-np.save("training_data_truth.npy", trial_order)
+print("Labels: ", labels)
+np.save("training_labels.npy", labels)
 no_trials = len(trial_list)
 print("Number of trials: ", no_trials)
 time.sleep(1)
-
-
 
 
 

@@ -1,4 +1,14 @@
 import numpy as np
 
-data = np.load('training_data_truth.npy')
-print(data)
+# Load training data
+training_data = np.load('training_data_raw.npy')
+training_data = np.float32(training_data)
+print(training_data)
+print(np.shape(training_data))
+print(training_data.dtype)
+
+# Load labels
+labels = np.load('training_labels.npy')
+print(labels)
+print(np.shape(labels))
+print(labels.dtype)
