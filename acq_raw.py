@@ -17,14 +17,14 @@ outlet = StreamOutlet(info)
 
 """ SETTINGS """
 
-startup_duration = 5
+startup_duration = 10
 baseline_duration = 3.5
 cue_duration = 6.5
 rest_duration = 2.5
 sampling_duration = baseline_duration + cue_duration
 sampling_frequency = 500
 
-no_trials = 10
+no_trials = 80 #CHANGE THIS!
 no_channels = 8
 no_rawtimesteps = int(sampling_frequency*sampling_duration) # 5000
 no_newtimesteps = 100
@@ -182,7 +182,7 @@ while True:
             
             eeg_rawtrials = eeg_raw[:,0:no_rawtimesteps] # 0 to 4999
             print(np.shape(eeg_rawtrials))
-
+            """
             # Plotting
             f, ax = plt.subplots(1)
             x_point = np.arange(no_rawtimesteps)
@@ -195,7 +195,7 @@ while True:
             ax.plot(x_point, eeg_rawtrials[6,:])
             ax.plot(x_point, eeg_rawtrials[7,:])
             plt.show()
-
+            """
             # Compile Data
             ds_eeg[trial_count,:,:] = eeg_rawtrials[:,:]
 
