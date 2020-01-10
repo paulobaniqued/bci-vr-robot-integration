@@ -1,6 +1,6 @@
 """Background EEG Acquisition Handler and ERD/ERS processor
 Saves as 3D array (no_timesteps x no_channels x no_trials)
-Working as of 13-12-2019"""
+Working as of 10-01-2020"""
 
 from pylsl import StreamInlet, resolve_stream, StreamInfo, StreamOutlet
 from scipy.signal import butter, lfilter
@@ -37,14 +37,14 @@ no_newtimesteps = 100
 
 def empty_channels():
 
-    C3 = np.zeros([])
-    C4 = np.zeros([])
-    FC5 = np.zeros([])
-    FC6 = np.zeros([])
-    C1 = np.zeros([])
-    C2 = np.zeros([])
-    CP5 = np.zeros([])
-    CP6 = np.zeros([])
+    C3 = np.array([])
+    C4 = np.array([])
+    FC5 = np.array([])
+    FC6 = np.array([])
+    C1 = np.array([])
+    C2 = np.array([])
+    CP5 = np.array([])
+    CP6 = np.array([])
     return C3, C4, FC5, FC6, C1, C2, CP5, CP6
 
 # Set Dimensions for Data
@@ -61,14 +61,14 @@ def surface_laplacian(ch1, ch2, ch3, ch4):
 
 # Bandpass Filter
 
-def butter_bandpass(lowcut, highcut, fs, order=1):
+def butter_bandpass(lowcut, highcut, fs, order=4):
     nyq = 0.5 * fs
     low = lowcut / nyq
     high = highcut / nyq
     b, a = butter(order, [low, high], btype='band')
     return b, a
 
-def butter_bandpass_filter(data, lowcut, highcut, fs, order=1):
+def butter_bandpass_filter(data, lowcut, highcut, fs, order=4):
     b, a = butter_bandpass(lowcut, highcut, fs, order=order)
     eeg_filtered = lfilter(b, a, data)
     return eeg_filtered
@@ -183,11 +183,11 @@ while True:
             eeg_rawtrials = eeg_raw[:,0:no_rawtimesteps] # 0 to 4999
             print(np.shape(eeg_rawtrials))
 
-            # Bandpass Filter to Mu (500Hz, 9-11Hz)
-            lowcut = 9.0
-            highcut = 11.0
+            # Bandpass Filter to Mu (500Hz, 8-12Hz)
+            lowcut = 7.5
+            highcut = 12.5
 
-            eeg_filtered = butter_bandpass_filter(eeg_rawtrials, lowcut, highcut, sampling_frequency, order=5)
+            eeg_filtered = butter_bandpass_filter(eeg_rawtrials, lowcut, highcut, sampling_frequency, order=4)
             print("Mu signal: ")
             print(eeg_filtered)
 
@@ -212,20 +212,20 @@ while True:
             print(eeg_erds)
             print(np.shape(eeg_erds))
 
-            """
+
             # Plotting
             f, ax = plt.subplots(1)
-            x_point = np.arange(no_newtimesteps)
-            ax.plot(x_point, eeg_erds[0,:])
-            ax.plot(x_point, eeg_erds[1,:])
-            ax.plot(x_point, eeg_erds[2,:])
-            ax.plot(x_point, eeg_erds[3,:])
-            ax.plot(x_point, eeg_erds[4,:])
-            ax.plot(x_point, eeg_erds[5,:])
-            ax.plot(x_point, eeg_erds[6,:])
-            ax.plot(x_point, eeg_erds[7,:])
+            x_point = np.arange(no_rawtimesteps)
+            ax.plot(x_point, eeg_filtered[0,:])
+            ax.plot(x_point, eeg_filtered[1,:])
+            ax.plot(x_point, eeg_filtered[2,:])
+            ax.plot(x_point, eeg_filtered[3,:])
+            ax.plot(x_point, eeg_filtered[4,:])
+            ax.plot(x_point, eeg_filtered[5,:])
+            ax.plot(x_point, eeg_filtered[6,:])
+            ax.plot(x_point, eeg_filtered[7,:])
             plt.show()
-            """
+
 
             # Compile Data
             ds_eeg[trial_count,:,:] = eeg_erds[:,:]
