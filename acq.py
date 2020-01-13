@@ -3,10 +3,10 @@ Saves as 3D array (no_timesteps x no_channels x no_trials)
 Working as of 10-01-2020"""
 
 from pylsl import StreamInlet, resolve_stream, StreamInfo, StreamOutlet
-from scipy.signal import butter, lfilter
+import matplotlib.pyplot as plt
+from scipy.signal import butter, sosfilt, sosfreqz, filtfilt
 import numpy as np
 import mne
-import matplotlib.pyplot as plt
 import sys
 import time
 
@@ -22,13 +22,15 @@ baseline_duration = 3.5
 cue_duration = 6.5
 rest_duration = 2.5
 sampling_duration = baseline_duration + cue_duration
-sampling_frequency = 500
+
+# Sample rate and desired cutoff frequencies (in Hz).
+fs = 500.0
+sampling_frequency = fs
 
 no_trials = 40
 no_channels = 8
 no_rawtimesteps = int(sampling_frequency*sampling_duration) # 5000
 no_newtimesteps = 100
-
 
 
 """ FUNCTIONS """
@@ -61,17 +63,24 @@ def surface_laplacian(ch1, ch2, ch3, ch4):
 
 # Bandpass Filter
 
-def butter_bandpass(lowcut, highcut, fs, order=4):
+def butter_lowpass(lowcut, highcut, fs, order=4):
     nyq = 0.5 * fs
     low = lowcut / nyq
     high = highcut / nyq
-    b, a = butter(order, [low, high], btype='band')
+    b, a = butter(order, [low, high], btype='band', analog = False)
     return b, a
 
-def butter_bandpass_filter(data, lowcut, highcut, fs, order=4):
-    b, a = butter_bandpass(lowcut, highcut, fs, order=order)
-    eeg_filtered = lfilter(b, a, data)
-    return eeg_filtered
+def butter_lowpass_filter(data, lowcut, highcut, fs, order=4):
+    #nyq = 0.5 * fs
+    #low = lowcut / nyq
+    b, a = butter_lowpass(lowcut, highcut, fs, order=order)
+    y = filtfilt(b, a, data)
+    return y
+
+def zero_order_butterworth(data, order, fs, low_cutoff, high_cutoff):
+    x = np.empty(data.shape)
+    x = butter_lowpass_filter(data, 7.5, 11.5, fs, order=4)
+    return x
 
 # Spectral Bandpower
 
@@ -183,18 +192,56 @@ while True:
             eeg_rawtrials = eeg_raw[:,0:no_rawtimesteps] # 0 to 4999
             print(np.shape(eeg_rawtrials))
 
+            # Plotting Raw
+            f, ax = plt.subplots()
+            x_point = np.arange(no_rawtimesteps)
+            ax.plot(x_point, eeg_rawtrials[0,:])
+            ax.plot(x_point, eeg_rawtrials[1,:])
+            ax.plot(x_point, eeg_rawtrials[2,:])
+            ax.plot(x_point, eeg_rawtrials[3,:])
+            ax.plot(x_point, eeg_rawtrials[4,:])
+            ax.plot(x_point, eeg_rawtrials[5,:])
+            ax.plot(x_point, eeg_rawtrials[6,:])
+            ax.plot(x_point, eeg_rawtrials[7,:])
+            plt.show()
+
             # Bandpass Filter to Mu (500Hz, 8-12Hz)
             lowcut = 7.5
             highcut = 12.5
 
-            eeg_filtered = butter_bandpass_filter(eeg_rawtrials, lowcut, highcut, sampling_frequency, order=4)
-            print("Mu signal: ")
+            eeg_filtered = zero_order_butterworth(eeg_rawtrials, 4, fs, lowcut, highcut)
             print(eeg_filtered)
+
+            # Plotting Filtered
+            f, ax = plt.subplots()
+            x_point = np.arange(no_rawtimesteps)
+            ax.plot(x_point, eeg_filtered[0,:])
+            ax.plot(x_point, eeg_filtered[1,:])
+            ax.plot(x_point, eeg_filtered[2,:])
+            ax.plot(x_point, eeg_filtered[3,:])
+            ax.plot(x_point, eeg_filtered[4,:])
+            ax.plot(x_point, eeg_filtered[5,:])
+            ax.plot(x_point, eeg_filtered[6,:])
+            ax.plot(x_point, eeg_filtered[7,:])
+            plt.show()
 
             # Get Mu Power
             eeg_powered = spectral_bandpower(eeg_filtered)
             print("Mu power: ")
             print(eeg_powered)
+
+            # Plotting Powered
+            f, ax = plt.subplots()
+            x_point = np.arange(no_rawtimesteps)
+            ax.plot(x_point, eeg_powered[0,:])
+            ax.plot(x_point, eeg_powered[1,:])
+            ax.plot(x_point, eeg_powered[2,:])
+            ax.plot(x_point, eeg_powered[3,:])
+            ax.plot(x_point, eeg_powered[4,:])
+            ax.plot(x_point, eeg_powered[5,:])
+            ax.plot(x_point, eeg_powered[6,:])
+            ax.plot(x_point, eeg_powered[7,:])
+            plt.show()
 
             # Averaging Over Time
             eeg_ave = moving_average(eeg_powered, sampling_frequency, no_rawtimesteps, no_newtimesteps)
@@ -212,18 +259,17 @@ while True:
             print(eeg_erds)
             print(np.shape(eeg_erds))
 
-
             # Plotting
             f, ax = plt.subplots(1)
-            x_point = np.arange(no_rawtimesteps)
-            ax.plot(x_point, eeg_filtered[0,:])
-            ax.plot(x_point, eeg_filtered[1,:])
-            ax.plot(x_point, eeg_filtered[2,:])
-            ax.plot(x_point, eeg_filtered[3,:])
-            ax.plot(x_point, eeg_filtered[4,:])
-            ax.plot(x_point, eeg_filtered[5,:])
-            ax.plot(x_point, eeg_filtered[6,:])
-            ax.plot(x_point, eeg_filtered[7,:])
+            x_point = np.arange(no_newtimesteps)
+            ax.plot(x_point, eeg_erds[0,:])
+            ax.plot(x_point, eeg_erds[1,:])
+            ax.plot(x_point, eeg_erds[2,:])
+            ax.plot(x_point, eeg_erds[3,:])
+            ax.plot(x_point, eeg_erds[4,:])
+            ax.plot(x_point, eeg_erds[5,:])
+            ax.plot(x_point, eeg_erds[6,:])
+            ax.plot(x_point, eeg_erds[7,:])
             plt.show()
 
 

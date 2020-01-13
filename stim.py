@@ -1,6 +1,6 @@
 """Motor Imagery Stimuli Presentation
 by Michal Pelikan and Paul Baniqued
-Working as of 09-01-2019"""
+Working as of 13-12-2019"""
 
 #/////////////////////////////////////////////////////////////////////////PREPARED WORKSHEET
 import xlsxwriter
@@ -22,14 +22,14 @@ SamplesWorksheet = TestWorkbook.add_worksheet( 'data' ) #Creates a spreadsheet w
 
 
 """ SESSION SETTINGS """
-startup_duration = 10
+startup_duration = 5
 baseline_duration = 3.5
 cue_duration = 6.5
 rest_duration = 2.5
 sampling_duration = baseline_duration + cue_duration
 
 # 5R & 5L trials
-trial_list = ["R","R","R","R","R","L","L","L","L","L","R","R","R","R","R","L","L","L","L","L","R","R","R","R","R","L","L","L","L","L","R","R","R","R","R","L","L","L","L","L","R","R","R","R","R","L","L","L","L","L","R","R","R","R","R","L","L","L","L","L","R","R","R","R","R","L","L","L","L","L","R","R","R","R","R","L","L","L","L","L"]
+trial_list = ["R","R","R","R","R","L","L","L","L","L","R","R","R","R","R","L","L","L","L","L","R","R","R","R","R","L","L","L","L","L","R","R","R","R","R","L","L","L","L","L",]
 random.shuffle(trial_list)
 #print("Trial list: ", trial_list)
 trial_order = np.flip(trial_list)

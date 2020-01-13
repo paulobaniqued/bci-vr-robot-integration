@@ -28,6 +28,10 @@ def zero_order_butterworth(data, order, fs, low_cutoff, high_cutoff):
     x = butter_lowpass_filter(data, 7.5, 11.5, fs, order=4)
     return x
 
+def spectral_bandpower(data):
+    # Should add log(1 + x)?
+    return np.square(data)
+
 # Load training data
 training_data = np.load('training_data_raw_1.npy')
 training_data = np.float32(training_data)
@@ -69,4 +73,19 @@ ax.plot(x_point, eeg_filtered[4,:])
 ax.plot(x_point, eeg_filtered[5,:])
 ax.plot(x_point, eeg_filtered[6,:])
 ax.plot(x_point, eeg_filtered[7,:])
+plt.show()
+
+eeg_powered = spectral_bandpower(eeg_filtered)
+
+# Plotting Powered
+f, ax = plt.subplots()
+x_point = np.arange(4999)
+ax.plot(x_point, eeg_powered[0,:])
+ax.plot(x_point, eeg_powered[1,:])
+ax.plot(x_point, eeg_powered[2,:])
+ax.plot(x_point, eeg_powered[3,:])
+ax.plot(x_point, eeg_powered[4,:])
+ax.plot(x_point, eeg_powered[5,:])
+ax.plot(x_point, eeg_powered[6,:])
+ax.plot(x_point, eeg_powered[7,:])
 plt.show()
