@@ -8,7 +8,9 @@ import os, sys
 import time
 import random 
 import numpy as np
+from tkinter import *
 from pylsl import StreamInlet, resolve_stream, StreamInfo, StreamOutlet
+
 
 # LSL Outlet for Markers
 info = StreamInfo('MyMarkerStream', 'Markers', 1, 100, 'string', 'myuidw43536')
@@ -18,7 +20,27 @@ outlet = StreamOutlet(info)
 TestWorkbook = xlsxwriter.Workbook('./EEGspreadsheet/test_data.xlsx') #Creates an excel file called "test_data"
 SamplesWorksheet = TestWorkbook.add_worksheet( 'data' ) #Creates a spreadsheet within "test_data" called "data"
 
+# GUI (Obtained from Peter Valber https://www.youtube.com/watch?v=ivcF1acxMF8)
+# Needs 4 image files on the same folder
+buttonFont = ('Helvetica', 12, 'bold', 'roman')
 
+root = Tk()
+root.title('Graz Motor Imagery')
+root.resizable(width=False, height=False)
+root.geometry('1080x1080')
+root.configure(bg='black')
+
+BlankImage = PhotoImage(file='1_Blank.png')
+BaselineImage = PhotoImage(file='2_Baseline.png')
+CueLeftImage = PhotoImage(file='3_CueLeft.png')
+CueRightImage = PhotoImage(file='4_CueRight.png')
+
+blinkButton = Button(root, text='Blink', bg='CadetBlue', width=20, height=3, activebackground='gray', font=buttonFont, command=lambda:blink())
+blinkButton.pack(side=TOP, expand=1)
+
+blinkLabel = Label(root, fg='black', text=None, width=1080, height=720)
+blinkLabel.pack(side=TOP, expand=1)
+blinkLabel.config(image=BlankImage)
 
 
 """ SESSION SETTINGS """
@@ -55,6 +77,8 @@ time.sleep(1)
 def first_trials(startup_duration):
     print("Playing...") 
     outlet.push_sample(['1']) #Marker1
+    blinkLabel.config(image=BlankImage)
+    root.update()
     time.sleep(startup_duration)
     #os.system('cls')
 
@@ -62,6 +86,8 @@ def succ_trials(trial_number, baseline_duration, cue_duration):
     outlet.push_sample(['2']) #Marker2
     print("Get ready.")
     print("trial ", trial_number)
+    blinkLabel.config(image=BaselineImage)
+    root.update()
     time.sleep(baseline_duration)
     #os.system('cls')
     
@@ -73,6 +99,8 @@ def succ_trials(trial_number, baseline_duration, cue_duration):
         
         outlet.push_sample(['3']) #Marker3
         print("L")
+        blinkLabel.config(image=CueLeftImage)
+        root.update()
         #os.system('cls')
         SamplesWorksheet.write(("B" + str(trial_number)), "C3") #update workbook with value from the EEGprocessor for C3
         SamplesWorksheet.write(("C" + str(trial_number)), "C4") #update workbook with value from the EEGprocessor for C4
@@ -83,6 +111,8 @@ def succ_trials(trial_number, baseline_duration, cue_duration):
         
         outlet.push_sample(['4']) #Marker4
         print("R")
+        blinkLabel.config(image=CueRightImage)
+        root.update()
         #os.system('cls')
         SamplesWorksheet.write(("B" + str(trial_number)), "C3") #update workbook with value from the EEGprocessor for C3
         SamplesWorksheet.write(("C" + str(trial_number)), "C4") #update workbook with value from the EEGprocessor for C4
@@ -92,6 +122,8 @@ def succ_trials(trial_number, baseline_duration, cue_duration):
 def rest(rest_duration):
     print("Rest")
     outlet.push_sample(['5']) #Marker5
+    blinkLabel.config(image=BlankImage)
+    root.update()
     time.sleep(rest_duration)
 
 def end_session():
@@ -149,3 +181,5 @@ if session == 'Y':
 
 elif session == 'N':
     print("not ready...")
+
+root.mainloop()
