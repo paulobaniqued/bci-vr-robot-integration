@@ -137,7 +137,8 @@ def end_session():
 
 """ ACTUAL SEQUENCE """
 
-session = input("Start session? Y/N: ")
+#session = input("Start session? Y/N: ")
+session = 'Y'
 
 if session == 'Y':
 

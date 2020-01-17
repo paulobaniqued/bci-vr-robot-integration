@@ -29,7 +29,10 @@ sampling_frequency = fs
 
 no_trials = 40
 no_channels = 8
-no_rawtimesteps = int(sampling_frequency*sampling_duration) # 5000
+padding_samples = 250
+actual_baseline = baseline_duration - int(padding_samples/fs)
+no_rawtimesteps_i = int(sampling_frequency*sampling_duration + padding_samples) # 5250 (-250 after filter)
+no_rawtimesteps = int(sampling_frequency*sampling_duration)
 no_newtimesteps = 100
 
 
@@ -63,23 +66,23 @@ def surface_laplacian(ch1, ch2, ch3, ch4):
 
 # Bandpass Filter
 
-def butter_lowpass(lowcut, highcut, fs, order=4):
+def butter_bandpass(lowcut, highcut, fs, order=4):
     nyq = 0.5 * fs
     low = lowcut / nyq
     high = highcut / nyq
     b, a = butter(order, [low, high], btype='band', analog = False)
     return b, a
 
-def butter_lowpass_filter(data, lowcut, highcut, fs, order=4):
+def butter_bandpass_filter(data, lowcut, highcut, fs, order=4):
     #nyq = 0.5 * fs
     #low = lowcut / nyq
-    b, a = butter_lowpass(lowcut, highcut, fs, order=order)
+    b, a = butter_bandpass(lowcut, highcut, fs, order=order)
     y = filtfilt(b, a, data)
     return y
 
-def zero_order_butterworth(data, order, fs, low_cutoff, high_cutoff):
+def zero_order_butterworth(data, order, fs, lowcut, highcut):
     x = np.empty(data.shape)
-    x = butter_lowpass_filter(data, 7.5, 11.5, fs, order=4)
+    x = butter_bandpass_filter(data, lowcut, highcut, fs, order=4)
     return x
 
 # Spectral Bandpower
@@ -114,8 +117,8 @@ def moving_average(data, sampling_frequency, no_rawtimesteps, no_newtimesteps):
 
 # Baseline Correction
 
-def basecorr(data, baseline_duration, no_channels, no_newtimesteps):
-    baseline = data[:,0:int(baseline_duration*10)]
+def basecorr(data, actual_baseline, no_channels, no_newtimesteps):
+    baseline = data[:,0:int(actual_baseline*10)]
     baseline_ave = baseline.mean(axis=1)
     channel_base = 0
     eeg_basecorr = np.ndarray(shape=(no_channels, no_newtimesteps), dtype=float)
@@ -173,7 +176,7 @@ while True:
 
         elif now_ready == "2":
             print("sampling EEG... ")
-            for i in range(6250-1): # 1750 samples (3.5s) baseline, 3250 samples (6.5s) trial, total of 5000 (change no_timesteps)
+            for i in range(6250-1): # 1750 N (3.5s) baseline, 3250 N (6.5s) trial, 1250 N (2.5s) rest for a total of 6250
                 sample, timestamp = inlet.pull_sample()
                 C3 = np.append(C3, sample[0])
                 C4 = np.append(C4, sample[1])
@@ -189,41 +192,63 @@ while True:
 
         elif now_ready == "5":
             
-            eeg_rawtrials = eeg_raw[:,0:no_rawtimesteps] # 0 to 4999
+            # Get padded samples for baseline and cue only, remove padding after filter
+            eeg_rawtrials = eeg_raw[:,0:no_rawtimesteps_i]
             print(np.shape(eeg_rawtrials))
 
             # Plotting Raw
-            f, ax = plt.subplots()
-            x_point = np.arange(no_rawtimesteps)
-            ax.plot(x_point, eeg_rawtrials[0,:])
-            ax.plot(x_point, eeg_rawtrials[1,:])
-            ax.plot(x_point, eeg_rawtrials[2,:])
-            ax.plot(x_point, eeg_rawtrials[3,:])
-            ax.plot(x_point, eeg_rawtrials[4,:])
-            ax.plot(x_point, eeg_rawtrials[5,:])
-            ax.plot(x_point, eeg_rawtrials[6,:])
-            ax.plot(x_point, eeg_rawtrials[7,:])
-            plt.show()
+            fig = plt.figure()
+            ax1 = fig.add_subplot(231)
+            ax2 = fig.add_subplot(232)
+            ax3 = fig.add_subplot(233)
+            ax4 = fig.add_subplot(212)
+
+            x_point1 = np.arange(no_rawtimesteps_i)
+            ax1.plot(x_point1, eeg_rawtrials[0,:])
+            ax1.plot(x_point1, eeg_rawtrials[1,:])
+            ax1.plot(x_point1, eeg_rawtrials[2,:])
+            ax1.plot(x_point1, eeg_rawtrials[3,:])
+            ax1.plot(x_point1, eeg_rawtrials[4,:])
+            ax1.plot(x_point1, eeg_rawtrials[5,:])
+            ax1.plot(x_point1, eeg_rawtrials[6,:])
+            ax1.plot(x_point1, eeg_rawtrials[7,:])
 
             # Bandpass Filter to Mu (500Hz, 8-12Hz)
-            lowcut = 7.5
-            highcut = 12.5
+            lowcut = 8.5
+            highcut = 11.5
 
             eeg_filtered = zero_order_butterworth(eeg_rawtrials, 4, fs, lowcut, highcut)
             print(eeg_filtered)
+            print(np.shape(eeg_filtered))
+
+
+            # Plotting Filtered (USE TO COMPARE PADDING)
+            #f, ax = plt.subplots()
+            #x_point = np.arange(no_rawtimesteps_i)
+            #ax.plot(x_point, eeg_filtered[0,:])
+            #ax.plot(x_point, eeg_filtered[1,:])
+            #ax.plot(x_point, eeg_filtered[2,:])
+            #ax.plot(x_point, eeg_filtered[3,:])
+            #ax.plot(x_point, eeg_filtered[4,:])
+            #ax.plot(x_point, eeg_filtered[5,:])
+            #ax.plot(x_point, eeg_filtered[6,:])
+            #ax.plot(x_point, eeg_filtered[7,:])
+            #plt.show()
+
+            eeg_filtered = eeg_filtered[:,padding_samples:no_rawtimesteps_i]
+            print(eeg_filtered)
+            print(np.shape(eeg_filtered))
 
             # Plotting Filtered
-            f, ax = plt.subplots()
-            x_point = np.arange(no_rawtimesteps)
-            ax.plot(x_point, eeg_filtered[0,:])
-            ax.plot(x_point, eeg_filtered[1,:])
-            ax.plot(x_point, eeg_filtered[2,:])
-            ax.plot(x_point, eeg_filtered[3,:])
-            ax.plot(x_point, eeg_filtered[4,:])
-            ax.plot(x_point, eeg_filtered[5,:])
-            ax.plot(x_point, eeg_filtered[6,:])
-            ax.plot(x_point, eeg_filtered[7,:])
-            plt.show()
+            x_point2 = np.arange(no_rawtimesteps)
+            ax2.plot(x_point2, eeg_filtered[0,:])
+            ax2.plot(x_point2, eeg_filtered[1,:])
+            ax2.plot(x_point2, eeg_filtered[2,:])
+            ax2.plot(x_point2, eeg_filtered[3,:])
+            ax2.plot(x_point2, eeg_filtered[4,:])
+            ax2.plot(x_point2, eeg_filtered[5,:])
+            ax2.plot(x_point2, eeg_filtered[6,:])
+            ax2.plot(x_point2, eeg_filtered[7,:])
 
             # Get Mu Power
             eeg_powered = spectral_bandpower(eeg_filtered)
@@ -231,17 +256,15 @@ while True:
             print(eeg_powered)
 
             # Plotting Powered
-            f, ax = plt.subplots()
-            x_point = np.arange(no_rawtimesteps)
-            ax.plot(x_point, eeg_powered[0,:])
-            ax.plot(x_point, eeg_powered[1,:])
-            ax.plot(x_point, eeg_powered[2,:])
-            ax.plot(x_point, eeg_powered[3,:])
-            ax.plot(x_point, eeg_powered[4,:])
-            ax.plot(x_point, eeg_powered[5,:])
-            ax.plot(x_point, eeg_powered[6,:])
-            ax.plot(x_point, eeg_powered[7,:])
-            plt.show()
+            x_point3 = np.arange(no_rawtimesteps)
+            ax3.plot(x_point3, eeg_powered[0,:])
+            ax3.plot(x_point3, eeg_powered[1,:])
+            ax3.plot(x_point3, eeg_powered[2,:])
+            ax3.plot(x_point3, eeg_powered[3,:])
+            ax3.plot(x_point3, eeg_powered[4,:])
+            ax3.plot(x_point3, eeg_powered[5,:])
+            ax3.plot(x_point3, eeg_powered[6,:])
+            ax3.plot(x_point3, eeg_powered[7,:])
 
             # Averaging Over Time
             eeg_ave = moving_average(eeg_powered, sampling_frequency, no_rawtimesteps, no_newtimesteps)
@@ -249,7 +272,7 @@ while True:
             print(eeg_ave)
 
             # Baseline Correction
-            eeg_basecorr, baseline_ave = basecorr(eeg_ave, baseline_duration, no_channels, no_newtimesteps)
+            eeg_basecorr, baseline_ave = basecorr(eeg_ave, actual_baseline, no_channels, no_newtimesteps)
             print("EEG Baseline-corrected: ")
             print(eeg_basecorr)
 
@@ -260,16 +283,15 @@ while True:
             print(np.shape(eeg_erds))
 
             # Plotting
-            f, ax = plt.subplots(1)
-            x_point = np.arange(no_newtimesteps)
-            ax.plot(x_point, eeg_erds[0,:])
-            ax.plot(x_point, eeg_erds[1,:])
-            ax.plot(x_point, eeg_erds[2,:])
-            ax.plot(x_point, eeg_erds[3,:])
-            ax.plot(x_point, eeg_erds[4,:])
-            ax.plot(x_point, eeg_erds[5,:])
-            ax.plot(x_point, eeg_erds[6,:])
-            ax.plot(x_point, eeg_erds[7,:])
+            x_point4 = np.arange(no_newtimesteps)
+            ax4.plot(x_point4, eeg_erds[0,:])
+            ax4.plot(x_point4, eeg_erds[1,:])
+            ax4.plot(x_point4, eeg_erds[2,:])
+            ax4.plot(x_point4, eeg_erds[3,:])
+            ax4.plot(x_point4, eeg_erds[4,:])
+            ax4.plot(x_point4, eeg_erds[5,:])
+            ax4.plot(x_point4, eeg_erds[6,:])
+            ax4.plot(x_point4, eeg_erds[7,:])
             plt.show()
 
 
