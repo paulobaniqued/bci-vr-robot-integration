@@ -26,7 +26,7 @@ buttonFont = ('Helvetica', 12, 'bold', 'roman')
 
 root = Tk()
 root.title('Graz Motor Imagery')
-root.resizable(width=False, height=False)
+root.resizable(width=True, height=True)
 root.geometry('1080x1080')
 root.configure(bg='black')
 
@@ -35,7 +35,7 @@ BaselineImage = PhotoImage(file='2_Baseline.png')
 CueLeftImage = PhotoImage(file='3_CueLeft.png')
 CueRightImage = PhotoImage(file='4_CueRight.png')
 
-blinkButton = Button(root, text='Blink', bg='CadetBlue', width=20, height=3, activebackground='gray', font=buttonFont, command=lambda:blink())
+blinkButton = Button(root, text='Exit', bg='deepskyblue', width=15, height=3, activebackground='gray', font=buttonFont, command=root.destroy)
 blinkButton.pack(side=TOP, expand=1)
 
 blinkLabel = Label(root, fg='black', text=None, width=1080, height=720)
@@ -137,50 +137,61 @@ def end_session():
 
 """ ACTUAL SEQUENCE """
 
-#session = input("Start session? Y/N: ")
-session = 'Y'
+while True:
 
-if session == 'Y':
+    try:
 
-    # Resolve a Stimulator Stream
-    print("looking for a Stimulator stream...")
-    streams = resolve_stream('type', 'Stimulator')
-    inlet = StreamInlet(streams[0]) #stimulator
-    time.sleep(1)
-    print("found Stimulator stream")
+        #session = input("Start session? y/n: ")
+        session = 'y'
 
-    while True:
-        
-        stim_status = inlet.pull_sample()[0][0]
+        if session == 'y':
 
-        if stim_status == "100":
-            print(stim_status, "Creating empty channels... setting data structure")
-        
-        elif stim_status == "200":
-            print(stim_status, "Connecting to LSL...")
-
-        elif stim_status == "300":
-            print("Connected. Starting session...")
-            outlet.push_sample(['0']) #Marker1
-
-            # Initialise trial number and index counter
-            trial_number = 1
-            index_counter = 0
+            # Resolve a Stimulator Stream
+            print("looking for a Stimulator stream...")
+            streams = resolve_stream('type', 'Stimulator')
+            inlet = StreamInlet(streams[0]) #stimulator
+            time.sleep(1)
+            print("found Stimulator stream")
 
             while True:
-                # Starting session
-                first_trials(startup_duration) # Startup idle time, send marker 1
+                
+                stim_status = inlet.pull_sample()[0][0]
 
-                for trial in range(no_trials): 
-                    succ_trials(trial_number, baseline_duration, cue_duration)
-                    # Get ready and cue, send markers 2, 3, 4
-                    trial_number = trial_number + 1
-                    rest(rest_duration) # Rest, send marker 5
+                if stim_status == "100":
+                    print(stim_status, "Creating empty channels... setting data structure")
+                
+                elif stim_status == "200":
+                    print(stim_status, "Connecting to LSL...")
 
-                if trial_number == no_trials + 1:
-                    end_session() # End of session, save data, send marker 6
+                elif stim_status == "300":
+                    print("Connected. Starting session...")
+                    outlet.push_sample(['0']) #Marker1
 
-elif session == 'N':
-    print("not ready...")
+                    # Initialise trial number and index counter
+                    trial_number = 1
+                    index_counter = 0
 
-root.mainloop()
+                    while True:
+                        # Starting session
+                        first_trials(startup_duration) # Startup idle time, send marker 1
+
+                        for trial in range(no_trials): 
+                            succ_trials(trial_number, baseline_duration, cue_duration)
+                            # Get ready and cue, send markers 2, 3, 4
+                            trial_number = trial_number + 1
+                            rest(rest_duration) # Rest, send marker 5
+
+                        if trial_number == no_trials + 1:
+                            end_session() # End of session, save data, send marker 6
+
+        elif session == 'n':
+            print("not ready...")
+
+        root.mainloop()
+    
+    except KeyboardInterrupt:
+        print("Closing program...")
+        time.sleep(1.5)
+
+    finally:
+        sys.exit()
