@@ -35,12 +35,15 @@ BaselineImage = PhotoImage(file='2_Baseline.png')
 CueLeftImage = PhotoImage(file='3_CueLeft.png')
 CueRightImage = PhotoImage(file='4_CueRight.png')
 
-blinkButton = Button(root, text='Exit', bg='deepskyblue', width=15, height=3, activebackground='gray', font=buttonFont, command=root.destroy)
-blinkButton.pack(side=TOP, expand=1)
+GUI_Counter = Label(root, fg="white", bg="darkblue", font=buttonFont)
+GUI_Counter.pack(side=TOP, expand=YES)
 
-blinkLabel = Label(root, fg='black', text=None, width=1080, height=720)
-blinkLabel.pack(side=TOP, expand=1)
-blinkLabel.config(image=BlankImage)
+#GUI_Button = Button(root, text='Exit', bg='deepskyblue', width=6, height=2, activebackground='gray', font=buttonFont, command=root.destroy)
+#GUI_Button.pack(side=TOP, expand=YES)
+
+GUI_Label = Label(root, fg='black', text=None, width=1080, height=720)
+GUI_Label.pack(side=TOP, expand=YES)
+GUI_Label.config(image=BlankImage)
 
 
 """ SESSION SETTINGS """
@@ -77,7 +80,7 @@ time.sleep(1)
 def first_trials(startup_duration):
     print("Playing...") 
     outlet.push_sample(['1']) #Marker1
-    blinkLabel.config(image=BlankImage)
+    GUI_Label.config(image=BlankImage)
     root.update()
     time.sleep(startup_duration)
     #os.system('cls')
@@ -86,7 +89,8 @@ def succ_trials(trial_number, baseline_duration, cue_duration):
     outlet.push_sample(['2']) #Marker2
     print("Get ready.")
     print("trial ", trial_number)
-    blinkLabel.config(image=BaselineImage)
+    GUI_Label.config(image=BaselineImage)
+    GUI_Counter.config(text="Trial: " + str(trial_number) + " of " + str(no_trials))
     root.update()
     time.sleep(baseline_duration)
     #os.system('cls')
@@ -99,7 +103,7 @@ def succ_trials(trial_number, baseline_duration, cue_duration):
         
         outlet.push_sample(['3']) #Marker3
         print("L")
-        blinkLabel.config(image=CueLeftImage)
+        GUI_Label.config(image=CueLeftImage)
         root.update()
         #os.system('cls')
         SamplesWorksheet.write(("B" + str(trial_number)), "C3") #update workbook with value from the EEGprocessor for C3
@@ -111,7 +115,7 @@ def succ_trials(trial_number, baseline_duration, cue_duration):
         
         outlet.push_sample(['4']) #Marker4
         print("R")
-        blinkLabel.config(image=CueRightImage)
+        GUI_Label.config(image=CueRightImage)
         root.update()
         #os.system('cls')
         SamplesWorksheet.write(("B" + str(trial_number)), "C3") #update workbook with value from the EEGprocessor for C3
@@ -122,7 +126,7 @@ def succ_trials(trial_number, baseline_duration, cue_duration):
 def rest(rest_duration):
     print("Rest")
     outlet.push_sample(['5']) #Marker5
-    blinkLabel.config(image=BlankImage)
+    GUI_Label.config(image=BlankImage)
     root.update()
     time.sleep(rest_duration)
 
