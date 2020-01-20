@@ -27,7 +27,7 @@ sampling_duration = baseline_duration + cue_duration
 fs = 500.0
 sampling_frequency = fs
 
-no_trials = 40
+no_trials = 80
 no_channels = 8
 padding_samples = 250
 actual_baseline = baseline_duration - int(padding_samples/fs)

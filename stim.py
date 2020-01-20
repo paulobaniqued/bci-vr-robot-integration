@@ -47,14 +47,14 @@ GUI_Label.config(image=BlankImage)
 
 
 """ SESSION SETTINGS """
-startup_duration = 5
+startup_duration = 10
 baseline_duration = 3.5
 cue_duration = 6.5
 rest_duration = 2.5
 sampling_duration = baseline_duration + cue_duration
 
 # 5R & 5L trials
-trial_list = ["R","R","R","R","R","L","L","L","L","L","R","R","R","R","R","L","L","L","L","L","R","R","R","R","R","L","L","L","L","L","R","R","R","R","R","L","L","L","L","L",]
+trial_list = ["R","R","R","R","R","L","L","L","L","L","R","R","R","R","R","L","L","L","L","L","R","R","R","R","R","L","L","L","L","L","R","R","R","R","R","L","L","L","L","L","R","R","R","R","R","L","L","L","L","L","R","R","R","R","R","L","L","L","L","L","R","R","R","R","R","L","L","L","L","L","R","R","R","R","R","L","L","L","L","L"]
 random.shuffle(trial_list)
 #print("Trial list: ", trial_list)
 trial_order = np.flip(trial_list)
