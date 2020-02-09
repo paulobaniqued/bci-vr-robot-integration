@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 """
 Created on Thu Nov 14 19:29:24 2019
-
 @author: max
-
 Much of the code is from https://tntlfreiburg.github.io/braindecode/notebooks/Trialwise_Decoding.html
 Go there to get a better understanding
 I've added some comments, the getModel() function, and the plots
-
 For trialling your own eeg data on this, seperate your data into train_set and
 valid_set (see tutorial for info on data structure), choose deep (1) or shallow (0) 
 model, and run!
@@ -31,7 +28,7 @@ logging.basicConfig(format='%(asctime)s %(levelname)s : %(message)s',
 import numpy as np
 
 # Load training data
-training_data = np.load('training_data_raw.npy')
+training_data = np.load('training_data.npy')
 training_data = np.float32(training_data)
 print(training_data)
 print(np.shape(training_data))
@@ -106,7 +103,7 @@ def getModel(size):
 
 # 0 = shallow net; 1 = deep net 
 # shallow should work better when using small data sets, absent pretraining.
-net = 0  
+net = 1
 model = getModel(net)   
 
 ########################### training and validation ###########################
@@ -145,7 +142,7 @@ plt.legend(loc="upper right")
 
 fig = plt.gcf()
 fig.set_size_inches(10.5, 3.5)
-#plt.savefig('EEGnet results') # to save .png
+plt.savefig('EEGnet results') # to save .png
 plt.show()
 
 ################################## Testing ####################################
@@ -158,6 +155,10 @@ print("Test loss: ", loss)
 print("Test error: ", error)
 print("Test accuracy: ", acc)
 predictedLabels = model.predict_classes(test_set.X)
+print(predictedLabels)
 actualLabels = test_set.y
 #to see predicted and actual labels
 print("predicted labels vs actual", [predictedLabels,actualLabels])
+
+
+################################## Testing ####################################
