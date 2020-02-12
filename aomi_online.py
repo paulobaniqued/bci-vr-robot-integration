@@ -28,7 +28,7 @@ import numpy as np
 
 # Enter participant ID
 print("Experiment: Action Observation and Motor Imagery in Virtual Reality (ONLINE)")
-pid = input("Please enter participant ID (e.g. P01_S01): ")
+pid = input("Please enter participant ID (e.g. nn000pp): ")
 
 # Load training data
 training_data = np.load(f"{pid}_training_data_vr.npy")

@@ -1,0 +1,11 @@
+{
+    "num_training_trials": 40,
+    "startup_duration": 15,
+    "baseline_duration": 3.5,
+    "cue_duration": 6.5,
+    "rest_duration": 2.5,
+    "sampling_frequency": 500.0,
+    "num_channels": 2,
+    "padding_samples": 250,
+    "num_newtimesteps": 100
+}
