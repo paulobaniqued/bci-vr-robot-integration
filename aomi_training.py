@@ -150,7 +150,8 @@ def erds(data, baseline_ave, no_channels, no_newtimesteps):
 
 """ MAIN PROCESS PIPELINE """
 print("Experiment: Action Observation and Motor Imagery in Virtual Reality (TRAINING)")
-pid = input("Please enter participant ID: ")
+pid = input("Please enter participant ID (e.g. nn000pp): ")
+day = input("Please input the day of session (e.g. 5): ")
 
 print("starting main process pipeline...")
 time.sleep(1)
@@ -348,8 +349,8 @@ while True:
                 print(type(labels))
 
                 # Save as CSV
-                np.save(f"{pid}_training_data_vr.npy", ds_eeg)
-                np.save(f"{pid}_training_labels_vr.npy", labels)
+                np.save(f"{day}_{pid}_training_data_vr.npy", ds_eeg)
+                np.save(f"{day}_{pid}_training_labels_vr.npy", labels)
 
                 print("Training session saved to C:\mnpdeb")
                 

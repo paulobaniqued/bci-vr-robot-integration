@@ -29,16 +29,17 @@ import numpy as np
 # Enter participant ID
 print("Experiment: Action Observation and Motor Imagery in Virtual Reality (ONLINE)")
 pid = input("Please enter participant ID (e.g. nn000pp): ")
+day = input("Please input the day of the session: (e.g. 5): ")
 
 # Load training data
-training_data = np.load(f"{pid}_training_data_vr.npy")
+training_data = np.load(f"{day}_{pid}_training_data_vr.npy")
 training_data = np.float32(training_data)
 print(training_data)
 print(np.shape(training_data))
 print(training_data.dtype)
 
 # Load labels
-labels = np.load(f"{pid}_training_labels_vr.npy")
+labels = np.load(f"{day}_{pid}_training_labels_vr.npy")
 #labels = np.genfromtxt('labels_t.csv', delimiter=',')
 labels = np.int64(labels)
 print(labels)
@@ -553,8 +554,8 @@ while True:
                 print(np.shape(ds_eeg))
 
                 # Save as CSV
-                np.save(f"{pid}_online_data_vr.npy", ds_eeg)
-                np.save(f"{pid}_online_labels_vr.npy", labels)
+                np.save(f"{day}_{pid}_online_data_vr.npy", ds_eeg)
+                np.save(f"{day}_{pid}_online_labels_vr.npy", labels)
 
                 print("Online session saved to C:\mnpdeb")
                 
