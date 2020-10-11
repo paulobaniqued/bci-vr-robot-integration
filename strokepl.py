@@ -4,10 +4,13 @@ import mne
 import numpy as np
 from scipy.io import loadmat
 
-#%%
 # Import file
 file = loadmat('E:/brain-io-hack/P1_pre_training.mat')
 file.keys()
+
+file_test = loadmat('E:/brain-io-hack/P1_pre_test.mat')
+file_test.keys()
+
 raw_eeg = np.array(file['y'])
 events = np.array(file['trig'])
 fs = int(file['fs'])
@@ -39,7 +42,6 @@ def data_structure(trials, n_channels, timesteps):
     ds_eeg = np.ndarray(shape=(trials, n_channels, timesteps), dtype=float)
     return ds_eeg
 
-#%%
 # Organise tensor per class
 left_tidy = data_structure(lh_trials, n_channels, timesteps)
 trial_count = 0
@@ -65,7 +67,6 @@ for i in range(rh_trials):
     ts_begin = ts_begin + timesteps
     ts_end = ts_end + timesteps
 
-# %%
 # Notch Filter at 50 Hz
 left_notch = mne.filter.notch_filter(left_tidy, fs, 49)
 right_notch = mne.filter.notch_filter(right_tidy, fs, 49)
@@ -74,7 +75,7 @@ right_notch = mne.filter.notch_filter(right_tidy, fs, 49)
 left_bp = mne.filter.filter_data(data=left_notch, sfreq=fs, l_freq=8, h_freq=30.5, method='iir', fir_design='firwin')
 right_bp = mne.filter.filter_data(data=right_notch, sfreq=fs, l_freq=8, h_freq=30.5, method='iir', fir_design='firwin')
 
-# %%
+#%%
 # Common Spatial Patterns (CSP) github.com/spolsley/common-spatial-patterns
 
 import scipy.linalg as la
@@ -149,3 +150,85 @@ def spatialFilter(Ra,Rb):
 	return SFa.astype(np.float32)
 
 csp_filtered = CSP(left_bp, right_bp) # outputs a 16 x 16 matrix per class
+
+# %%
+# Get CSP Filters
+getW1 = np.array(csp_filtered[0][0])
+W1 = np.tile(getW1, (2048, 1))
+W1 = np.transpose(W1)
+print(W1)
+
+csp1_left = data_structure(lh_trials, n_channels, timesteps)
+trial_count = 0
+
+for i in range(lh_trials-1):
+    csp1_trial = W1 * left_bp[trial_count,:,:]
+    csp1_left[trial_count,:,:] = csp1_trial[:,:]
+    trial_count = trial_count + 1
+
+csp1_right = data_structure(rh_trials, n_channels, timesteps)
+trial_count = 0
+
+for i in range(rh_trials-1):
+    csp1_trial = W1 * right_bp[trial_count,:,:]
+    csp1_right[trial_count,:,:] = csp1_trial[:,:]
+    trial_count = trial_count + 1
+
+# Get CSP Filters
+getW2 = np.array(csp_filtered[0][15])
+W2 = np.tile(getW2, (2048, 1))
+W2 = np.transpose(W2)
+print(W2)
+
+csp2_left = data_structure(lh_trials, n_channels, timesteps)
+trial_count = 0
+
+for i in range(lh_trials-1):
+    csp2_trial = W2 * left_bp[trial_count,:,:]
+    csp2_left[trial_count,:,:] = csp2_trial[:,:]
+    trial_count = trial_count + 1
+
+csp2_right = data_structure(rh_trials, n_channels, timesteps)
+trial_count = 0
+
+for i in range(rh_trials-1):
+    csp2_trial = W2 * right_bp[trial_count,:,:]
+    csp2_right[trial_count,:,:] = csp2_trial[:,:]
+    trial_count = trial_count + 1
+
+# %%
+# 3D Plotting
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
+csp_plot = csp2_left[0,:,:]
+y = np.arange(1,17,1)
+x = np.arange(0,2048,1)
+X,Y = np.meshgrid(x,y)
+Z = csp_plot
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+
+ax.plot_surface(X,Y,Z,cmap='afmhot')
+ax.set_title('CSP1 Left trials')
+ax.set_zlabel('Units')
+
+plt.show()
+
+csp_plot = csp2_right[0,:,:]
+y = np.arange(1,17,1)
+x = np.arange(0,2048,1)
+X,Y = np.meshgrid(x,y)
+Z = csp_plot
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+
+ax.plot_surface(X,Y,Z,cmap='afmhot')
+ax.set_title('CSP1 Right trials')
+ax.set_zlabel('Units')
+
+plt.show()
+
+# %%
