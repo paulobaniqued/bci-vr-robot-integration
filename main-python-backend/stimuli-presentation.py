@@ -40,14 +40,18 @@ blinkLabel.pack(side=TOP, expand=1)
 blinkLabel.config(image=BlankImage)
 
 outlet.push_sample(['1']) # start
-print('START')
+print("START")
 blinkLabel.config(image=BlankImage)
 root.update()
 time.sleep(warmup_duration)
 
+trial_counter = 0
+
 try:
     for trial in range(1, trials_per_class*len(labels)+1):
         
+        trial_counter += 1
+        print("Trial: ", trial_counter)
         outlet.push_sample(['2']) # get ready
         print("GET READY")
         blinkLabel.config(image=BaselineImage)
@@ -80,9 +84,11 @@ try:
         time.sleep(rest_duration) # rest duration
         
         if trial % pause_every == 0:
-            print("HALFWAY PAUSE")
+            print("PAUSE for ", pause_duration, " seconds")
             time.sleep(pause_duration)
         
 except Exception as e:
     print(e)
+
 outlet.push_sample(['6']) # end
+print("END")
