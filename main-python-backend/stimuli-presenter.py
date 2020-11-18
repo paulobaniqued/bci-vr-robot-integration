@@ -10,7 +10,7 @@ warmup_duration = 15
 getready_duration = 2
 cue_duration = 4
 feedback_duration = 1
-rest_duration = 1
+rest_duration = [1, 2, 3]
 
 pause_every = 25
 pause_duration = 15
@@ -73,15 +73,19 @@ try:
             blinkLabel.config(image=CueRightImage)
             root.update()
 
-        time.sleep(cue_duration) # cue duration
-        
-        # tkinter rest update
-        outlet.push_sample(['5']) #Marker '5' for rest
-        print("REST") 
+        time.sleep(cue_duration) # cue duration 
+
+        # tkinter feedback and rest update
         blinkLabel.config(image=BlankImage)
         root.update()
 
-        time.sleep(rest_duration) # rest duration
+        print("FEEDBACK")
+        time.sleep(feedback_duration) # feedback processing and presentation
+        
+        outlet.push_sample(['5']) #Marker '5' for rest
+        rest_choice = random.choice(rest_duration) # rest can either be 1, 2 or 3 seconds
+        print("REST for ", rest_choice, "s")
+        time.sleep(rest_choice) # rest duration
         
         if trial % pause_every == 0:
             print("PAUSE for ", pause_duration, " seconds")
