@@ -17,9 +17,7 @@ pause_duration = 15
 labels = ['L', 'R']
 markers = ['left', 'right']
 
-info = StreamInfo(name='MI-markers', type='markers', channel_count=1,
-                  nominal_srate=0, channel_format='string',
-                  source_id='t8u43t98u')
+info = StreamInfo('cue_markers', 'Markers', 1, 0, 'string', 'myuidw43536')
 outlet = StreamOutlet(info)
 
 print("Press [Enter] to begin.")
