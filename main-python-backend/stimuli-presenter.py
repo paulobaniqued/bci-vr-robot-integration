@@ -18,7 +18,7 @@ pause_every = 25
 pause_duration = 15
 
 # Set labstreaminglayer: outbound
-info = StreamInfo('cue_markers', 'Markers', 1, 0, 'string', 'myuidw43536')
+info = StreamInfo('cue_markers', 'Markers', 1, 0, 'string')
 outlet = StreamOutlet(info)
 
 # Set Tkinter GUI
@@ -47,7 +47,7 @@ time.sleep(warmup_duration)
 trial_counter = 0
 
 try:
-    for trial in range(1, trials_per_class*len(labels)+1):
+    for trial in range(1, trials_per_class*len(labels)+2):
         
         trial_counter += 1
         print("Trial: ", trial_counter)
