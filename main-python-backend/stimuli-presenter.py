@@ -1,50 +1,49 @@
+"""BCI Stimuli Presenter for NeuroPype"""
 import uuid # universally unique identifier
 import time
 import random
 from tkinter import *
 from pylsl import StreamInfo, StreamOutlet
 
+# Set parameters
+labels = ['L', 'R']
+markers = ['left', 'right']
 trials_per_class = 25
-
 warmup_duration = 15
 getready_duration = 2
 cue_duration = 4
 feedback_duration = 1
 rest_duration = [1, 2, 3]
-
 pause_every = 25
 pause_duration = 15
-labels = ['L', 'R']
-markers = ['left', 'right']
 
+# Set labstreaminglayer: outbound
 info = StreamInfo('cue_markers', 'Markers', 1, 0, 'string', 'myuidw43536')
 outlet = StreamOutlet(info)
 
-print("Press [Enter] to begin.")
-x = input()
-
-# Tkinter GUI
+# Set Tkinter GUI
 root = Tk()
 root.title('Graz Motor Imagery')
 root.resizable(width=False, height=False)
 root.geometry('1080x1080')
 root.configure(bg='black')
-
 BlankImage = PhotoImage(file='1_Blank.png')
 BaselineImage = PhotoImage(file='2_Baseline.png')
 CueLeftImage = PhotoImage(file='3_CueLeft.png')
 CueRightImage = PhotoImage(file='4_CueRight.png')
-
 blinkLabel = Label(root, fg='black', text=None, width=1080, height=720)
 blinkLabel.pack(side=TOP, expand=1)
 blinkLabel.config(image=BlankImage)
+
+# Start session
+print("Press [Enter] to begin.")
+x = input()
 
 outlet.push_sample(['1']) # start
 print("START")
 blinkLabel.config(image=BlankImage)
 root.update()
 time.sleep(warmup_duration)
-
 trial_counter = 0
 
 try:
