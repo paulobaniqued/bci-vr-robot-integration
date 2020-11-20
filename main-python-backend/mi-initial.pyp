@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <scheme description="" title="" version="2.0">
 	<nodes>
-		<node id="0" name="LSL Input" position="(141.0, 177.0)" project_name="NeuroPype" qualified_name="widgets.network.owlslinput.OWLSLInput" title="LSL Input" uuid="a32d9696-87ba-44d8-a99c-ccef61706bac" version="1.0.0" />
-		<node id="1" name="Time Series Plot" position="(454.0, 281.0)" project_name="NeuroPype" qualified_name="widgets.visualization.owtimeseriesplot.OWTimeSeriesPlot" title="Time Series Plot" uuid="d34a62ca-cf47-4df2-894c-8f5797bf4080" version="1.0.1" />
-		<node id="2" name="Record to XDF" position="(478.0, 146.0)" project_name="NeuroPype" qualified_name="widgets.file_system.owrecordtoxdf.OWRecordToXDF" title="Record to XDF" uuid="d519c6e0-1d26-4616-aaef-8ab7d438af2b" version="1.0.0" />
+		<node id="0" name="LSL Input" position="(141.0, 177.0)" project_name="NeuroPype" qualified_name="widgets.network.owlslinput.OWLSLInput" title="LSL Input" uuid="bd9beebd-16e0-45cb-b3a4-63a9e77da6c8" version="1.0.0" />
+		<node id="1" name="Time Series Plot" position="(454.0, 281.0)" project_name="NeuroPype" qualified_name="widgets.visualization.owtimeseriesplot.OWTimeSeriesPlot" title="Time Series Plot" uuid="1221384d-792b-4893-a048-358023cbeed5" version="1.0.1" />
+		<node id="2" name="Record to XDF" position="(478.0, 146.0)" project_name="NeuroPype" qualified_name="widgets.file_system.owrecordtoxdf.OWRecordToXDF" title="Record to XDF" uuid="41953872-1089-4ea8-9c99-4bf48f34132f" version="1.0.0" />
 	</nodes>
 	<links>
 		<link enabled="true" id="0" sink_channel="Data" sink_node_id="2" source_channel="Data" source_node_id="0" />
@@ -40,7 +40,7 @@ ZXdxJ1gKAAAAemVyb19jb2xvcnEoWAcAAAAjN0Y3RjdGcSlYCAAAAHplcm9tZWFucSqIdS4=
 ZS1yZWNvcmRpbmdxA1gNAAAAY2xvdWRfYWNjb3VudHEEWAAAAABxBVgMAAAAY2xvdWRfYnVja2V0
 cQZoBVgRAAAAY2xvdWRfY3JlZGVudGlhbHNxB2gFWAoAAABjbG91ZF9ob3N0cQhYBwAAAERlZmF1
 bHRxCVgOAAAAY2xvdWRfcGFydHNpemVxCkseWAwAAABkZWxldGVfcGFydHNxC4hYCAAAAGZpbGVu
-YW1lcQxYCwAAAHRyYWluLTIueGRmcQ1YCwAAAG91dHB1dF9yb290cQ5YEAAAAEU6L2JjaS9waXBl
+YW1lcQxYCwAAAHRyYWluLTEueGRmcQ1YCwAAAG91dHB1dF9yb290cQ5YEAAAAEU6L2JjaS9waXBl
 bGluZS9xD1gLAAAAcmV0cmlldmFibGVxEIlYEwAAAHNhdmVkV2lkZ2V0R2VvbWV0cnlxEWNzaXAK
 X3VucGlja2xlX3R5cGUKcRJYDAAAAFB5UXQ0LlF0Q29yZXETWAoAAABRQnl0ZUFycmF5cRRDLgHZ
 0MsAAQAAAAADBAAAAUQAAAR7AAACtAAAAwwAAAFjAAAEcwAAAqwAAAAAAABxFYVxFodxF1JxGFgN
@@ -141,7 +141,7 @@ dS4=
                     "value": false
                 }
             },
-            "uuid": "a32d9696-87ba-44d8-a99c-ccef61706bac"
+            "uuid": "bd9beebd-16e0-45cb-b3a4-63a9e77da6c8"
         },
         "node2": {
             "class": "TimeSeriesPlot",
@@ -278,7 +278,7 @@ dS4=
                     "value": true
                 }
             },
-            "uuid": "d34a62ca-cf47-4df2-894c-8f5797bf4080"
+            "uuid": "1221384d-792b-4893-a048-358023cbeed5"
         },
         "node3": {
             "class": "RecordToXDF",
@@ -327,7 +327,7 @@ dS4=
                 "filename": {
                     "customized": true,
                     "type": "StringPort",
-                    "value": "train-2.xdf"
+                    "value": "train-1.xdf"
                 },
                 "output_root": {
                     "customized": true,
@@ -355,7 +355,7 @@ dS4=
                     "value": false
                 }
             },
-            "uuid": "d519c6e0-1d26-4616-aaef-8ab7d438af2b"
+            "uuid": "41953872-1089-4ea8-9c99-4bf48f34132f"
         }
     },
     "version": 1.1
