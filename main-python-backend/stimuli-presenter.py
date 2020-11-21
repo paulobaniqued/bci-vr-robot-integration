@@ -35,10 +35,6 @@ blinkLabel = Label(root, fg='black', text=None, width=1080, height=720)
 blinkLabel.pack(side=TOP, expand=1)
 blinkLabel.config(image=BlankImage)
 
-# Start session
-print("Press [Enter] to begin.")
-x = input()
-
 outlet.push_sample(['1']) # start
 print("START")
 blinkLabel.config(image=BlankImage)
