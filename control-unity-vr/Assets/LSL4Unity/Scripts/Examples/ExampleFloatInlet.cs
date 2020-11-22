@@ -13,6 +13,7 @@ namespace Assets.LSL4Unity.Scripts.Examples
     public class ExampleFloatInlet : AFloatInlet
     {
         public Animator HandLeft;
+        public Animator HandRight;
 
         float trialTime = 4;
 
@@ -41,12 +42,15 @@ namespace Assets.LSL4Unity.Scripts.Examples
             {
                 Debug.Log("TRIGGER RIGHT");
                 Debug.Log(cue);
+                HandRight.SetTrigger("Grasp");
+                StartCoroutine(ResetHands());
             }
 
             IEnumerator ResetHands()
             {
                 yield return new WaitForSeconds(trialTime);
                 HandLeft.SetTrigger("Idle");
+                HandRight.SetTrigger("Idle");
             }   
 
 
