@@ -1,11 +1,12 @@
 """Test prediction stream output from NeuroPype."""
-
 import numpy as np
 import pandas as pd
 from time import sleep
 from threading import *
 import concurrent.futures
 from pylsl import StreamInlet, resolve_stream
+
+session_id = input("Enter session id: ") + ".csv"
 
 column_names = ['trial','truth','prediction','prob_left','prob_right','score']
 session_log = pd.DataFrame(columns=column_names)
@@ -70,11 +71,7 @@ while True:
         print("Session log: ")
         print(session_log)
 
-        session_log.to_csv('session_results.csv', index=False)
-
-        if trial_counter == 50:
-            session_log.to_csv('session_results.csv', index=False)
-            exit()
+        session_log.to_csv(session_id, index=False)
 
 
 

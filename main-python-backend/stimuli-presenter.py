@@ -1,21 +1,25 @@
+#%%
 """BCI Stimuli Presenter for NeuroPype"""
-import uuid # universally unique identifier
 import time
 import random
 from tkinter import *
 from pylsl import StreamInfo, StreamOutlet
+import itertools
 
 # Set parameters
-labels = ['L', 'R']
-markers = ['left', 'right']
+labels = ['left', 'right']
 trials_per_class = 25
 warmup_duration = 15
 getready_duration = 2
 cue_duration = 4
 feedback_duration = 1
 rest_duration = [1, 2, 3]
-pause_every = 25
+pause_at = 25
 pause_duration = 15
+
+trial_list = list(itertools.chain.from_iterable(itertools.repeat(x, trials_per_class) for x in labels))
+random.shuffle(trial_list)
+trial_list.insert(0, 'left') # warm-up trial
 
 # Set labstreaminglayer: outbound
 info = StreamInfo('cue_markers', 'Markers', 1, 0, 'string')
@@ -43,7 +47,7 @@ time.sleep(warmup_duration)
 trial_counter = 0
 
 try:
-    for trial in range(1, trials_per_class*len(labels)+2):
+    for trial in range(0, len(trial_list)):
         
         trial_counter += 1
         print("Trial: ", trial_counter)
@@ -53,16 +57,16 @@ try:
         root.update()
         time.sleep(getready_duration)
 
-        choice = random.choice(range(len(labels))) # select random cue
+        choice = trial_list[trial] # select from shuffled trial list
 
         # tkinter cue update
-        if markers[choice] == 'left':
+        if choice == 'left':
             outlet.push_sample(['3']) #Marker '3' for left
             print("LEFT")
             blinkLabel.config(image=CueLeftImage)
             root.update()
 
-        if markers[choice] == 'right':
+        if choice == 'right':
             outlet.push_sample(['4']) #Marker '4' for left
             print("RIGHT")
             blinkLabel.config(image=CueRightImage)
@@ -82,7 +86,7 @@ try:
         print("REST for ", rest_choice, "s")
         time.sleep(rest_choice) # rest duration
         
-        if trial % pause_every == 0:
+        if trial_counter == pause_at:
             print("PAUSE for ", pause_duration, " seconds")
             time.sleep(pause_duration)
         
