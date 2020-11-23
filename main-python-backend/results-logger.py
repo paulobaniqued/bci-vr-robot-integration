@@ -13,7 +13,7 @@ with open('E:/bci/session/ids.json','r') as fp:
 
 day = input("\n\n What session is it today? ")
 session_id = session_key.get(day) + ".csv"
-data_path = 'E:\\bci\\data\\'
+data_path = 'E:\\bci\\data\\csv\\'
 
 column_names = ['trial','truth','prediction','prob_left','prob_right','score']
 session_log = pd.DataFrame(columns=column_names)

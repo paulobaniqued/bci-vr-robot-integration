@@ -1,26 +1,26 @@
 <?xml version='1.0' encoding='utf-8'?>
 <scheme description="This pipeline predicts imagined motor actions using neural oscillatory pattern classification. The main node of this pipeline is the Common Spatial Pattern (CSP) filter, which is used to retrieve the components or patterns in the signal that are most suitable to represent desired categories or classes. CSP and its various extensions (available through NeuroPype) provide a powerful tool for building applications based on neural oscillations.&#10;This pipeline can be divided into 4 main parts, which we discuss in the following:&#10;&#10;Data acquisition:&#10;Includes : Import Data (here titled “Import SET”), LSL input/output, Stream Data and Inject Calibration Data nodes.&#10;In general you can process your data online or offline. For developing and testing purposes you will be mostly performing offline process using a pre-recorded file.&#10;&#10;- The “Import Data” nodes (here titled “Import Set”) are used to connect the pipeline to files.&#10;&#10;- The “LSL input” and “LSL output” nodes are used to get data stream into the pipeline, or send the data out to the network from the pipeline. (If you are sending markers make sure to check the “send marker” option in “LSL output” node)&#10;&#10;- The “Inject Calibration Data” node is used to pass the initial calibration data into the pipeline before the actual data is processed. The calibration data (Calib Data) is used by adaptive and machine learning algorithms to train and set their parameters initially. The main data is connected to the “Streaming Data” port.&#10;&#10;NOTE regarding “Inject Calibration Data”: &#10;In case you would like to train and test your pipeline using files (without using streaming node), you need to set the “Delay streaming packets” in this node. This enables the “Inject Calibration Data” node to buffer the test data that is pushed into it for one cycle and transfer it to the output port in the next cycle. It should be noted that the first cycle is used to push the calibration data through the pipeline.&#10;&#10;Data preprocess:&#10;Includes: Assign Targets, Select Range,  FIR filter and Segmentation nodes&#10;&#10;- The “Assign Target” node is mostly useful for the supervised learning algorithms, where  target values are assigned to specific markers present in the EEG signal. In order for this node to operate correctly you need to know the label for the markers in the data.&#10;&#10;- The “Select Range” node is used to specify certain parts of the data stream. For example, if we have a headset that contains certain bad channels, you can manually remove them here. That is the case for our example here where only data from the last 6 channels are used.&#10;&#10;- The “FIR Filter” node is used to remove the unwanted signals components outside of the EEG signal frequencies, e.g. to keep the 6-30 Hz frequency window.&#10;&#10;- The “Segmentation” node performs the epoching process, where the streamed data is divided into segments of the predefined window-length around the markers on the EEG data.&#10;&#10;NOTE regarding &quot;Segmentation&quot; node:&#10;The epoching process can be either done relative to the marker or the time window. When Processing a large file you should set the epoching relative to markers and while processing the streaming data, you should set it to sliding which chooses a single window at the end of the data.&#10;&#10;Feature extraction:&#10;&#10;Includes: Common Spatial Patterns (CSP) node&#10;As discussed above the spectral and spatial patterns in the data can be extracted by the CSP filters and its extensions.&#10;&#10;Classification:&#10;Includes: Variance, Logarithm, Logistic Regression and Measure Loss&#10;&#10;- The “Logistic Regression” node is used to perform the classification, where supervised learning methods is used to train the classifier. in this node you can choose the type of regularization and the regularization coefficient. You can also set the number of the folds for cross-validation in this node.&#10;&#10;- The “Measure Loss” node is used to measure various performance criteria. Here we use misclassification rate (MCR)." title="Simple Motor Imagery Prediction with CSP" version="2.0">
 	<nodes>
-		<node id="0" name="Assign Target Values" position="(500.0, 99.0)" project_name="NeuroPype" qualified_name="widgets.machine_learning.owassigntargets.OWAssignTargets" title="Assign Targets" uuid="bfdd1288-7e06-4759-9815-6802172d9d4e" version="1.0.0" />
-		<node id="1" name="Segmentation" position="(725.0, 271.0)" project_name="NeuroPype" qualified_name="widgets.formatting.owsegmentation.OWSegmentation" title="Segmentation" uuid="9315f9b9-b887-43c8-8877-adb57f385718" version="1.0.1" />
-		<node id="2" name="Common Spatial Patterns" position="(825.0, 271.0)" project_name="NeuroPype" qualified_name="widgets.neural.owcommonspatialpatterns.OWCommonSpatialPatterns" title="Common Spatial Patterns" uuid="cdd2228e-86ce-454b-9c98-e60944ea2bc7" version="1.0.0" />
-		<node id="3" name="Variance" position="(925.0, 271.0)" project_name="NeuroPype" qualified_name="widgets.statistics.owvariance.OWVariance" title="Variance" uuid="56b1dca6-cc1a-4139-b282-5c8a1cf746de" version="1.0.0" />
-		<node id="4" name="Logarithm" position="(1025.0, 271.0)" project_name="NeuroPype" qualified_name="widgets.elementwise_math.owlogarithm.OWLogarithm" title="Logarithm" uuid="8654031c-f596-4ff9-9a62-256f2f673b72" version="1.0.0" />
-		<node id="5" name="Select Range" position="(602.0, 108.0)" project_name="NeuroPype" qualified_name="widgets.tensor_math.owselectrange.OWSelectRange" title="Select Range" uuid="a91eb99f-f34b-46fc-91dc-52e3e2b56954" version="1.0.0" />
-		<node id="6" name="Logistic Regression" position="(1125.0, 271.0)" project_name="NeuroPype" qualified_name="widgets.machine_learning.owlogisticregression.OWLogisticRegression" title="Logistic Regression" uuid="5f3c38f8-6d4e-462c-a772-d518a7bc9094" version="1.0.0" />
-		<node id="7" name="FIR Filter" position="(635.0, 274.0)" project_name="NeuroPype" qualified_name="widgets.signal_processing.owfirfilter.OWFIRFilter" title="FIR Filter" uuid="734bc49c-bda4-456a-8049-28166b7e27e7" version="1.0.0" />
-		<node id="8" name="LSL Input" position="(-94.0, 113.0)" project_name="NeuroPype" qualified_name="widgets.network.owlslinput.OWLSLInput" title="LSL Input" uuid="742956cd-5ee3-42ca-93de-b4a9cc6aeacb" version="1.0.0" />
-		<node id="9" name="Dejitter Timestamps" position="(200, 100)" project_name="NeuroPype" qualified_name="widgets.utilities.owdejittertimestamps.OWDejitterTimestamps" title="Dejitter Timestamps" uuid="20bdabe2-881c-4c92-8229-df695c2bd75c" version="1.0.0" />
-		<node id="10" name="Inject Calibration Data" position="(400, 100)" project_name="NeuroPype" qualified_name="widgets.machine_learning.owinjectcalibrationdata.OWInjectCalibrationData" title="Inject Calibration Data" uuid="aff5a67a-5c6a-40c6-a2cf-d4dc146d6feb" version="1.0.0" />
-		<node id="11" name="Streaming Bar Plot" position="(1349.0, 73.0)" project_name="NeuroPype" qualified_name="widgets.visualization.owbarplot.OWBarPlot" title="Streaming Bar Plot" uuid="c35bc83f-acbc-46fc-b36c-465c8ef40665" version="1.0.2" />
-		<node id="12" name="Print To Console" position="(1246.0, 424.0)" project_name="NeuroPype" qualified_name="widgets.diagnostics.owprinttoconsole.OWPrintToConsole" title="Print To Console" uuid="9e6c1df7-a76b-4a40-b301-3da949fa9bc6" version="1.0.0" />
-		<node id="13" name="Import XDF" position="(75.0, 25.0)" project_name="NeuroPype" qualified_name="widgets.file_system.owimportxdf.OWImportXDF" title="Import XDF" uuid="ae2dd423-1fed-4582-9488-b87317010814" version="1.0.0" />
-		<node id="14" name="Record to XDF" position="(37.0, 269.0)" project_name="NeuroPype" qualified_name="widgets.file_system.owrecordtoxdf.OWRecordToXDF" title="Record to XDF" uuid="be451746-db5a-4dd4-8160-6a757b8edaff" version="1.0.0" />
-		<node id="15" name="Override Axis" position="(1229.0, 170.0)" project_name="NeuroPype" qualified_name="widgets.tensor_math.owoverrideaxis.OWOverrideAxis" title="Override Axis" uuid="84bed72c-943a-4d80-bb39-597927d79ff2" version="1.0.2" />
-		<node id="16" name="Rewrite Markers" position="(61.0, 124.0)" project_name="NeuroPype" qualified_name="widgets.markers.owrewritemarkers.OWRewriteMarkers" title="Rewrite Markers" uuid="cb26d426-9c41-47b3-9247-78e3237a8214" version="0.9.3" />
-		<node id="17" name="Rewrite Markers" position="(219.0, 10.0)" project_name="NeuroPype" qualified_name="widgets.markers.owrewritemarkers.OWRewriteMarkers" title="Rewrite Markers" uuid="c3c700db-fe93-4ee4-9463-66da5bad4605" version="0.9.3" />
-		<node id="18" name="LSL Output" position="(1274.0, 277.0)" project_name="NeuroPype" qualified_name="widgets.network.owlsloutput.OWLSLOutput" title="LSL Output" uuid="8ad856dc-4f7c-4597-b5c0-d8556e84bfd3" version="1.0.0" />
-		<node id="19" name="Time Series Plot" position="(236.0, 277.0)" project_name="NeuroPype" qualified_name="widgets.visualization.owtimeseriesplot.OWTimeSeriesPlot" title="Time Series Plot" uuid="16502d3b-be1e-4374-b27b-9060c7d91b5f" version="1.0.1" />
+		<node id="0" name="Assign Target Values" position="(500.0, 99.0)" project_name="NeuroPype" qualified_name="widgets.machine_learning.owassigntargets.OWAssignTargets" title="Assign Targets" uuid="ad0bcff4-ef69-4ab8-aef6-d4012b5fe3fd" version="1.0.0" />
+		<node id="1" name="Segmentation" position="(725.0, 271.0)" project_name="NeuroPype" qualified_name="widgets.formatting.owsegmentation.OWSegmentation" title="Segmentation" uuid="78793d49-98de-4d46-9e94-a5d470512823" version="1.0.1" />
+		<node id="2" name="Common Spatial Patterns" position="(825.0, 271.0)" project_name="NeuroPype" qualified_name="widgets.neural.owcommonspatialpatterns.OWCommonSpatialPatterns" title="Common Spatial Patterns" uuid="f4493418-6544-4c38-a282-c6d4d35c2b30" version="1.0.0" />
+		<node id="3" name="Variance" position="(925.0, 271.0)" project_name="NeuroPype" qualified_name="widgets.statistics.owvariance.OWVariance" title="Variance" uuid="e42277ac-2922-4ab4-a74f-80ace62e964a" version="1.0.0" />
+		<node id="4" name="Logarithm" position="(1025.0, 271.0)" project_name="NeuroPype" qualified_name="widgets.elementwise_math.owlogarithm.OWLogarithm" title="Logarithm" uuid="dabeb6bf-0bb0-464f-ae2e-657f0b81cdf9" version="1.0.0" />
+		<node id="5" name="Select Range" position="(602.0, 108.0)" project_name="NeuroPype" qualified_name="widgets.tensor_math.owselectrange.OWSelectRange" title="Select Range" uuid="671918cb-9e37-4b94-9a81-82ca3af50417" version="1.0.0" />
+		<node id="6" name="Logistic Regression" position="(1125.0, 271.0)" project_name="NeuroPype" qualified_name="widgets.machine_learning.owlogisticregression.OWLogisticRegression" title="Logistic Regression" uuid="5922caa6-85b0-478d-9faa-3527cfeef690" version="1.0.0" />
+		<node id="7" name="FIR Filter" position="(635.0, 274.0)" project_name="NeuroPype" qualified_name="widgets.signal_processing.owfirfilter.OWFIRFilter" title="FIR Filter" uuid="c2df189a-181c-4e94-ac4c-596054a8d96e" version="1.0.0" />
+		<node id="8" name="LSL Input" position="(-94.0, 113.0)" project_name="NeuroPype" qualified_name="widgets.network.owlslinput.OWLSLInput" title="LSL Input" uuid="a7ad6e5e-738d-4799-8c9c-cf2911f0a351" version="1.0.0" />
+		<node id="9" name="Dejitter Timestamps" position="(200, 100)" project_name="NeuroPype" qualified_name="widgets.utilities.owdejittertimestamps.OWDejitterTimestamps" title="Dejitter Timestamps" uuid="540a39fb-ef56-4c8f-98a5-68abbf76c179" version="1.0.0" />
+		<node id="10" name="Inject Calibration Data" position="(400, 100)" project_name="NeuroPype" qualified_name="widgets.machine_learning.owinjectcalibrationdata.OWInjectCalibrationData" title="Inject Calibration Data" uuid="77b3434c-d9bd-49a1-9851-984fed37fb88" version="1.0.0" />
+		<node id="11" name="Streaming Bar Plot" position="(1349.0, 73.0)" project_name="NeuroPype" qualified_name="widgets.visualization.owbarplot.OWBarPlot" title="Streaming Bar Plot" uuid="ba0ff96f-282c-435c-aa4b-5550731ca332" version="1.0.2" />
+		<node id="12" name="Print To Console" position="(1246.0, 424.0)" project_name="NeuroPype" qualified_name="widgets.diagnostics.owprinttoconsole.OWPrintToConsole" title="Print To Console" uuid="14f96274-785c-4a1f-8031-e8301e2475f4" version="1.0.0" />
+		<node id="13" name="Import XDF" position="(75.0, 25.0)" project_name="NeuroPype" qualified_name="widgets.file_system.owimportxdf.OWImportXDF" title="Import XDF" uuid="140622b7-668d-4849-8923-b4ed7a4e2c3f" version="1.0.0" />
+		<node id="14" name="Record to XDF" position="(37.0, 269.0)" project_name="NeuroPype" qualified_name="widgets.file_system.owrecordtoxdf.OWRecordToXDF" title="Record to XDF" uuid="53817fe5-5cb4-4cbc-9add-b95acd5a2758" version="1.0.0" />
+		<node id="15" name="Override Axis" position="(1229.0, 170.0)" project_name="NeuroPype" qualified_name="widgets.tensor_math.owoverrideaxis.OWOverrideAxis" title="Override Axis" uuid="1710c0cb-980a-406e-a121-b4a13b851bd2" version="1.0.2" />
+		<node id="16" name="Rewrite Markers" position="(61.0, 124.0)" project_name="NeuroPype" qualified_name="widgets.markers.owrewritemarkers.OWRewriteMarkers" title="Rewrite Markers" uuid="0dc891c8-976e-4f1c-a8aa-5cdc6a5a3358" version="0.9.3" />
+		<node id="17" name="Rewrite Markers" position="(219.0, 10.0)" project_name="NeuroPype" qualified_name="widgets.markers.owrewritemarkers.OWRewriteMarkers" title="Rewrite Markers" uuid="80815ddd-ab3e-4915-ae01-4c199ae6e642" version="0.9.3" />
+		<node id="18" name="LSL Output" position="(1274.0, 277.0)" project_name="NeuroPype" qualified_name="widgets.network.owlsloutput.OWLSLOutput" title="LSL Output" uuid="1bbf680c-6e1a-458d-8873-32038b7f16b0" version="1.0.0" />
+		<node id="19" name="Time Series Plot" position="(236.0, 277.0)" project_name="NeuroPype" qualified_name="widgets.visualization.owtimeseriesplot.OWTimeSeriesPlot" title="Time Series Plot" uuid="d0bebf1a-b937-4f0e-84de-ace5a5518d6e" version="1.0.1" />
 	</nodes>
 	<links>
 		<link enabled="true" id="0" sink_channel="Data" sink_node_id="2" source_channel="Data" source_node_id="1" />
@@ -147,24 +147,24 @@ DAAABG8AAAL+AAAAAAAAcQ6FcQ+HcRBScRFYDgAAAHNldF9icmVha3BvaW50cRKJdS4=
 </properties>
 		<properties format="pickle" node_id="13">gAN9cQAoWA0AAABjbG91ZF9hY2NvdW50cQFYAAAAAHECWAwAAABjbG91ZF9idWNrZXRxA2gCWBEA
 AABjbG91ZF9jcmVkZW50aWFsc3EEaAJYCgAAAGNsb3VkX2hvc3RxBVgHAAAARGVmYXVsdHEGWAgA
-AABmaWxlbmFtZXEHWBsAAABFOi9iY2kvcGlwZWxpbmUvdHJhaW4tMS54ZGZxCFgTAAAAaGFuZGxl
-X2Nsb2NrX3Jlc2V0c3EJiFgRAAAAaGFuZGxlX2Nsb2NrX3N5bmNxCohYFQAAAGhhbmRsZV9qaXR0
-ZXJfcmVtb3ZhbHELiFgOAAAAbWF4X21hcmtlcl9sZW5xDFgNAAAAKHVzZSBkZWZhdWx0KXENWBIA
-AAByZW9yZGVyX3RpbWVzdGFtcHNxDolYDgAAAHJldGFpbl9zdHJlYW1zcQ9oDVgTAAAAc2F2ZWRX
-aWRnZXRHZW9tZXRyeXEQY3NpcApfdW5waWNrbGVfdHlwZQpxEVgMAAAAUHlRdDQuUXRDb3JlcRJY
-CgAAAFFCeXRlQXJyYXlxE0MuAdnQywABAAAAAAMEAAABfQAABHsAAAJ7AAADDAAAAZwAAARzAAAC
-cwAAAAAAAHEUhXEVh3EWUnEXWA4AAABzZXRfYnJlYWtwb2ludHEYiVgPAAAAdXNlX3N0cmVhbW5h
-bWVzcRmJWAcAAAB2ZXJib3NlcRqJdS4=
+AABmaWxlbmFtZXEHWBcAAABFOi9iY2kvZGF0YS90cmFpbi0xLnhkZnEIWBMAAABoYW5kbGVfY2xv
+Y2tfcmVzZXRzcQmIWBEAAABoYW5kbGVfY2xvY2tfc3luY3EKiFgVAAAAaGFuZGxlX2ppdHRlcl9y
+ZW1vdmFscQuIWA4AAABtYXhfbWFya2VyX2xlbnEMWA0AAAAodXNlIGRlZmF1bHQpcQ1YEgAAAHJl
+b3JkZXJfdGltZXN0YW1wc3EOiVgOAAAAcmV0YWluX3N0cmVhbXNxD2gNWBMAAABzYXZlZFdpZGdl
+dEdlb21ldHJ5cRBjc2lwCl91bnBpY2tsZV90eXBlCnERWAwAAABQeVF0NC5RdENvcmVxElgKAAAA
+UUJ5dGVBcnJheXETQy4B2dDLAAEAAAAAAwQAAAF9AAAEewAAAnsAAAMMAAABnAAABHMAAAJzAAAA
+AAAAcRSFcRWHcRZScRdYDgAAAHNldF9icmVha3BvaW50cRiJWA8AAAB1c2Vfc3RyZWFtbmFtZXNx
+GYlYBwAAAHZlcmJvc2VxGol1Lg==
 </properties>
 		<properties format="pickle" node_id="14">gAN9cQAoWAwAAABhbGxvd19kb3VibGVxAYlYDwAAAGNsb3NlX29uX21hcmtlcnECWA8AAABjbG9z
 ZS1yZWNvcmRpbmdxA1gNAAAAY2xvdWRfYWNjb3VudHEEWAAAAABxBVgMAAAAY2xvdWRfYnVja2V0
 cQZoBVgRAAAAY2xvdWRfY3JlZGVudGlhbHNxB2gFWAoAAABjbG91ZF9ob3N0cQhYBwAAAERlZmF1
 bHRxCVgOAAAAY2xvdWRfcGFydHNpemVxCkseWAwAAABkZWxldGVfcGFydHNxC4hYCAAAAGZpbGVu
-YW1lcQxYGgAAAEU6L2JjaS9waXBlbGluZS90ZXN0LTEueGRmcQ1YCwAAAG91dHB1dF9yb290cQ5o
-BVgLAAAAcmV0cmlldmFibGVxD4lYEwAAAHNhdmVkV2lkZ2V0R2VvbWV0cnlxEGNzaXAKX3VucGlj
-a2xlX3R5cGUKcRFYDAAAAFB5UXQ0LlF0Q29yZXESWAoAAABRQnl0ZUFycmF5cRNDLgHZ0MsAAQAA
-AAADBAAAAUQAAAR7AAACtAAAAwwAAAFjAAAEcwAAAqwAAAAAAABxFIVxFYdxFlJxF1gNAAAAc2Vz
-c2lvbl9ub3Rlc3EYaAVYDgAAAHNldF9icmVha3BvaW50cRmJWAcAAAB2ZXJib3NlcRqJdS4=
+YW1lcQxYFgAAAEU6L2JjaS9kYXRhL3Rlc3QtMS54ZGZxDVgLAAAAb3V0cHV0X3Jvb3RxDmgFWAsA
+AAByZXRyaWV2YWJsZXEPiVgTAAAAc2F2ZWRXaWRnZXRHZW9tZXRyeXEQY3NpcApfdW5waWNrbGVf
+dHlwZQpxEVgMAAAAUHlRdDQuUXRDb3JlcRJYCgAAAFFCeXRlQXJyYXlxE0MuAdnQywABAAAAAAME
+AAABRAAABHsAAAK0AAADDAAAAWMAAARzAAACrAAAAAAAAHEUhXEVh3EWUnEXWA0AAABzZXNzaW9u
+X25vdGVzcRhoBVgOAAAAc2V0X2JyZWFrcG9pbnRxGYlYBwAAAHZlcmJvc2VxGol1Lg==
 </properties>
 		<properties format="pickle" node_id="15">gAN9cQAoWA8AAABheGlzX29jY3VycmVuY2VxAUsAWBAAAABjYXJyeV9vdmVyX25hbWVzcQKIWBIA
 AABjYXJyeV9vdmVyX251bWJlcnNxA4hYDAAAAGN1c3RvbV9sYWJlbHEEWA0AAAAodXNlIGRlZmF1
@@ -395,7 +395,7 @@ cm9fY29sb3JxJ1gHAAAAIzdGN0Y3RnEoWAgAAAB6ZXJvbWVhbnEpiHUu
                     "value": false
                 }
             },
-            "uuid": "bfdd1288-7e06-4759-9815-6802172d9d4e"
+            "uuid": "ad0bcff4-ef69-4ab8-aef6-d4012b5fe3fd"
         },
         "node10": {
             "class": "DejitterTimestamps",
@@ -427,7 +427,7 @@ cm9fY29sb3JxJ1gHAAAAIzdGN0Y3RnEoWAgAAAB6ZXJvbWVhbnEpiHUu
                     "value": -1
                 }
             },
-            "uuid": "20bdabe2-881c-4c92-8229-df695c2bd75c"
+            "uuid": "540a39fb-ef56-4c8f-98a5-68abbf76c179"
         },
         "node11": {
             "class": "InjectCalibrationData",
@@ -444,7 +444,7 @@ cm9fY29sb3JxJ1gHAAAAIzdGN0Y3RnEoWAgAAAB6ZXJvbWVhbnEpiHUu
                     "value": false
                 }
             },
-            "uuid": "aff5a67a-5c6a-40c6-a2cf-d4dc146d6feb"
+            "uuid": "77b3434c-d9bd-49a1-9851-984fed37fb88"
         },
         "node12": {
             "class": "BarPlot",
@@ -534,7 +534,7 @@ cm9fY29sb3JxJ1gHAAAAIzdGN0Y3RnEoWAgAAAB6ZXJvbWVhbnEpiHUu
                     ]
                 }
             },
-            "uuid": "c35bc83f-acbc-46fc-b36c-465c8ef40665"
+            "uuid": "ba0ff96f-282c-435c-aa4b-5550731ca332"
         },
         "node13": {
             "class": "PrintToConsole",
@@ -586,7 +586,7 @@ cm9fY29sb3JxJ1gHAAAAIzdGN0Y3RnEoWAgAAAB6ZXJvbWVhbnEpiHUu
                     "value": false
                 }
             },
-            "uuid": "9e6c1df7-a76b-4a40-b301-3da949fa9bc6"
+            "uuid": "14f96274-785c-4a1f-8031-e8301e2475f4"
         },
         "node14": {
             "class": "ImportXDF",
@@ -615,7 +615,7 @@ cm9fY29sb3JxJ1gHAAAAIzdGN0Y3RnEoWAgAAAB6ZXJvbWVhbnEpiHUu
                 "filename": {
                     "customized": true,
                     "type": "StringPort",
-                    "value": "E:/bci/pipeline/train-1.xdf"
+                    "value": "E:/bci/data/train-1.xdf"
                 },
                 "handle_clock_resets": {
                     "customized": false,
@@ -663,7 +663,7 @@ cm9fY29sb3JxJ1gHAAAAIzdGN0Y3RnEoWAgAAAB6ZXJvbWVhbnEpiHUu
                     "value": false
                 }
             },
-            "uuid": "ae2dd423-1fed-4582-9488-b87317010814"
+            "uuid": "140622b7-668d-4849-8923-b4ed7a4e2c3f"
         },
         "node15": {
             "class": "RecordToXDF",
@@ -712,7 +712,7 @@ cm9fY29sb3JxJ1gHAAAAIzdGN0Y3RnEoWAgAAAB6ZXJvbWVhbnEpiHUu
                 "filename": {
                     "customized": true,
                     "type": "StringPort",
-                    "value": "E:/bci/pipeline/test-1.xdf"
+                    "value": "E:/bci/data/test-1.xdf"
                 },
                 "output_root": {
                     "customized": false,
@@ -740,7 +740,7 @@ cm9fY29sb3JxJ1gHAAAAIzdGN0Y3RnEoWAgAAAB6ZXJvbWVhbnEpiHUu
                     "value": false
                 }
             },
-            "uuid": "be451746-db5a-4dd4-8160-6a757b8edaff"
+            "uuid": "53817fe5-5cb4-4cbc-9add-b95acd5a2758"
         },
         "node16": {
             "class": "OverrideAxis",
@@ -795,7 +795,7 @@ cm9fY29sb3JxJ1gHAAAAIzdGN0Y3RnEoWAgAAAB6ZXJvbWVhbnEpiHUu
                     "value": false
                 }
             },
-            "uuid": "84bed72c-943a-4d80-bb39-597927d79ff2"
+            "uuid": "1710c0cb-980a-406e-a121-b4a13b851bd2"
         },
         "node17": {
             "class": "RewriteMarkers",
@@ -832,7 +832,7 @@ cm9fY29sb3JxJ1gHAAAAIzdGN0Y3RnEoWAgAAAB6ZXJvbWVhbnEpiHUu
                     "value": false
                 }
             },
-            "uuid": "cb26d426-9c41-47b3-9247-78e3237a8214"
+            "uuid": "0dc891c8-976e-4f1c-a8aa-5cdc6a5a3358"
         },
         "node18": {
             "class": "RewriteMarkers",
@@ -869,7 +869,7 @@ cm9fY29sb3JxJ1gHAAAAIzdGN0Y3RnEoWAgAAAB6ZXJvbWVhbnEpiHUu
                     "value": false
                 }
             },
-            "uuid": "c3c700db-fe93-4ee4-9463-66da5bad4605"
+            "uuid": "80815ddd-ab3e-4915-ae01-4c199ae6e642"
         },
         "node19": {
             "class": "LSLOutput",
@@ -946,7 +946,7 @@ cm9fY29sb3JxJ1gHAAAAIzdGN0Y3RnEoWAgAAAB6ZXJvbWVhbnEpiHUu
                     "value": false
                 }
             },
-            "uuid": "8ad856dc-4f7c-4597-b5c0-d8556e84bfd3"
+            "uuid": "1bbf680c-6e1a-458d-8873-32038b7f16b0"
         },
         "node2": {
             "class": "Segmentation",
@@ -996,7 +996,7 @@ cm9fY29sb3JxJ1gHAAAAIzdGN0Y3RnEoWAgAAAB6ZXJvbWVhbnEpiHUu
                     "value": false
                 }
             },
-            "uuid": "9315f9b9-b887-43c8-8877-adb57f385718"
+            "uuid": "78793d49-98de-4d46-9e94-a5d470512823"
         },
         "node20": {
             "class": "TimeSeriesPlot",
@@ -1133,7 +1133,7 @@ cm9fY29sb3JxJ1gHAAAAIzdGN0Y3RnEoWAgAAAB6ZXJvbWVhbnEpiHUu
                     "value": true
                 }
             },
-            "uuid": "16502d3b-be1e-4374-b27b-9060c7d91b5f"
+            "uuid": "d0bebf1a-b937-4f0e-84de-ace5a5518d6e"
         },
         "node3": {
             "class": "CommonSpatialPatterns",
@@ -1160,7 +1160,7 @@ cm9fY29sb3JxJ1gHAAAAIzdGN0Y3RnEoWAgAAAB6ZXJvbWVhbnEpiHUu
                     "value": false
                 }
             },
-            "uuid": "cdd2228e-86ce-454b-9c98-e60944ea2bc7"
+            "uuid": "f4493418-6544-4c38-a282-c6d4d35c2b30"
         },
         "node4": {
             "class": "Variance",
@@ -1187,7 +1187,7 @@ cm9fY29sb3JxJ1gHAAAAIzdGN0Y3RnEoWAgAAAB6ZXJvbWVhbnEpiHUu
                     "value": false
                 }
             },
-            "uuid": "56b1dca6-cc1a-4139-b282-5c8a1cf746de"
+            "uuid": "e42277ac-2922-4ab4-a74f-80ace62e964a"
         },
         "node5": {
             "class": "Logarithm",
@@ -1204,7 +1204,7 @@ cm9fY29sb3JxJ1gHAAAAIzdGN0Y3RnEoWAgAAAB6ZXJvbWVhbnEpiHUu
                     "value": false
                 }
             },
-            "uuid": "8654031c-f596-4ff9-9a62-256f2f673b72"
+            "uuid": "dabeb6bf-0bb0-464f-ae2e-657f0b81cdf9"
         },
         "node6": {
             "class": "SelectRange",
@@ -1236,7 +1236,7 @@ cm9fY29sb3JxJ1gHAAAAIzdGN0Y3RnEoWAgAAAB6ZXJvbWVhbnEpiHUu
                     "value": "indices"
                 }
             },
-            "uuid": "a91eb99f-f34b-46fc-91dc-52e3e2b56954"
+            "uuid": "671918cb-9e37-4b94-9a81-82ca3af50417"
         },
         "node7": {
             "class": "LogisticRegression",
@@ -1344,7 +1344,7 @@ cm9fY29sb3JxJ1gHAAAAIzdGN0Y3RnEoWAgAAAB6ZXJvbWVhbnEpiHUu
                     "value": 0
                 }
             },
-            "uuid": "5f3c38f8-6d4e-462c-a772-d518a7bc9094"
+            "uuid": "5922caa6-85b0-478d-9faa-3527cfeef690"
         },
         "node8": {
             "class": "FIRFilter",
@@ -1406,7 +1406,7 @@ cm9fY29sb3JxJ1gHAAAAIzdGN0Y3RnEoWAgAAAB6ZXJvbWVhbnEpiHUu
                     "value": 50.0
                 }
             },
-            "uuid": "734bc49c-bda4-456a-8049-28166b7e27e7"
+            "uuid": "c2df189a-181c-4e94-ac4c-596054a8d96e"
         },
         "node9": {
             "class": "LSLInput",
@@ -1468,7 +1468,7 @@ cm9fY29sb3JxJ1gHAAAAIzdGN0Y3RnEoWAgAAAB6ZXJvbWVhbnEpiHUu
                     "value": false
                 }
             },
-            "uuid": "742956cd-5ee3-42ca-93de-b4a9cc6aeacb"
+            "uuid": "a7ad6e5e-738d-4799-8c9c-cf2911f0a351"
         }
     },
     "version": 1.1
