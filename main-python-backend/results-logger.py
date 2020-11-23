@@ -7,6 +7,7 @@ import concurrent.futures
 from pylsl import StreamInlet, resolve_stream
 import json
 import os
+from playsound import playsound
 
 with open('E:/bci/session/ids.json','r') as fp:
     session_key = json.load(fp)
@@ -69,6 +70,7 @@ while True:
 
         if truth == prediction:
             score += 1
+            playsound('E:\\bci\\assets\\correct.wav', False)
 
         results = pd.DataFrame([[trial_counter, truth, prediction, left, right, score]], columns=column_names)
         print("Results: ")

@@ -5,6 +5,7 @@ import random
 from tkinter import *
 from pylsl import StreamInfo, StreamOutlet
 import itertools
+from playsound import playsound
 
 # Set parameters
 labels = ['left', 'right']
@@ -53,6 +54,7 @@ try:
         print("Trial: ", trial_counter)
         outlet.push_sample(['2']) # get ready
         print("GET READY")
+        playsound("E:\\bci\\assets\\ready.wav", False)
         blinkLabel.config(image=BaselineImage)
         root.update()
         time.sleep(getready_duration)
@@ -63,12 +65,14 @@ try:
         if choice == 'left':
             outlet.push_sample(['3']) #Marker '3' for left
             print("LEFT")
+            playsound("E:\\bci\\assets\\cue.wav", False)
             blinkLabel.config(image=CueLeftImage)
             root.update()
 
         if choice == 'right':
             outlet.push_sample(['4']) #Marker '4' for left
             print("RIGHT")
+            playsound("E:\\bci\\assets\\cue.wav", False)
             blinkLabel.config(image=CueRightImage)
             root.update()
 
