@@ -12,8 +12,8 @@ namespace Assets.LSL4Unity.Scripts.Examples
     /// </summary>
     public class ExampleFloatInlet : AFloatInlet
     {
-        public Animator HandLeft;
-        public Animator HandRight;
+        public Animator LeftAnimator;
+        public Animator RightAnimator;
 
         float trialTime = 4;
 
@@ -27,6 +27,8 @@ namespace Assets.LSL4Unity.Scripts.Examples
             //Debug.Log(newSample[0]);
             float cue = newSample[0];
 
+            Debug.Log(cue);
+
             //Vector3 lift = new Vector3(0, 0.2f + emg, 0);
             //gameObject.transform.position = lift;
 
@@ -34,7 +36,7 @@ namespace Assets.LSL4Unity.Scripts.Examples
             {
                 Debug.Log("TRIGGER LEFT");
                 Debug.Log(cue);
-                HandLeft.SetTrigger("Grasp");
+                LeftAnimator.SetTrigger("Grasp");
                 StartCoroutine(ResetHands());
 
             }
@@ -42,15 +44,15 @@ namespace Assets.LSL4Unity.Scripts.Examples
             {
                 Debug.Log("TRIGGER RIGHT");
                 Debug.Log(cue);
-                HandRight.SetTrigger("Grasp");
+                RightAnimator.SetTrigger("Grasp");
                 StartCoroutine(ResetHands());
             }
 
             IEnumerator ResetHands()
             {
                 yield return new WaitForSeconds(trialTime);
-                HandLeft.SetTrigger("Idle");
-                HandRight.SetTrigger("Idle");
+                LeftAnimator.ResetTrigger("Grasp");
+                RightAnimator.ResetTrigger("Grasp");
             }   
 
 
