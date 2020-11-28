@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class TriggerCue : MonoBehaviour
 {
-    public Animator HandLeft;
-    public Animator HandRight;
+    public Animator LeftAnimator;
+    public Animator RightAnimator;
 
     float trialTime = 4;
 
@@ -15,14 +15,14 @@ public class TriggerCue : MonoBehaviour
         if (Input.GetKeyDown("left"))
         {
             Debug.Log("trigger left key down");
-            HandLeft.SetTrigger("Grasp");
+            LeftAnimator.SetTrigger("Grasp");
             StartCoroutine(ResetHands());
 
         }
         if (Input.GetKeyDown("right"))
         {
             Debug.Log("trigger right key down");
-            HandRight.SetTrigger("Grasp");
+            RightAnimator.SetTrigger("Grasp");
             StartCoroutine(ResetHands());
         }
         
@@ -30,7 +30,7 @@ public class TriggerCue : MonoBehaviour
     IEnumerator ResetHands()
     {
         yield return new WaitForSeconds(trialTime);
-        HandLeft.SetTrigger("Idle");
-        HandRight.SetTrigger("Idle");
+        LeftAnimator.ResetTrigger("Grasp");
+        RightAnimator.ResetTrigger("Grasp");
     }
 }
