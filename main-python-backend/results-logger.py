@@ -4,7 +4,7 @@ import pandas as pd
 from time import sleep
 from threading import *
 import concurrent.futures
-from pylsl import StreamInlet, resolve_stream
+from pylsl import StreamInlet, resolve_stream, StreamInfo, StreamOutlet
 import json
 import os
 from playsound import playsound
@@ -30,6 +30,10 @@ print("looking for a Prediction stream...")
 predictions = resolve_stream('type', 'Prediction')
 pred_inlet = StreamInlet(predictions[0])
 print("Found Predictions!")
+
+# Set labstreaminglayer: outbound
+info = StreamInfo('feedback', 'feedback', 1, 0, 'string')
+outlet = StreamOutlet(info)
 
 def truths_stream(truths_inlet):
 
@@ -70,7 +74,11 @@ while True:
 
         if truth == prediction:
             score += 1
+            outlet.push_sample(['100']) # correct
             playsound('E:\\bci\\assets\\correct.wav', False)
+        elif truth != prediction:
+            outlet.push_sample(['200']) # incorrect
+            playsound('E:\\bci\\assets\\error.wav', False)
 
         results = pd.DataFrame([[trial_counter, truth, prediction, left, right, score]], columns=column_names)
         print("Results: ")
