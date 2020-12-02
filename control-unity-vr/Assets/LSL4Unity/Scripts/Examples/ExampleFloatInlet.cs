@@ -35,7 +35,6 @@ namespace Assets.LSL4Unity.Scripts.Examples
             if (cue == 3.0)
             {
                 Debug.Log("TRIGGER LEFT");
-                Debug.Log(cue);
                 LeftAnimator.SetTrigger("Grasp");
                 StartCoroutine(ResetHands());
 
@@ -43,7 +42,6 @@ namespace Assets.LSL4Unity.Scripts.Examples
             else if(cue == 4.0)
             {
                 Debug.Log("TRIGGER RIGHT");
-                Debug.Log(cue);
                 RightAnimator.SetTrigger("Grasp");
                 StartCoroutine(ResetHands());
             }
