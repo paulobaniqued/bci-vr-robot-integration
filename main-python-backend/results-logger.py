@@ -32,7 +32,7 @@ pred_inlet = StreamInlet(predictions[0])
 print("Found Predictions!")
 
 # Set labstreaminglayer: outbound
-info = StreamInfo('feedback', 'feedback', 1, 0, 'string')
+info = StreamInfo('feedback', 'feedback', 1, 0) # float32 default 
 outlet = StreamOutlet(info)
 
 def truths_stream(truths_inlet):
@@ -73,11 +73,14 @@ while True:
             pred_prob = [left, right]
 
         if truth == prediction:
-            score += 1
-            outlet.push_sample(['100']) # correct
+            if truth == 'left':
+                outlet.push_sample([200]) # correct left
+            elif truth == 'right':
+                outlet.push_sample([300]) # correct right
             playsound('E:\\bci\\assets\\correct.wav', False)
+            score += 1
         elif truth != prediction:
-            outlet.push_sample(['200']) # incorrect
+            outlet.push_sample([100]) # incorrect
             playsound('E:\\bci\\assets\\error.wav', False)
 
         results = pd.DataFrame([[trial_counter, truth, prediction, left, right, score]], columns=column_names)

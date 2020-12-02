@@ -6035,6 +6035,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SparkleLeft: {fileID: 1855458359}
   SparkleRight: {fileID: 1413729904}
+  StreamType: feedback
 --- !u!4 &1840980013
 Transform:
   m_ObjectHideFlags: 0

@@ -16,6 +16,11 @@ def main():
         # interested in it)
         sample, timestamp = inlet.pull_sample()
         print("got %s at time %s" % (sample[0], timestamp))
+        print(type(sample[0]))
+        print(sample)
+        print(type(sample))
+       
+
 
 
 if __name__ == '__main__':
