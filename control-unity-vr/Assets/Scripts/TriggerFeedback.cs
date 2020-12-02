@@ -47,7 +47,30 @@ public class TriggerFeedback : MonoBehaviour
         {
             sample = new float[channelCount];
             double lastTimeStamp = streamInlet.pull_sample(sample, 0.0f);
-            Debug.Log(sample[0]);
+
+            float lastFeedback = sample[0];
+
+            if (lastFeedback == 300.0) // Correct Feedback Right
+            {
+                Debug.Log("CORRECT RIGHT FEEDBACK");
+                SparkleRight.Simulate(0.0f, true, true);
+                SparkleRight.Play();
+
+            }
+            if (lastFeedback == 200.0) // Correct Feedback Left
+            {
+                Debug.Log("CORRECT LEFT FEEDBACK");
+                SparkleLeft.Simulate(0.0f, true, true);
+                SparkleLeft.Play();
+
+            }
+            if (lastFeedback == 100.0) // Correct Feedback Left
+            {
+                Debug.Log("INCORRECT FEEDBACK");
+
+            }
+
+
 
         }
     }
