@@ -51,40 +51,18 @@ void loop() {
   // Drive each servo one at a time
   //Serial.println(servonum);
   for (uint16_t pulselen = SERVOMIN; pulselen < SERVOMAX; pulselen++) {
-    pwm.setPWM(0, 0, pulselen);
     pwm.setPWM(1, 0, pulselen);
     pwm.setPWM(2, 0, pulselen);
     pwm.setPWM(3, 0, pulselen);
     pwm.setPWM(4, 0, pulselen);
-    pwm.setPWM(5, 0, pulselen);
-    pwm.setPWM(6, 0, pulselen);
-    pwm.setPWM(7, 0, pulselen);
-    pwm.setPWM(8, 0, pulselen);
-    pwm.setPWM(9, 0, pulselen);
-    pwm.setPWM(10, 0, pulselen);
-    pwm.setPWM(11, 0, pulselen);
-    pwm.setPWM(12, 0, pulselen);
-    pwm.setPWM(13, 0, pulselen);
-    pwm.setPWM(14, 0, pulselen);
   }
   delay(500);
   for (uint16_t pulselen = SERVOMAX; pulselen > SERVOMIN; pulselen--) {
     pwm.setPWM(0, 0, pulselen);
-    pwm.setPWM(0, 0, pulselen);
     pwm.setPWM(1, 0, pulselen);
     pwm.setPWM(2, 0, pulselen);
     pwm.setPWM(3, 0, pulselen);
     pwm.setPWM(4, 0, pulselen);
-    pwm.setPWM(5, 0, pulselen);
-    pwm.setPWM(6, 0, pulselen);
-    pwm.setPWM(7, 0, pulselen);
-    pwm.setPWM(8, 0, pulselen);
-    pwm.setPWM(9, 0, pulselen);
-    pwm.setPWM(10, 0, pulselen);
-    pwm.setPWM(11, 0, pulselen);
-    pwm.setPWM(12, 0, pulselen);
-    pwm.setPWM(13, 0, pulselen);
-    pwm.setPWM(14, 0, pulselen);
   }
   delay(500);
 
