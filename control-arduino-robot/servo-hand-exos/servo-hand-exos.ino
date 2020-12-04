@@ -7,63 +7,85 @@ Using Keyestudio 16-channel Servo Motor Drive Shield For Arduino
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
 
-// called this way, it uses the default address 0x40
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
-// you can also call it with a different address you want
-//Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver(0x41);
 
-// Depending on your servo make, the pulse width min and max may vary, you 
-// want these to be as small/large as possible without hitting the hard stop
-// for max range. You'll have to tweak them as necessary to match the servos you
-// have!
-#define SERVOMIN  150 // this is the 'minimum' pulse length count (out of 4096)
-#define SERVOMAX  600 // this is the 'maximum' pulse length count (out of 4096)
+#define FINGERMIN  150 // this is the 'minimum' pulse length count (out of 4096)
+#define FINGERMAX  250 // this is the 'maximum' pulse length count (out of 4096)
+#define THUMBMIN 200
+#define THUMBMAX 250
 
-// our servo # counter
-//uint8_t servonum = 0;
-
-void setup() {
+void setup() 
+{
   Serial.begin(9600);
   Serial.println("16 channel Servo test!");
 
   pwm.begin();
-  
   pwm.setPWMFreq(60);  // Analog servos run at ~60 Hz updates
+
 }
 
-// you can use this function if you'd like to set the pulse length in seconds
-// e.g. setServoPulse(0, 0.001) is a ~1 millisecond pulse width. its not precise!
-void setServoPulse(uint8_t n, double pulse) {
-  double pulselength;
-  
-  pulselength = 1000000;   // 1,000,000 us per second
-  pulselength /= 60;   // 60 Hz
-  Serial.print(pulselength); Serial.println(" us per period"); 
-  pulselength /= 4096;  // 12 bits of resolution
-  Serial.print(pulselength); Serial.println(" us per bit"); 
-  pulse *= 1000;
-  pulse /= pulselength;
-  Serial.println(pulse);
-  pwm.setPWM(n, 0, pulse);
+void leftFingerClose() // Servo L1, PIN 1
+{
+  for (int finger_pos = FINGERMIN; finger_pos < FINGERMAX; finger_pos++) 
+  {
+    pwm.setPWM(1, 0, finger_pos);
+  }
+  delay(500);
+  for (int finger_pos = FINGERMAX; finger_pos > FINGERMIN; finger_pos--) 
+  {
+    pwm.setPWM(1, 0, finger_pos);
+  }
+  delay(500);
 }
 
-void loop() {
-  // Drive each servo one at a time
-  //Serial.println(servonum);
-  for (uint16_t pulselen = SERVOMIN; pulselen < SERVOMAX; pulselen++) {
-    pwm.setPWM(1, 0, pulselen);
-    pwm.setPWM(2, 0, pulselen);
-    pwm.setPWM(3, 0, pulselen);
-    pwm.setPWM(4, 0, pulselen);
+void leftThumbClose() // Servo L2, PIN 2
+{
+  for (int thumb_pos = THUMBMAX; thumb_pos > THUMBMIN; thumb_pos--) 
+  {
+    pwm.setPWM(2, 0, thumb_pos);
   }
   delay(500);
-  for (uint16_t pulselen = SERVOMAX; pulselen > SERVOMIN; pulselen--) {
-    pwm.setPWM(0, 0, pulselen);
-    pwm.setPWM(1, 0, pulselen);
-    pwm.setPWM(2, 0, pulselen);
-    pwm.setPWM(3, 0, pulselen);
-    pwm.setPWM(4, 0, pulselen);
+  for (int thumb_pos = THUMBMIN; thumb_pos < THUMBMAX; thumb_pos++) 
+  {
+    pwm.setPWM(2, 0, thumb_pos);
   }
   delay(500);
+}
 
+void rightThumbClose() // Servo R2, PIN 3
+{
+  for (int thumb_pos = THUMBMIN; thumb_pos < THUMBMAX; thumb_pos++) 
+  {
+    pwm.setPWM(3, 0, thumb_pos);
+  }
+  delay(500);
+  for (int thumb_pos = THUMBMAX; thumb_pos > THUMBMIN; thumb_pos--) 
+  {
+    pwm.setPWM(3, 0, thumb_pos);
+  }
+  delay(500);
+}
+
+void rightFingerClose() // Servo R1, PIN 4 
+{
+  for (int finger_pos = FINGERMAX; finger_pos > FINGERMIN; finger_pos--) 
+  {
+    pwm.setPWM(4, 0, finger_pos);
+  }
+  delay(500);
+  for (int finger_pos = FINGERMIN; finger_pos < FINGERMAX; finger_pos++) 
+  {
+    pwm.setPWM(4, 0, finger_pos);
+  }
+  delay(500);
+}
+
+
+void loop() 
+{
+  leftFingerClose();
+  leftThumbClose();
+  rightThumbClose();
+  rightFingerClose();
+  delay(1000);
 }
