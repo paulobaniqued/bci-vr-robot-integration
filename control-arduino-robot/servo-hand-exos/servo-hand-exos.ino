@@ -4,15 +4,21 @@ by: Paul Baniqued
 Using Keyestudio 16-channel Servo Motor Drive Shield For Arduino
  ****************************************************/
 
+// import Adafruit PWM servo driver
 #include <Wire.h>
 #include <Adafruit_PWMServoDriver.h>
-
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 
-int LeftFingerAngle = 150; // this is the 'minimum' pulse length count (out of 4096)
+// set initial pulse length count (out of 4096)
+int LeftFingerAngle = 150;
 int LeftThumbAngle = 250;
 int RightFingerAngle = 350;
 int RightThumbAngle = 250;
+
+int switchState = 0; // initial switch button state
+const int ledPin = 13; // the pin the LED is attached to
+
+int incomingByte; // a variable to read incoming serial data into
 
 void setup() 
 {
@@ -25,6 +31,10 @@ void setup()
   pwm.setPWM(1, 0, RightFingerAngle);
   pwm.setPWM(2, 0, LeftThumbAngle);
   pwm.setPWM(3, 0, RightThumbAngle);
+
+  // Red LED pin
+  pinMode(ledPin, OUTPUT);
+  digitalWrite(ledPin, HIGH);
 }
 
 void leftClose() // Servo L1, PIN 1 + Servo L2, PIN 2
@@ -37,7 +47,7 @@ void leftClose() // Servo L1, PIN 1 + Servo L2, PIN 2
     pwm.setPWM(2, 0, LeftThumbAngle);
     LeftThumbAngle--;
   }
-  delay(500);
+  delay(2000);
   for (int pos = 100; pos > 0; pos--) 
   {
     pwm.setPWM(0, 0, LeftFingerAngle);
@@ -59,7 +69,7 @@ void rightClose() // Servo R1, PIN 4 + Servo R2, PIN 3
     pwm.setPWM(3, 0, RightThumbAngle);
     RightThumbAngle++;
   }
-  delay(500);
+  delay(2000);
   for (int pos = 100; pos > 0; pos--) 
   {
     pwm.setPWM(1, 0, RightFingerAngle);
@@ -72,8 +82,28 @@ void rightClose() // Servo R1, PIN 4 + Servo R2, PIN 3
 }
 void loop() 
 {
-  leftClose();
-  delay(1000);
-  rightClose();
-  delay(500);
+  // check for incoming serial data
+
+  if (Serial.available() > 0)
+  {    
+    // read the oldest byte in the serial buffer
+    incomingByte = Serial.read();
+
+    switch (incomingByte)
+    {
+      case 'L': // Close LEFT HAND
+        digitalWrite(ledPin, LOW);
+        leftClose();
+        delay(1000);
+        digitalWrite(ledPin, HIGH);
+      break;
+
+      case 'R': // Close RIGHT HAND
+        digitalWrite(ledPin, LOW);
+        rightClose();
+        delay(1000);
+        digitalWrite(ledPin, HIGH);
+      break;
+    }
+  }
 }
