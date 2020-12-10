@@ -22,9 +22,10 @@ void setup()
   pwm.setPWMFreq(60);  // Analog servos run at ~60 Hz updates
 
   pwm.setPWM(0, 0, LeftFingerAngle);
-  pwm.setPWM(1, 0, RightFingerAngle);
-  pwm.setPWM(2, 0, LeftThumbAngle);
-  pwm.setPWM(3, 0, RightThumbAngle);
+  pwm.setPWM(2, 0, RightFingerAngle);
+  
+  pwm.setPWM(4, 0, LeftThumbAngle);
+  pwm.setPWM(6, 0, RightThumbAngle);
 }
 
 void leftClose() // Servo L1, PIN 1 + Servo L2, PIN 2
@@ -34,7 +35,7 @@ void leftClose() // Servo L1, PIN 1 + Servo L2, PIN 2
     pwm.setPWM(0, 0, LeftFingerAngle);
     LeftFingerAngle+=2;
 
-    pwm.setPWM(2, 0, LeftThumbAngle);
+    pwm.setPWM(4, 0, LeftThumbAngle);
     LeftThumbAngle--;
   }
   delay(500);
@@ -43,7 +44,7 @@ void leftClose() // Servo L1, PIN 1 + Servo L2, PIN 2
     pwm.setPWM(0, 0, LeftFingerAngle);
     LeftFingerAngle-=2;
 
-    pwm.setPWM(2, 0, LeftThumbAngle);
+    pwm.setPWM(4, 0, LeftThumbAngle);
     LeftThumbAngle++;
   }
   delay(500);
@@ -53,19 +54,19 @@ void rightClose() // Servo R1, PIN 4 + Servo R2, PIN 3
 {
   for (int pos = 0; pos < 100; pos++) 
   {
-    pwm.setPWM(1, 0, RightFingerAngle);
+    pwm.setPWM(2, 0, RightFingerAngle);
     RightFingerAngle-=2;
 
-    pwm.setPWM(3, 0, RightThumbAngle);
+    pwm.setPWM(6, 0, RightThumbAngle);
     RightThumbAngle++;
   }
   delay(500);
   for (int pos = 100; pos > 0; pos--) 
   {
-    pwm.setPWM(1, 0, RightFingerAngle);
+    pwm.setPWM(2, 0, RightFingerAngle);
     RightFingerAngle+=2;
 
-    pwm.setPWM(3, 0, RightThumbAngle);
+    pwm.setPWM(6, 0, RightThumbAngle);
     RightThumbAngle--;
   }
   delay(500);
