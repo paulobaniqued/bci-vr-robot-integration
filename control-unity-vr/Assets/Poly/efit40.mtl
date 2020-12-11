@@ -1,0 +1,45 @@
+# created with pCon.planner
+
+newmtl mat_aluwhite131fa6be
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.1 0.1 0.1
+Ns 30
+illum 2
+
+newmtl mat_blackpol45b058e1
+Ka 0.25 0.25 0.25
+Kd 0.25 0.25 0.25
+Ks 0.02 0.02 0.02
+Ns 90
+illum 2
+
+newmtl mat_chrome313fee04
+Ka 0.68150699 0.68150699 0.68150699
+Kd 0.68150699 0.68150699 0.68150699
+Ks 0.92651802 0.92651802 0.92651802
+Ns 50
+illum 2
+
+newmtl mat_m12af8eca8d
+Ka 0.255 0.255 0.255
+Kd 1 1 1
+map_Kd 2083b617.png
+Ks 0 0 0
+Ns 30
+illum 2
+
+newmtl mat_s83766d4f2
+Ka 0.30000001 0.30000001 0.30000001
+Kd 0.30000001 0.30000001 0.30000001
+Ks 0.025 0.025 0.025
+Ns 30
+illum 2
+
+newmtl mat_white6d39b705
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.1 0.1 0.1
+Ns 30
+illum 2
+
