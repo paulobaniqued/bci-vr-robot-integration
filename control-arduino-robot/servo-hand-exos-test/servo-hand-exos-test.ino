@@ -14,6 +14,8 @@ int LeftThumbAngle = 250;
 int RightFingerAngle = 350;
 int RightThumbAngle = 250;
 
+int slowly = 10; //slow down servo
+
 void setup() 
 {
   Serial.begin(9600);
@@ -37,8 +39,9 @@ void leftClose() // Servo L1, PIN 1 + Servo L2, PIN 2
 
     pwm.setPWM(4, 0, LeftThumbAngle);
     LeftThumbAngle--;
+    delay(slowly);
   }
-  delay(500);
+  delay(1000);
   for (int pos = 100; pos > 0; pos--) 
   {
     pwm.setPWM(0, 0, LeftFingerAngle);
@@ -46,6 +49,7 @@ void leftClose() // Servo L1, PIN 1 + Servo L2, PIN 2
 
     pwm.setPWM(4, 0, LeftThumbAngle);
     LeftThumbAngle++;
+    delay(slowly);
   }
   delay(500);
 }
@@ -59,8 +63,9 @@ void rightClose() // Servo R1, PIN 4 + Servo R2, PIN 3
 
     pwm.setPWM(6, 0, RightThumbAngle);
     RightThumbAngle++;
+    delay(slowly);
   }
-  delay(500);
+  delay(1000);
   for (int pos = 100; pos > 0; pos--) 
   {
     pwm.setPWM(2, 0, RightFingerAngle);
@@ -68,6 +73,7 @@ void rightClose() // Servo R1, PIN 4 + Servo R2, PIN 3
 
     pwm.setPWM(6, 0, RightThumbAngle);
     RightThumbAngle--;
+    delay(slowly);
   }
   delay(500);
 }
@@ -76,5 +82,5 @@ void loop()
   leftClose();
   delay(1000);
   rightClose();
-  delay(500);
+  delay(1000);
 }
