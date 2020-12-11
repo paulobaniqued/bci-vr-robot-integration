@@ -1,0 +1,326 @@
+# created with pCon.planner
+
+newmtl mat_68c1e8879eb82444
+Ka 1 1 1
+Kd 1 1 1
+map_Kd 1e36f43d.png
+Ks 0 0 0
+Ns 30
+illum 2
+
+newmtl mat_6e4309e7ce2d96bd
+Ka 1 1 1
+Kd 1 1 1
+map_Kd ca8c9145.png
+Ks 0 0 0
+Ns 30
+illum 2
+
+newmtl mat_Global_e8681456
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.50196081 0.50196081 0.50196081
+Ns 64
+illum 2
+
+newmtl mat_SKP_0128_White_a3560bf7
+Ka 1 1 1
+Kd 1 1 1
+Ks 0 0 0
+Ns 30
+illum 2
+
+newmtl mat_SKP_12_21862dc9
+Ka 0.70196098 0.70196098 0.70196098
+Kd 0.70196098 0.70196098 0.70196098
+Ks 0 0 0
+Ns 30
+illum 2
+
+newmtl mat_SKP_13_21862dc9
+Ka 0.90196103 0.90196103 0.90196103
+Kd 0.90196103 0.90196103 0.90196103
+Ks 0 0 0
+Ns 30
+illum 2
+
+newmtl mat_SKP_13_95e92c3a
+Ka 0.88235301 0.83921599 0.80000001
+Kd 0.88235301 0.83921599 0.80000001
+Ks 0 0 0
+Ns 30
+illum 2
+
+newmtl mat_SKP_14_21862dc9
+Ka 0.29803899 0.29803899 0.29803899
+Kd 0.29803899 0.29803899 0.29803899
+Ks 0 0 0
+Ns 30
+illum 2
+
+newmtl mat_SKP_14_95e92c3a
+Ka 0.121569 0.113725 0.109804
+Kd 0.121569 0.113725 0.109804
+Ks 0 0 0
+Ns 30
+illum 2
+
+newmtl mat_SKP_15_21862dc9
+Ka 0.71764702 0.71764702 0.71764702
+Kd 0.71764702 0.71764702 0.71764702
+Ks 0 0 0
+Ns 30
+illum 2
+
+newmtl mat_SKP_16_21862dc9
+Ka 1 1 1
+Kd 1 1 1
+Ks 0 0 0
+Ns 30
+illum 2
+
+newmtl mat_SKP_17_95e92c3a
+Ka 0.56078398 0.039215699 0.086274497
+Kd 0.56078398 0.039215699 0.086274497
+Ks 0 0 0
+Ns 30
+illum 2
+
+newmtl mat_SKP_18_95e92c3a
+Ka 0.94509798 0.80000001 0.47843099
+Kd 0.94509798 0.80000001 0.47843099
+Ks 0 0 0
+Ns 30
+illum 2
+
+newmtl mat_SKP_2_21862dc9
+Ka 0.0666667 0.0666667 0.0666667
+Kd 0.0666667 0.0666667 0.0666667
+Ks 0 0 0
+Ns 30
+illum 2
+
+newmtl mat_SKP_2_cb437f9
+Ka 1 1 1
+Kd 1 1 1
+Ks 0 0 0
+Ns 30
+illum 2
+
+newmtl mat_SKP_6_95e92c3a
+Ka 0.77254897 0.58431399 0.227451
+Kd 0.77254897 0.58431399 0.227451
+Ks 0 0 0
+Ns 30
+illum 2
+
+newmtl mat_SKP_9_95e92c3a
+Ka 0.74901998 0.40392199 0.50588202
+Kd 0.74901998 0.40392199 0.50588202
+Ks 0 0 0
+Ns 30
+illum 2
+
+newmtl mat_SKP_Color_009_21862dc9
+Ka 0 0 0
+Kd 0 0 0
+Ks 0 0 0
+Ns 30
+illum 2
+
+newmtl mat_SKP_DarkGoldenrod_a73859cb
+Ka 0.6156863 0.66666669 0.23137255
+Kd 0.6156863 0.66666669 0.23137255
+Ks 0 0 0
+Ns 30
+illum 2
+
+newmtl mat_SKP_Material__1_508add54
+Ka 1 1 1
+Kd 1 1 1
+map_Kd 50638eb9.png
+Ks 0 0 0
+Ns 30
+illum 2
+
+newmtl mat_SKP_OrzaVidriada_70a4a402
+Ka 1 1 1
+Kd 1 1 1
+map_Kd bec6ddca.png
+Ks 0 0 0
+Ns 29.440001
+illum 2
+
+newmtl mat_SKP_WhiteGlass_95e92c3a
+Ka 0.85882401 0.85882401 0.85882401
+Kd 0.85882401 0.85882401 0.85882401
+Ks 0 0 0
+Ns 30
+d 0.23000002
+illum 2
+
+newmtl mat_SKP_auto2_21862dc9
+Ka 0.66666698 0.66666698 0.66666698
+Kd 0.66666698 0.66666698 0.66666698
+Ks 0 0 0
+Ns 30
+illum 2
+
+newmtl mat_SKP_auto3_21862dc9
+Ka 0 0 0
+Kd 0 0 0
+Ks 0 0 0
+Ns 30
+illum 2
+
+newmtl mat_SKP_blueprint2small_a3560bf7
+Ka 1 1 1
+Kd 1 1 1
+map_Kd 5b8d1006.png
+Ks 0 0 0
+Ns 30
+illum 2
+
+newmtl mat_SKP_leaf1_sm_b08fba4e_a73859cb
+Ka 1 1 1
+Kd 1 1 1
+map_Kd 672fb10f.png
+Ks 0 0 0
+Ns 30
+illum 2
+
+newmtl mat_SKP_leaf2_sm_a1f2d037_a73859cb
+Ka 1 1 1
+Kd 1 1 1
+map_Kd 35be7984.png
+Ks 0 0 0
+Ns 30
+illum 2
+
+newmtl mat_X3GPL_COL_MAT_e8681456
+Ka 1 1 1
+Kd 1 1 1
+Ks 0 0 0
+Ns 64
+illum 2
+
+newmtl mat_aluminiub616fb13
+Ka 0.75 0.75 0.75
+Kd 0.75 0.75 0.75
+Ks 0.5 0.5 0.5
+Ns 30
+illum 2
+
+newmtl mat_blackpol45b058e1
+Ka 0.25 0.25 0.25
+Kd 0.25 0.25 0.25
+Ks 0.02 0.02 0.02
+Ns 90
+illum 2
+
+newmtl mat_chrome313fee04
+Ka 0.68150699 0.68150699 0.68150699
+Kd 0.68150699 0.68150699 0.68150699
+Ks 0.92651802 0.92651802 0.92651802
+Ns 50
+illum 2
+
+newmtl mat_dummy4b3f8e4c
+Ka 0.25 0.25 0.25
+Kd 0.25 0.25 0.25
+Ks 0.02 0.02 0.02
+Ns 90
+illum 2
+
+newmtl mat_fe80c1854c9158f9
+Ka 0.086695865 0.086695865 0.086695865
+Kd 1 1 1
+map_Kd 954b29c6.png
+Ks 0 0 0
+Ns 30
+illum 2
+
+newmtl mat_m760080eafb
+Ka 1 1 1
+Kd 1 1 1
+map_Kd e8067417.png
+Ks 0 0 0
+Ns 30
+illum 2
+
+newmtl mat_plastico777be664
+Ka 0.69999999 0.69999999 0.69999999
+Kd 0.69999999 0.69999999 0.69999999
+Ks 0.029999999 0.029999999 0.029999999
+Ns 10
+illum 2
+
+newmtl mat_s001024c117
+Ka 0.75294101 0.75294101 0.75294101
+Kd 1 1 1
+map_Kd be4277bd.png
+Ks 0 0 0
+Ns 6.4000001
+illum 2
+
+newmtl mat_s005ccd4397
+Ka 0.75294101 0.75294101 0.75294101
+Kd 1 1 1
+map_Kd be4277bd.png
+Ks 0 0 0
+Ns 6.4000001
+illum 2
+
+newmtl mat_s007108db60
+Ka 0.75294101 0.75294101 0.75294101
+Kd 1 1 1
+map_Kd be4277bd.png
+Ks 0 0 0
+Ns 6.4000001
+illum 2
+
+newmtl mat_s0075527347
+Ka 0.75294101 0.75294101 0.75294101
+Kd 1 1 1
+map_Kd be4277bd.png
+Ks 0 0 0
+Ns 6.4000001
+illum 2
+
+newmtl mat_s008306d92e
+Ka 0.75294101 0.75294101 0.75294101
+Kd 1 1 1
+map_Kd be4277bd.png
+Ks 0 0 0
+Ns 6.4000001
+illum 2
+
+newmtl mat_s0af5f1847
+Ka 1 1 1
+Kd 1 1 1
+Ks 0.1 0.1 0.1
+Ns 30
+illum 2
+
+newmtl mat_s50ac3f7041
+Ka 0.75999999 0.83899999 0.85399997
+Kd 0.75999999 0.83899999 0.85399997
+Ks 0.2 0.2 0.2
+Ns 30
+d 0.76999998
+illum 2
+
+newmtl mat_s83766d4f2
+Ka 0.30000001 0.30000001 0.30000001
+Kd 0.30000001 0.30000001 0.30000001
+Ks 0.025 0.025 0.025
+Ns 30
+illum 2
+
+newmtl mat_x3gpl_skpdefault
+Ka 1 1 1
+Kd 1 1 1
+Ks 1 1 1
+Ns 120.32
+illum 2
+

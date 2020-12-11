@@ -12,14 +12,14 @@ public class TriggerCue : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("left"))
+        if (Input.GetKeyDown(KeyCode.Keypad4))
         {
             Debug.Log("trigger left key down");
             LeftAnimator.SetTrigger("Grasp");
             StartCoroutine(ResetHands());
 
         }
-        if (Input.GetKeyDown("right"))
+        if (Input.GetKeyDown(KeyCode.Keypad6))
         {
             Debug.Log("trigger right key down");
             RightAnimator.SetTrigger("Grasp");

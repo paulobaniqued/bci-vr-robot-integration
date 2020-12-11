@@ -16,14 +16,14 @@ public class TriggerFeedback : MonoBehaviour
     void Update()
     {
         // Manual Feedback Trigger
-        if (Input.GetKeyDown("up")) // Correct Feedback Right
+        if (Input.GetKeyDown(KeyCode.Keypad3)) // Correct Feedback Right
         {
             Debug.Log("trigger up key down");
             SparkleRight.Simulate(0.0f, true, true);
             SparkleRight.Play();
 
         }
-        if (Input.GetKeyDown("down")) // Correct Feedback Left
+        if (Input.GetKeyDown(KeyCode.Keypad1)) // Correct Feedback Left
         {
             Debug.Log("trigger down key down");
             SparkleLeft.Simulate(0.0f, true, true);
