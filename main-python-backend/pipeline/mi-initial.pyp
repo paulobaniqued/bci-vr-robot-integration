@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <scheme description="" title="" version="2.0">
 	<nodes>
-		<node id="0" name="LSL Input" position="(141.0, 177.0)" project_name="NeuroPype" qualified_name="widgets.network.owlslinput.OWLSLInput" title="LSL Input" uuid="8ca9b334-d1c2-4f29-b9fa-269b251d4c44" version="1.0.0" />
-		<node id="1" name="Time Series Plot" position="(454.0, 281.0)" project_name="NeuroPype" qualified_name="widgets.visualization.owtimeseriesplot.OWTimeSeriesPlot" title="Time Series Plot" uuid="143bbdb9-cdb5-441a-bcc3-a45d15fb1161" version="1.0.1" />
-		<node id="2" name="Record to XDF" position="(478.0, 146.0)" project_name="NeuroPype" qualified_name="widgets.file_system.owrecordtoxdf.OWRecordToXDF" title="Record to XDF" uuid="9b4aa1f0-18fc-4d08-bdbc-19e4588fcd53" version="1.0.0" />
+		<node id="0" name="LSL Input" position="(141.0, 177.0)" project_name="NeuroPype" qualified_name="widgets.network.owlslinput.OWLSLInput" title="LSL Input" uuid="c118c44a-7ef0-48a8-9bed-ca54f38a13a7" version="1.0.0" />
+		<node id="1" name="Time Series Plot" position="(454.0, 281.0)" project_name="NeuroPype" qualified_name="widgets.visualization.owtimeseriesplot.OWTimeSeriesPlot" title="Time Series Plot" uuid="1c601987-40a9-40f1-9349-26bef8919140" version="1.0.1" />
+		<node id="2" name="Record to XDF" position="(478.0, 146.0)" project_name="NeuroPype" qualified_name="widgets.file_system.owrecordtoxdf.OWRecordToXDF" title="Record to XDF" uuid="5a4c14e1-2cb2-4819-9998-f1f57d96880f" version="1.0.0" />
 	</nodes>
 	<links>
 		<link enabled="true" id="0" sink_channel="Data" sink_node_id="2" source_channel="Data" source_node_id="0" />
@@ -40,11 +40,12 @@ ZXdxJ1gKAAAAemVyb19jb2xvcnEoWAcAAAAjN0Y3RjdGcSlYCAAAAHplcm9tZWFucSqIdS4=
 ZS1yZWNvcmRpbmdxA1gNAAAAY2xvdWRfYWNjb3VudHEEWAAAAABxBVgMAAAAY2xvdWRfYnVja2V0
 cQZoBVgRAAAAY2xvdWRfY3JlZGVudGlhbHNxB2gFWAoAAABjbG91ZF9ob3N0cQhYBwAAAERlZmF1
 bHRxCVgOAAAAY2xvdWRfcGFydHNpemVxCkseWAwAAABkZWxldGVfcGFydHNxC4hYCAAAAGZpbGVu
-YW1lcQxYCwAAAHRyYWluLTEueGRmcQ1YCwAAAG91dHB1dF9yb290cQ5YDAAAAEU6L2JjaS9kYXRh
-L3EPWAsAAAByZXRyaWV2YWJsZXEQiVgTAAAAc2F2ZWRXaWRnZXRHZW9tZXRyeXERY3NpcApfdW5w
-aWNrbGVfdHlwZQpxElgMAAAAUHlRdDQuUXRDb3JlcRNYCgAAAFFCeXRlQXJyYXlxFEMuAdnQywAB
-AAAAAAMEAAABRAAABHsAAAK0AAADDAAAAWMAAARzAAACrAAAAAAAAHEVhXEWh3EXUnEYWA0AAABz
-ZXNzaW9uX25vdGVzcRloBVgOAAAAc2V0X2JyZWFrcG9pbnRxGolYBwAAAHZlcmJvc2VxG4l1Lg==
+YW1lcQxYDwAAAHdoaXRlLW5vaXNlLnhkZnENWAsAAABvdXRwdXRfcm9vdHEOWAwAAABFOi9iY2kv
+ZGF0YS9xD1gLAAAAcmV0cmlldmFibGVxEIlYEwAAAHNhdmVkV2lkZ2V0R2VvbWV0cnlxEWNzaXAK
+X3VucGlja2xlX3R5cGUKcRJYDAAAAFB5UXQ0LlF0Q29yZXETWAoAAABRQnl0ZUFycmF5cRRDLgHZ
+0MsAAQAAAAADBAAAAUQAAAR7AAACtAAAAwwAAAFjAAAEcwAAAqwAAAAAAABxFYVxFodxF1JxGFgN
+AAAAc2Vzc2lvbl9ub3Rlc3EZaAVYDgAAAHNldF9icmVha3BvaW50cRqJWAcAAAB2ZXJib3NlcRuJ
+dS4=
 </properties>
 	</node_properties>
 	<patch>{
@@ -76,9 +77,18 @@ ZXNzaW9uX25vdGVzcRloBVgOAAAAc2V0X2JyZWFrcG9pbnRxGolYBwAAAHZlcmJvc2VxG4l1Lg==
             "module": "neuropype.nodes.network.LSLInput",
             "params": {
                 "channel_names": {
-                    "customized": false,
+                    "customized": true,
                     "type": "ListPort",
-                    "value": []
+                    "value": [
+                        "Ch1",
+                        "Ch2",
+                        "Ch3",
+                        "Ch4",
+                        "Ch5",
+                        "Ch6",
+                        "Ch7",
+                        "Ch8"
+                    ]
                 },
                 "diagnostics": {
                     "customized": false,
@@ -131,7 +141,7 @@ ZXNzaW9uX25vdGVzcRloBVgOAAAAc2V0X2JyZWFrcG9pbnRxGolYBwAAAHZlcmJvc2VxG4l1Lg==
                     "value": false
                 }
             },
-            "uuid": "8ca9b334-d1c2-4f29-b9fa-269b251d4c44"
+            "uuid": "c118c44a-7ef0-48a8-9bed-ca54f38a13a7"
         },
         "node2": {
             "class": "TimeSeriesPlot",
@@ -268,7 +278,7 @@ ZXNzaW9uX25vdGVzcRloBVgOAAAAc2V0X2JyZWFrcG9pbnRxGolYBwAAAHZlcmJvc2VxG4l1Lg==
                     "value": true
                 }
             },
-            "uuid": "143bbdb9-cdb5-441a-bcc3-a45d15fb1161"
+            "uuid": "1c601987-40a9-40f1-9349-26bef8919140"
         },
         "node3": {
             "class": "RecordToXDF",
@@ -317,7 +327,7 @@ ZXNzaW9uX25vdGVzcRloBVgOAAAAc2V0X2JyZWFrcG9pbnRxGolYBwAAAHZlcmJvc2VxG4l1Lg==
                 "filename": {
                     "customized": true,
                     "type": "StringPort",
-                    "value": "train-1.xdf"
+                    "value": "white-noise.xdf"
                 },
                 "output_root": {
                     "customized": true,
@@ -345,7 +355,7 @@ ZXNzaW9uX25vdGVzcRloBVgOAAAAc2V0X2JyZWFrcG9pbnRxGolYBwAAAHZlcmJvc2VxG4l1Lg==
                     "value": false
                 }
             },
-            "uuid": "9b4aa1f0-18fc-4d08-bdbc-19e4588fcd53"
+            "uuid": "5a4c14e1-2cb2-4819-9998-f1f57d96880f"
         }
     },
     "version": 1.1
