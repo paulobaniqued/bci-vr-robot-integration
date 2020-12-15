@@ -13,6 +13,18 @@ public class TriggerFeedback : MonoBehaviour
     float[] sample;
     private int channelCount = 0;
 
+    GameObject LeftBar;
+    GameObject RightBar;
+
+    void Awake()
+    {
+        LeftBar = GameObject.Find("LeftBar");
+        RightBar = GameObject.Find("RightBar");
+
+        LeftBar.SetActive(false);
+        RightBar.SetActive(false);
+    }
+
     void Update()
     {
         // Manual Feedback Trigger
@@ -21,14 +33,23 @@ public class TriggerFeedback : MonoBehaviour
             Debug.Log("trigger up key down");
             SparkleRight.Simulate(0.0f, true, true);
             SparkleRight.Play();
-
+            RightBar.SetActive(true);
+            StartCoroutine(ManuallyResetBars());
         }
         if (Input.GetKeyDown(KeyCode.Keypad1)) // Correct Feedback Left
         {
             Debug.Log("trigger down key down");
             SparkleLeft.Simulate(0.0f, true, true);
             SparkleLeft.Play();
+            LeftBar.SetActive(true);
+            StartCoroutine(ManuallyResetBars());
+        }
 
+        IEnumerator ManuallyResetBars()
+        {
+            yield return new WaitForSeconds(1.0f);
+            LeftBar.SetActive(false);
+            RightBar.SetActive(false);
         }
 
         // LSL Feedback Trigger
@@ -55,19 +76,39 @@ public class TriggerFeedback : MonoBehaviour
                 Debug.Log("CORRECT RIGHT FEEDBACK");
                 SparkleRight.Simulate(0.0f, true, true);
                 SparkleRight.Play();
-
+                RightBar.SetActive(true);
+                StartCoroutine(ResetBars());
             }
             if (lastFeedback == 200.0) // Correct Feedback Left
             {
                 Debug.Log("CORRECT LEFT FEEDBACK");
                 SparkleLeft.Simulate(0.0f, true, true);
                 SparkleLeft.Play();
-
+                LeftBar.SetActive(true);
+                StartCoroutine(ResetBars());
             }
-            if (lastFeedback == 100.0) // Correct Feedback Left
+            if (lastFeedback == 30.0) // Incorrect Feedback Right
             {
-                Debug.Log("INCORRECT FEEDBACK");
+                Debug.Log("INCORRECT RIGHT FEEDBACK");
+                RightBar.SetActive(true);
+                StartCoroutine(ResetBars());
+            }
+            if (lastFeedback == 20.0) // Incorrect Feedback Left
+            {
+                Debug.Log("INCORRECT LEFT FEEDBACK");
+                LeftBar.SetActive(true);
+                StartCoroutine(ResetBars());
+            }
+            if (lastFeedback == 100.0) // No Prediction
+            {
+                Debug.Log("NO PREDICTION");
+            }
 
+            IEnumerator ResetBars()
+            {
+                yield return new WaitForSeconds(1.0f);
+                LeftBar.SetActive(false);
+                RightBar.SetActive(false);
             }
 
 

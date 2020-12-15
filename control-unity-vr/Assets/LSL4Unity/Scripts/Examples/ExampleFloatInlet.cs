@@ -15,9 +15,21 @@ namespace Assets.LSL4Unity.Scripts.Examples
         public Animator LeftAnimator;
         public Animator RightAnimator;
 
-        float trialTime = 4;
+        GameObject LeftArrow;
+        GameObject RightArrow;
+        GameObject FixationCross;
+
+        float trialTime = 4.0f;
+        float getreadyTime = 1.5f;
 
         public string lastSample = String.Empty;
+
+        void Awake()
+        {
+            LeftArrow = GameObject.Find("LeftArrow");
+            RightArrow = GameObject.Find("RightArrow");
+            FixationCross = GameObject.Find("FixationCross");
+        }
 
         protected override void Process(float[] newSample, double timeStamp)
         {
@@ -28,22 +40,33 @@ namespace Assets.LSL4Unity.Scripts.Examples
             float cue = newSample[0];
 
             Debug.Log(cue);
-
-            //Vector3 lift = new Vector3(0, 0.2f + emg, 0);
-            //gameObject.transform.position = lift;
-
+            
+            if (cue == 2.0)
+            {
+                Debug.Log("FIXATION CROSS");
+                FixationCross.SetActive(true);
+                StartCoroutine(ResetCross());
+            }
+            
             if (cue == 3.0)
             {
                 Debug.Log("TRIGGER LEFT");
                 LeftAnimator.SetTrigger("Grasp");
+                LeftArrow.SetActive(true);
                 StartCoroutine(ResetHands());
-
             }
             else if(cue == 4.0)
             {
                 Debug.Log("TRIGGER RIGHT");
                 RightAnimator.SetTrigger("Grasp");
+                RightArrow.SetActive(true);
                 StartCoroutine(ResetHands());
+            }
+
+            IEnumerator ResetCross()
+            {
+                yield return new WaitForSeconds(getreadyTime);
+                FixationCross.SetActive(false);
             }
 
             IEnumerator ResetHands()
@@ -51,6 +74,8 @@ namespace Assets.LSL4Unity.Scripts.Examples
                 yield return new WaitForSeconds(trialTime);
                 LeftAnimator.ResetTrigger("Grasp");
                 RightAnimator.ResetTrigger("Grasp");
+                LeftArrow.SetActive(false);
+                RightArrow.SetActive(false);
             }   
 
 
