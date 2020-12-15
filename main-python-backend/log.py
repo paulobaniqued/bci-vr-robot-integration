@@ -71,7 +71,7 @@ while True:
             prediction = 'right'
             pred_prob = right
         else:
-            prediction = 'equal'
+            prediction = 'none'
             pred_prob = [left, right]
 
         if truth == prediction:
@@ -82,8 +82,16 @@ while True:
             playsound('E:\\bci\\assets\\correct.wav', False)
             score += 1
         elif truth != prediction:
-            outlet.push_sample([100]) # incorrect or equal
-            playsound('E:\\bci\\assets\\error.wav', False)
+            if prediction == 'left':
+                outlet.push_sample([20]) # incorrect left predicted
+                playsound('E:\\bci\\assets\\error.wav', False)
+            elif prediction == 'right':
+                outlet.push_sample([30]) # incorrect right predicted
+                playsound('E:\\bci\\assets\\error.wav', False)
+            elif prediction == 'none':
+                outlet.push_sample([100]) # indecisive
+                playsound('E:\\bci\\assets\\error.wav', False)
+
 
         results = pd.DataFrame([[trial_counter, truth, prediction, left, right, score]], columns=column_names)
         print("Results: ")
