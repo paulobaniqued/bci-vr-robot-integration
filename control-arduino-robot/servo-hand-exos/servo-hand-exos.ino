@@ -52,7 +52,7 @@ void leftClose() // Servo L1, PIN 1 + Servo L2, PIN 2
 
     delay(slowly);
   }
-  delay(1000); // pause after closing
+  delay(1200); // pause after closing
   for (int pos = 100; pos > 0; pos--) 
   {
     pwm.setPWM(0, 0, LeftFingerAngle);
@@ -78,7 +78,7 @@ void rightClose() // Servo R1, PIN 4 + Servo R2, PIN 3
 
     delay(slowly);
   }
-  delay(1000); // pause after closing
+  delay(1200); // pause after closing
   for (int pos = 100; pos > 0; pos--) 
   {
     pwm.setPWM(2, 0, RightFingerAngle);

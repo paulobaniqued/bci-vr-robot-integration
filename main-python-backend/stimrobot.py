@@ -10,7 +10,7 @@ from playsound import playsound
 
 # Set parameters
 labels = ['left', 'right']
-trials_per_class = 25
+trials_per_class = 28
 warmup_duration = 15
 getready_duration = 2
 cue_duration = 4

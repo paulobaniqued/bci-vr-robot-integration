@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <scheme description="" title="" version="2.0">
 	<nodes>
-		<node id="0" name="LSL Input" position="(141.0, 177.0)" project_name="NeuroPype" qualified_name="widgets.network.owlslinput.OWLSLInput" title="LSL Input" uuid="058f7b3e-a3d8-4202-88cb-aa44eec6a0d6" version="1.0.0" />
-		<node id="1" name="Time Series Plot" position="(454.0, 281.0)" project_name="NeuroPype" qualified_name="widgets.visualization.owtimeseriesplot.OWTimeSeriesPlot" title="Time Series Plot" uuid="26e49a7c-6b52-413c-8900-9c481a48e491" version="1.0.1" />
-		<node id="2" name="Record to XDF" position="(478.0, 146.0)" project_name="NeuroPype" qualified_name="widgets.file_system.owrecordtoxdf.OWRecordToXDF" title="Record to XDF" uuid="55555065-cce1-411b-89ba-86af8c5ab4de" version="1.0.0" />
+		<node id="0" name="LSL Input" position="(141.0, 177.0)" project_name="NeuroPype" qualified_name="widgets.network.owlslinput.OWLSLInput" title="LSL Input" uuid="6dcba490-84ac-4110-8e9a-7a1011f292f4" version="1.0.0" />
+		<node id="1" name="Time Series Plot" position="(454.0, 281.0)" project_name="NeuroPype" qualified_name="widgets.visualization.owtimeseriesplot.OWTimeSeriesPlot" title="Time Series Plot" uuid="21744691-e0da-426a-b277-e6908a635835" version="1.0.1" />
+		<node id="2" name="Record to XDF" position="(478.0, 146.0)" project_name="NeuroPype" qualified_name="widgets.file_system.owrecordtoxdf.OWRecordToXDF" title="Record to XDF" uuid="77cb6aaf-3452-4b24-b498-f1126d2bb47a" version="1.0.0" />
 	</nodes>
 	<links>
 		<link enabled="true" id="0" sink_channel="Data" sink_node_id="2" source_channel="Data" source_node_id="0" />
@@ -40,11 +40,11 @@ ZXdxJ1gKAAAAemVyb19jb2xvcnEoWAcAAAAjN0Y3RjdGcSlYCAAAAHplcm9tZWFucSqIdS4=
 ZS1yZWNvcmRpbmdxA1gNAAAAY2xvdWRfYWNjb3VudHEEWAAAAABxBVgMAAAAY2xvdWRfYnVja2V0
 cQZoBVgRAAAAY2xvdWRfY3JlZGVudGlhbHNxB2gFWAoAAABjbG91ZF9ob3N0cQhYBwAAAERlZmF1
 bHRxCVgOAAAAY2xvdWRfcGFydHNpemVxCkseWAwAAABkZWxldGVfcGFydHNxC4hYCAAAAGZpbGVu
-YW1lcQxYCAAAAHZyLTAueGRmcQ1YCwAAAG91dHB1dF9yb290cQ5YDAAAAEU6L2JjaS9kYXRhL3EP
-WAsAAAByZXRyaWV2YWJsZXEQiVgTAAAAc2F2ZWRXaWRnZXRHZW9tZXRyeXERY3NpcApfdW5waWNr
-bGVfdHlwZQpxElgMAAAAUHlRdDQuUXRDb3JlcRNYCgAAAFFCeXRlQXJyYXlxFEMuAdnQywABAAAA
-AAMEAAABRAAABHsAAAK0AAADDAAAAWMAAARzAAACrAAAAAAAAHEVhXEWh3EXUnEYWA0AAABzZXNz
-aW9uX25vdGVzcRloBVgOAAAAc2V0X2JyZWFrcG9pbnRxGolYBwAAAHZlcmJvc2VxG4l1Lg==
+YW1lcQxYCgAAAGJvdGgtMC54ZGZxDVgLAAAAb3V0cHV0X3Jvb3RxDlgMAAAARTovYmNpL2RhdGEv
+cQ9YCwAAAHJldHJpZXZhYmxlcRCJWBMAAABzYXZlZFdpZGdldEdlb21ldHJ5cRFjc2lwCl91bnBp
+Y2tsZV90eXBlCnESWAwAAABQeVF0NC5RdENvcmVxE1gKAAAAUUJ5dGVBcnJheXEUQy4B2dDLAAEA
+AAAAAwQAAAFEAAAEewAAArQAAAMMAAABYwAABHMAAAKsAAAAAAAAcRWFcRaHcRdScRhYDQAAAHNl
+c3Npb25fbm90ZXNxGWgFWA4AAABzZXRfYnJlYWtwb2ludHEaiVgHAAAAdmVyYm9zZXEbiXUu
 </properties>
 	</node_properties>
 	<patch>{
@@ -140,7 +140,7 @@ aW9uX25vdGVzcRloBVgOAAAAc2V0X2JyZWFrcG9pbnRxGolYBwAAAHZlcmJvc2VxG4l1Lg==
                     "value": false
                 }
             },
-            "uuid": "058f7b3e-a3d8-4202-88cb-aa44eec6a0d6"
+            "uuid": "6dcba490-84ac-4110-8e9a-7a1011f292f4"
         },
         "node2": {
             "class": "TimeSeriesPlot",
@@ -277,7 +277,7 @@ aW9uX25vdGVzcRloBVgOAAAAc2V0X2JyZWFrcG9pbnRxGolYBwAAAHZlcmJvc2VxG4l1Lg==
                     "value": true
                 }
             },
-            "uuid": "26e49a7c-6b52-413c-8900-9c481a48e491"
+            "uuid": "21744691-e0da-426a-b277-e6908a635835"
         },
         "node3": {
             "class": "RecordToXDF",
@@ -326,7 +326,7 @@ aW9uX25vdGVzcRloBVgOAAAAc2V0X2JyZWFrcG9pbnRxGolYBwAAAHZlcmJvc2VxG4l1Lg==
                 "filename": {
                     "customized": true,
                     "type": "StringPort",
-                    "value": "vr-0.xdf"
+                    "value": "both-0.xdf"
                 },
                 "output_root": {
                     "customized": true,
@@ -354,7 +354,7 @@ aW9uX25vdGVzcRloBVgOAAAAc2V0X2JyZWFrcG9pbnRxGolYBwAAAHZlcmJvc2VxG4l1Lg==
                     "value": false
                 }
             },
-            "uuid": "55555065-cce1-411b-89ba-86af8c5ab4de"
+            "uuid": "77cb6aaf-3452-4b24-b498-f1126d2bb47a"
         }
     },
     "version": 1.1
