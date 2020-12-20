@@ -4,6 +4,6 @@ Integrating a motor imagery-based brain-computer interface (BCI) with virtual re
 [www.paulobaniqued.com]
 
 <h2>System Components</h2>   
-1. Electroencephalography (EEG) acquisition system (Neurobio8, Neuroelectrics)  
+1. Electroencephalography (EEG) acquisition system (Enobio8, Neuroelectrics)  
 2. VR headset (Oculus Rift S)  
 3. Robotic hand exoskeleton (Arduino)  
