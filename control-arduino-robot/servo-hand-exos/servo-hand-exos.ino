@@ -18,8 +18,6 @@ int RightThumbAngle = 250;
 int switchState = 0; // initial switch button state
 const int ledPin = 13; // the pin the LED is attached to
 
-int slowly = 10; // slow down servo
-
 int incomingByte; // a variable to read incoming serial data into
 
 void setup() 
@@ -49,10 +47,8 @@ void leftClose() // Servo L1, PIN 1 + Servo L2, PIN 2
 
     pwm.setPWM(4, 0, LeftThumbAngle);
     LeftThumbAngle--;
-
-    delay(slowly);
   }
-  delay(1200); // pause after closing
+  delay(370); // pause after closing
   for (int pos = 100; pos > 0; pos--) 
   {
     pwm.setPWM(0, 0, LeftFingerAngle);
@@ -60,10 +56,8 @@ void leftClose() // Servo L1, PIN 1 + Servo L2, PIN 2
 
     pwm.setPWM(4, 0, LeftThumbAngle);
     LeftThumbAngle++;
-
-    delay(slowly);
   }
-  delay(500); // doesnt matter it is rest
+  delay(370); // doesnt matter it is rest
 }
 
 void rightClose() // Servo R1, PIN 4 + Servo R2, PIN 3
@@ -75,10 +69,8 @@ void rightClose() // Servo R1, PIN 4 + Servo R2, PIN 3
 
     pwm.setPWM(6, 0, RightThumbAngle);
     RightThumbAngle++;
-
-    delay(slowly);
   }
-  delay(1200); // pause after closing
+  delay(370); // pause after closing
   for (int pos = 100; pos > 0; pos--) 
   {
     pwm.setPWM(2, 0, RightFingerAngle);
@@ -86,10 +78,8 @@ void rightClose() // Servo R1, PIN 4 + Servo R2, PIN 3
 
     pwm.setPWM(6, 0, RightThumbAngle);
     RightThumbAngle--;
-
-    delay(slowly);
   }
-  delay(500); // doesnt matter it is rest
+  delay(370); // doesnt matter it is rest
 }
 void loop() 
 {
@@ -105,14 +95,20 @@ void loop()
       case 'L': // Close LEFT HAND
         digitalWrite(ledPin, LOW);
         leftClose();
-        delay(1000);
+        leftClose();
+        leftClose();
+        leftClose();
+        delay(500);
         digitalWrite(ledPin, HIGH);
       break;
 
       case 'R': // Close RIGHT HAND
         digitalWrite(ledPin, LOW);
         rightClose();
-        delay(1000);
+        rightClose();
+        rightClose();
+        rightClose();
+        delay(500);
         digitalWrite(ledPin, HIGH);
       break;
     }
