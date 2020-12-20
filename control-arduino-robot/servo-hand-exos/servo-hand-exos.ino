@@ -94,6 +94,7 @@ void loop()
     {
       case 'L': // Close LEFT HAND
         digitalWrite(ledPin, LOW);
+        delay(250);
         leftClose();
         leftClose();
         leftClose();
@@ -104,6 +105,7 @@ void loop()
 
       case 'R': // Close RIGHT HAND
         digitalWrite(ledPin, LOW);
+        delay(250);
         rightClose();
         rightClose();
         rightClose();
