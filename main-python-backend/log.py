@@ -58,6 +58,7 @@ while True:
         future_predictions = executor.submit(predictions_stream, pred_inlet)
 
         trial_counter += 1
+        print("Trial ", trial_counter)
     
         truth = future_truths.result()
         left, right = future_predictions.result()
@@ -94,12 +95,12 @@ while True:
 
 
         results = pd.DataFrame([[trial_counter, truth, prediction, left, right, score]], columns=column_names)
-        print("Results: ")
-        print(results)
+        print("Results obtained")
+        #print(results) # Don't display scores
 
         session_log = session_log.append(results, ignore_index=True)
-        print("Session log: ")
-        print(session_log)
+        print("Session logged")
+        #print(session_log) # Don't display scores
 
         session_log.to_csv(os.path.join(data_path,session_id), index=False)
 
