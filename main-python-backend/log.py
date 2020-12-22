@@ -58,7 +58,12 @@ while True:
         future_predictions = executor.submit(predictions_stream, pred_inlet)
 
         trial_counter += 1
-        print("Trial ", trial_counter)
+
+        if trial_counter == 41:
+            print("40 trials reached")
+            exit()
+        else:
+            print("Trial ", trial_counter)
     
         truth = future_truths.result()
         left, right = future_predictions.result()
