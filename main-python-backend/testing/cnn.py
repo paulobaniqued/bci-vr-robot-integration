@@ -118,8 +118,8 @@ def preprocess(data):
 ########################  Data Prep  #########################
 
 # Import Data
-data_1, header = pyxdf.load_xdf('E:\\bci\\testing\\data\\test1.xdf')
-data_2, header = pyxdf.load_xdf('E:\\bci\\testing\\data\\test2.xdf')
+data_1, header = pyxdf.load_xdf('E:\\bci\\data\\xdf\\vr-1-ftd.xdf')
+data_2, header = pyxdf.load_xdf('E:\\bci\\data\\xdf\\both-1-ftd.xdf')
 
 # Process Data
 windows_dataset_1, n_trials_1 = preprocess(data_1)
@@ -128,7 +128,7 @@ windows_dataset_2, n_trials_2 = preprocess(data_2)
 ########################  Training Model  ########################
 
 # Split dataset into 2 for training and validation
-ds_1 = list(range(50))
+ds_1 = list(range(40))
 ds_2 = list(range(12))
 
 #splitted = windows_dataset.split([ds_1, ds_2])

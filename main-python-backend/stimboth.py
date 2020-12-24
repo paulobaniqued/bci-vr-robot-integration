@@ -30,8 +30,6 @@ ser = serial.Serial('COM4', 9600)
 
 outlet.push_sample(['1']) # start
 print("START")
-blinkLabel.config(image=BlankImage)
-root.update()
 time.sleep(warmup_duration)
 trial_counter = 0
 block_counter = 1

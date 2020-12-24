@@ -1,7 +1,7 @@
 """Test prediction stream output from NeuroPype."""
 import numpy as np
 import pandas as pd
-from time import sleep
+import time
 from threading import *
 import concurrent.futures
 from pylsl import StreamInlet, resolve_stream, StreamInfo, StreamOutlet
@@ -14,7 +14,7 @@ with open('E:/bci/session/ids.json','r') as fp:
 
 day = input("\n\n What session is it today? ")
 session_id = session_key.get(day) + ".csv"
-data_path = 'E:\\bci\\data\\csv\\'
+data_path = 'E:\\bci\\RESULTS\\csv\\'
 
 column_names = ['trial','truth','prediction','prob_left','prob_right','score']
 session_log = pd.DataFrame(columns=column_names)
@@ -59,8 +59,10 @@ while True:
 
         trial_counter += 1
 
-        if trial_counter == 41:
-            print("40 trials reached")
+        if trial_counter == 61:
+            playsound('E:\\bci\\assets\\complete.wav', False)
+            print("50 trials reached")
+            time.sleep(2)
             exit()
         else:
             print("Trial ", trial_counter)
