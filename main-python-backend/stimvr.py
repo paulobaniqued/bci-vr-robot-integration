@@ -29,6 +29,8 @@ print("START")
 time.sleep(warmup_duration)
 trial_counter = 0
 block_counter = 1
+left_counter = 0
+right_counter = 0
 
 while block_counter <= blocks:
 
@@ -49,11 +51,13 @@ while block_counter <= blocks:
             outlet.push_sample(['3']) #Marker '3' for left
             print("LEFT")
             playsound("E:\\bci\\assets\\cue.wav", False)
+            left_counter += 1
 
         if choice == 'right':
             outlet.push_sample(['4']) #Marker '4' for left
             print("RIGHT")
             playsound("E:\\bci\\assets\\cue.wav", False)
+            right_counter += 1
 
         time.sleep(cue_duration) # cue duration 
 
@@ -74,4 +78,7 @@ while block_counter <= blocks:
             
 outlet.push_sample(['6']) # end
 print("END")
+print("Left Trials: ", left_counter)
+print("Right Trials: ", right_counter)
+print("Total: ", trial_counter)
 time.sleep(60)

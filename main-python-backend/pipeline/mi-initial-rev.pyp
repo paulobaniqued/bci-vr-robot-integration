@@ -1,15 +1,15 @@
 <?xml version='1.0' encoding='utf-8'?>
 <scheme description="" title="" version="2.0">
 	<nodes>
-		<node id="0" name="LSL Input" position="(72.0, 88.0)" project_name="NeuroPype" qualified_name="widgets.network.owlslinput.OWLSLInput" title="LSL Input" uuid="fd8a6503-ba20-48b1-8c2a-f75e73cd7078" version="1.0.0" />
-		<node id="1" name="Time Series Plot" position="(756.0, 160.0)" project_name="NeuroPype" qualified_name="widgets.visualization.owtimeseriesplot.OWTimeSeriesPlot" title="Time Series Plot" uuid="d6681703-c9c7-4bda-9c85-a9bc133dc975" version="1.0.1" />
-		<node id="2" name="Record to XDF" position="(1050.0, 82.0)" project_name="NeuroPype" qualified_name="widgets.file_system.owrecordtoxdf.OWRecordToXDF" title="Record to XDF" uuid="5a9aee78-db94-46a6-b00f-fd36d028213e" version="1.0.0" />
-		<node id="3" name="Select Range" position="(632.0, 257.0)" project_name="NeuroPype" qualified_name="widgets.tensor_math.owselectrange.OWSelectRange" title="Select Range" uuid="62a860a7-fc08-4bfe-aa1b-5b35ec6781f9" version="1.0.0" />
-		<node id="4" name="Rewrite Markers" position="(82.0, 246.0)" project_name="NeuroPype" qualified_name="widgets.markers.owrewritemarkers.OWRewriteMarkers" title="Rewrite Markers" uuid="e4d7a014-e633-49cf-affc-8c9fe201a90b" version="0.9.3" />
-		<node id="5" name="Record to XDF" position="(1069.0, 453.0)" project_name="NeuroPype" qualified_name="widgets.file_system.owrecordtoxdf.OWRecordToXDF" title="Record to XDF" uuid="b53ee72a-5795-4c27-8ebd-5189bd6bdd3d" version="1.0.0" />
-		<node id="6" name="Dejitter Timestamps" position="(220.0, 234.0)" project_name="NeuroPype" qualified_name="widgets.utilities.owdejittertimestamps.OWDejitterTimestamps" title="Dejitter Timestamps" uuid="e663075b-fbb3-43bf-a9f6-13a8c295171f" version="1.0.0" />
-		<node id="7" name="FIR Filter" position="(741.0, 263.0)" project_name="NeuroPype" qualified_name="widgets.signal_processing.owfirfilter.OWFIRFilter" title="FIR Filter" uuid="6a883ec1-bafe-4c5f-abe4-fe32cbeaad5e" version="1.0.0" />
-		<node id="8" name="Assign Target Values" position="(490.0, 260.0)" project_name="NeuroPype" qualified_name="widgets.machine_learning.owassigntargets.OWAssignTargets" title="Assign Targets" uuid="51fb9382-ed58-4095-85df-d71bd9e774b9" version="1.0.0" />
+		<node id="0" name="LSL Input" position="(72.0, 88.0)" project_name="NeuroPype" qualified_name="widgets.network.owlslinput.OWLSLInput" title="LSL Input" uuid="13b9cf30-796a-416e-96f8-ea68d56e0c09" version="1.0.0" />
+		<node id="1" name="Time Series Plot" position="(801.0, 142.0)" project_name="NeuroPype" qualified_name="widgets.visualization.owtimeseriesplot.OWTimeSeriesPlot" title="Time Series Plot" uuid="d4faf313-536f-4c33-a8f6-6445a8af8942" version="1.0.1" />
+		<node id="2" name="Record to XDF" position="(1050.0, 82.0)" project_name="NeuroPype" qualified_name="widgets.file_system.owrecordtoxdf.OWRecordToXDF" title="Record to XDF" uuid="b139749e-cf90-4685-8381-11bbd05fe6eb" version="1.0.0" />
+		<node id="3" name="Select Range" position="(632.0, 257.0)" project_name="NeuroPype" qualified_name="widgets.tensor_math.owselectrange.OWSelectRange" title="Select Range" uuid="a598d729-f4db-42b4-810d-432dd90b17ba" version="1.0.0" />
+		<node id="4" name="Rewrite Markers" position="(82.0, 246.0)" project_name="NeuroPype" qualified_name="widgets.markers.owrewritemarkers.OWRewriteMarkers" title="Rewrite Markers" uuid="3709096e-b9c3-4f00-8057-76fe2ef3d28a" version="0.9.3" />
+		<node id="5" name="Record to XDF" position="(1069.0, 453.0)" project_name="NeuroPype" qualified_name="widgets.file_system.owrecordtoxdf.OWRecordToXDF" title="Record to XDF" uuid="357ce5cd-2f3d-4e95-b117-7af30cc6b95b" version="1.0.0" />
+		<node id="6" name="Dejitter Timestamps" position="(220.0, 234.0)" project_name="NeuroPype" qualified_name="widgets.utilities.owdejittertimestamps.OWDejitterTimestamps" title="Dejitter Timestamps" uuid="d5c62057-0132-4718-822a-d429c05f59cf" version="1.0.0" />
+		<node id="7" name="FIR Filter" position="(741.0, 263.0)" project_name="NeuroPype" qualified_name="widgets.signal_processing.owfirfilter.OWFIRFilter" title="FIR Filter" uuid="8f624df0-dad5-40d3-a7a8-e91f07caf95f" version="1.0.0" />
+		<node id="8" name="Assign Target Values" position="(490.0, 260.0)" project_name="NeuroPype" qualified_name="widgets.machine_learning.owassigntargets.OWAssignTargets" title="Assign Targets" uuid="76077be5-b263-4b50-a8de-97db392b91a0" version="1.0.0" />
 	</nodes>
 	<links>
 		<link enabled="true" id="0" sink_channel="Data" sink_node_id="2" source_channel="Data" source_node_id="0" />
@@ -21,7 +21,9 @@
 		<link enabled="true" id="6" sink_channel="Data" sink_node_id="8" source_channel="Data" source_node_id="6" />
 		<link enabled="true" id="7" sink_channel="Data" sink_node_id="4" source_channel="Data" source_node_id="0" />
 	</links>
-	<annotations />
+	<annotations>
+		<text font-family="Helvetica" font-size="16" id="0" rect="(170.0, 33.0, 174.0, 31.0)">TRAINING!</text>
+	</annotations>
 	<thumbnail />
 	<node_properties>
 		<properties format="pickle" node_id="0">gAN9cQAoWA0AAABjaGFubmVsX25hbWVzcQFdcQJYCwAAAGRpYWdub3N0aWNzcQOJWAwAAABtYXJr
@@ -52,12 +54,12 @@ ZXdxJ1gKAAAAemVyb19jb2xvcnEoWAcAAAAjN0Y3RjdGcSlYCAAAAHplcm9tZWFucSqIdS4=
 ZS1yZWNvcmRpbmdxA1gNAAAAY2xvdWRfYWNjb3VudHEEWAAAAABxBVgMAAAAY2xvdWRfYnVja2V0
 cQZoBVgRAAAAY2xvdWRfY3JlZGVudGlhbHNxB2gFWAoAAABjbG91ZF9ob3N0cQhYBwAAAERlZmF1
 bHRxCVgOAAAAY2xvdWRfcGFydHNpemVxCkseWAwAAABkZWxldGVfcGFydHNxC4hYCAAAAGZpbGVu
-YW1lcQxYFgAAAGNvbnRyb2wtMi10cmFpbmluZy54ZGZxDVgLAAAAb3V0cHV0X3Jvb3RxDlgQAAAA
-RTovYmNpL2RhdGEveGRmL3EPWAsAAAByZXRyaWV2YWJsZXEQiVgTAAAAc2F2ZWRXaWRnZXRHZW9t
-ZXRyeXERY3NpcApfdW5waWNrbGVfdHlwZQpxElgMAAAAUHlRdDQuUXRDb3JlcRNYCgAAAFFCeXRl
-QXJyYXlxFEMuAdnQywABAAAAAAMEAAABRAAABHsAAAK0AAADDAAAAWMAAARzAAACrAAAAAAAAHEV
-hXEWh3EXUnEYWA0AAABzZXNzaW9uX25vdGVzcRloBVgOAAAAc2V0X2JyZWFrcG9pbnRxGolYBwAA
-AHZlcmJvc2VxG4l1Lg==
+YW1lcQxYEwAAAGJvdGgtMy10cmFpbmluZy54ZGZxDVgLAAAAb3V0cHV0X3Jvb3RxDlgMAAAARTov
+YmNpL2RhdGEvcQ9YCwAAAHJldHJpZXZhYmxlcRCJWBMAAABzYXZlZFdpZGdldEdlb21ldHJ5cRFj
+c2lwCl91bnBpY2tsZV90eXBlCnESWAwAAABQeVF0NC5RdENvcmVxE1gKAAAAUUJ5dGVBcnJheXEU
+Qy4B2dDLAAEAAAAAAwQAAAFEAAAEewAAArQAAAMMAAABYwAABHMAAAKsAAAAAAAAcRWFcRaHcRdS
+cRhYDQAAAHNlc3Npb25fbm90ZXNxGWgFWA4AAABzZXRfYnJlYWtwb2ludHEaiVgHAAAAdmVyYm9z
+ZXEbiXUu
 </properties>
 		<properties format="literal" node_id="3">{'apply_multiple_axes': False, 'axis': 'space', 'savedWidgetGeometry': None, 'selection': '0:8', 'set_breakpoint': False, 'unit': 'indices'}</properties>
 		<properties format="literal" node_id="4">{'iv_column': 'Marker', 'pattern_syntax': 'wildcards', 'regex_sub': False, 'remove_all_others': True, 'rules': "{'3': '0', '4': '1'}", 'savedWidgetGeometry': None, 'set_breakpoint': False}</properties>
@@ -65,12 +67,12 @@ AHZlcmJvc2VxG4l1Lg==
 ZS1yZWNvcmRpbmdxA1gNAAAAY2xvdWRfYWNjb3VudHEEWAAAAABxBVgMAAAAY2xvdWRfYnVja2V0
 cQZoBVgRAAAAY2xvdWRfY3JlZGVudGlhbHNxB2gFWAoAAABjbG91ZF9ob3N0cQhYBwAAAERlZmF1
 bHRxCVgOAAAAY2xvdWRfcGFydHNpemVxCkseWAwAAABkZWxldGVfcGFydHNxC4hYCAAAAGZpbGVu
-YW1lcQxYKgAAAEU6L2JjaS9kYXRhL3hkZi9mdGQtY29udHJvbC0yLXRyYWluaW5nLnhkZnENWAsA
-AABvdXRwdXRfcm9vdHEOaAVYCwAAAHJldHJpZXZhYmxlcQ+JWBMAAABzYXZlZFdpZGdldEdlb21l
-dHJ5cRBjc2lwCl91bnBpY2tsZV90eXBlCnERWAwAAABQeVF0NC5RdENvcmVxElgKAAAAUUJ5dGVB
-cnJheXETQy4B2dDLAAEAAAAAAwQAAAFEAAAEewAAArQAAAMMAAABYwAABHMAAAKsAAAAAAAAcRSF
-cRWHcRZScRdYDQAAAHNlc3Npb25fbm90ZXNxGGgFWA4AAABzZXRfYnJlYWtwb2ludHEZiVgHAAAA
-dmVyYm9zZXEaiXUu
+YW1lcQxYIwAAAEU6L2JjaS9kYXRhL2Z0ZC1ib3RoLTMtdHJhaW5pbmcueGRmcQ1YCwAAAG91dHB1
+dF9yb290cQ5oBVgLAAAAcmV0cmlldmFibGVxD4lYEwAAAHNhdmVkV2lkZ2V0R2VvbWV0cnlxEGNz
+aXAKX3VucGlja2xlX3R5cGUKcRFYDAAAAFB5UXQ0LlF0Q29yZXESWAoAAABRQnl0ZUFycmF5cRND
+LgHZ0MsAAQAAAAADBAAAAUQAAAR7AAACtAAAAwwAAAFjAAAEcwAAAqwAAAAAAABxFIVxFYdxFlJx
+F1gNAAAAc2Vzc2lvbl9ub3Rlc3EYaAVYDgAAAHNldF9icmVha3BvaW50cRmJWAcAAAB2ZXJib3Nl
+cRqJdS4=
 </properties>
 		<properties format="literal" node_id="6">{'force_monotonic': True, 'forget_halftime': 300, 'max_updaterate': 500, 'savedWidgetGeometry': None, 'set_breakpoint': False, 'warmup_samples': -1}</properties>
 		<properties format="literal" node_id="7">{'antisymmetric': False, 'axis': 'time', 'convolution_method': 'standard', 'cut_preringing': False, 'frequencies': [6, 7, 30, 32], 'minimum_phase': True, 'mode': 'bandpass', 'order': '(use default)', 'savedWidgetGeometry': None, 'set_breakpoint': False, 'stop_atten': 50.0}</properties>
@@ -196,7 +198,7 @@ dmVyYm9zZXEaiXUu
                     "value": false
                 }
             },
-            "uuid": "fd8a6503-ba20-48b1-8c2a-f75e73cd7078"
+            "uuid": "13b9cf30-796a-416e-96f8-ea68d56e0c09"
         },
         "node2": {
             "class": "TimeSeriesPlot",
@@ -333,7 +335,7 @@ dmVyYm9zZXEaiXUu
                     "value": true
                 }
             },
-            "uuid": "d6681703-c9c7-4bda-9c85-a9bc133dc975"
+            "uuid": "d4faf313-536f-4c33-a8f6-6445a8af8942"
         },
         "node3": {
             "class": "RecordToXDF",
@@ -382,12 +384,12 @@ dmVyYm9zZXEaiXUu
                 "filename": {
                     "customized": true,
                     "type": "StringPort",
-                    "value": "control-2-training.xdf"
+                    "value": "both-3-training.xdf"
                 },
                 "output_root": {
                     "customized": true,
                     "type": "StringPort",
-                    "value": "E:/bci/data/xdf/"
+                    "value": "E:/bci/data/"
                 },
                 "retrievable": {
                     "customized": false,
@@ -410,7 +412,7 @@ dmVyYm9zZXEaiXUu
                     "value": false
                 }
             },
-            "uuid": "5a9aee78-db94-46a6-b00f-fd36d028213e"
+            "uuid": "b139749e-cf90-4685-8381-11bbd05fe6eb"
         },
         "node4": {
             "class": "SelectRange",
@@ -442,7 +444,7 @@ dmVyYm9zZXEaiXUu
                     "value": "indices"
                 }
             },
-            "uuid": "62a860a7-fc08-4bfe-aa1b-5b35ec6781f9"
+            "uuid": "a598d729-f4db-42b4-810d-432dd90b17ba"
         },
         "node5": {
             "class": "RewriteMarkers",
@@ -479,7 +481,7 @@ dmVyYm9zZXEaiXUu
                     "value": false
                 }
             },
-            "uuid": "e4d7a014-e633-49cf-affc-8c9fe201a90b"
+            "uuid": "3709096e-b9c3-4f00-8057-76fe2ef3d28a"
         },
         "node6": {
             "class": "RecordToXDF",
@@ -528,7 +530,7 @@ dmVyYm9zZXEaiXUu
                 "filename": {
                     "customized": true,
                     "type": "StringPort",
-                    "value": "E:/bci/data/xdf/ftd-control-2-training.xdf"
+                    "value": "E:/bci/data/ftd-both-3-training.xdf"
                 },
                 "output_root": {
                     "customized": false,
@@ -556,7 +558,7 @@ dmVyYm9zZXEaiXUu
                     "value": false
                 }
             },
-            "uuid": "b53ee72a-5795-4c27-8ebd-5189bd6bdd3d"
+            "uuid": "357ce5cd-2f3d-4e95-b117-7af30cc6b95b"
         },
         "node7": {
             "class": "DejitterTimestamps",
@@ -588,7 +590,7 @@ dmVyYm9zZXEaiXUu
                     "value": -1
                 }
             },
-            "uuid": "e663075b-fbb3-43bf-a9f6-13a8c295171f"
+            "uuid": "d5c62057-0132-4718-822a-d429c05f59cf"
         },
         "node8": {
             "class": "FIRFilter",
@@ -650,7 +652,7 @@ dmVyYm9zZXEaiXUu
                     "value": 50.0
                 }
             },
-            "uuid": "6a883ec1-bafe-4c5f-abe4-fe32cbeaad5e"
+            "uuid": "8f624df0-dad5-40d3-a7a8-e91f07caf95f"
         },
         "node9": {
             "class": "AssignTargets",
@@ -705,7 +707,7 @@ dmVyYm9zZXEaiXUu
                     "value": false
                 }
             },
-            "uuid": "51fb9382-ed58-4095-85df-d71bd9e774b9"
+            "uuid": "76077be5-b263-4b50-a8de-97db392b91a0"
         }
     },
     "version": 1.1

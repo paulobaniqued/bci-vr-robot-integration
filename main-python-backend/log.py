@@ -14,12 +14,14 @@ with open('E:/bci/session/ids.json','r') as fp:
 
 day = input("\n\n What session is it today? ")
 session_id = session_key.get(day) + ".csv"
-data_path = 'E:\\bci\\RESULTS\\csv\\'
+data_path = 'E:\\bci\\data\\'
 
 column_names = ['trial','truth','prediction','prob_left','prob_right','score']
 session_log = pd.DataFrame(columns=column_names)
-trial_counter = 0
+trial_counter = 1
 score = 0
+left_counter = 0
+right_counter = 0
 
 print("looking for a Truth stream...")
 truths = resolve_stream('name', 'Truth')
@@ -51,23 +53,25 @@ def predictions_stream(pred_inlet):
         right_prediction = sample[0][1]
         return left_prediction, right_prediction
 
+def print_trial_counts():
+    print("Left Trials: ", left_counter)
+    print("Right Trials: ", right_counter)
+    print("Total: ", trial_counter)
+
 while True:
 
     with concurrent.futures.ThreadPoolExecutor() as executor:
         future_truths = executor.submit(truths_stream, truths_inlet)
         future_predictions = executor.submit(predictions_stream, pred_inlet)
 
-        trial_counter += 1
-
-        if trial_counter == 61:
-            playsound('E:\\bci\\assets\\complete.wav', False)
-            print("50 trials reached")
-            time.sleep(2)
-            exit()
-        else:
-            print("Trial ", trial_counter)
+        print("Trial ", trial_counter)
     
         truth = future_truths.result()
+        if truth == 'left':
+            left_counter += 1
+        elif truth == 'right':
+            right_counter += 1
+
         left, right = future_predictions.result()
 
         thresh = 0.6
@@ -111,6 +115,14 @@ while True:
 
         session_log.to_csv(os.path.join(data_path,session_id), index=False)
 
+        trial_counter += 1
+
+        if trial_counter == 61:
+            playsound('E:\\bci\\assets\\complete.wav', False)
+            print("60 trials reached")
+            print_trial_counts()
+            time.sleep(2)
+            exit()
 
 
         

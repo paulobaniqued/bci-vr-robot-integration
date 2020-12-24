@@ -47,6 +47,8 @@ root.update()
 time.sleep(warmup_duration)
 trial_counter = 0
 block_counter = 1
+left_counter = 0
+right_counter = 0
 
 # Open serial connection with Arduino
 ser = serial.Serial('COM4', 9600)
@@ -76,6 +78,7 @@ while block_counter <= blocks:
             blinkLabel.config(image=CueLeftImage)
             root.update()
             ser.write(b'L')
+            left_counter += 1
 
         if choice == 'right':
             outlet.push_sample(['4']) #Marker '4' for left
@@ -84,6 +87,7 @@ while block_counter <= blocks:
             blinkLabel.config(image=CueRightImage)
             root.update()
             ser.write(b'R')
+            right_counter += 1
 
         time.sleep(cue_duration) # cue duration 
 
@@ -106,4 +110,7 @@ while block_counter <= blocks:
 
 outlet.push_sample(['6']) # end
 print("END")
+print("Left Trials: ", left_counter)
+print("Right Trials: ", right_counter)
+print("Total: ", trial_counter)
 time.sleep(60)
