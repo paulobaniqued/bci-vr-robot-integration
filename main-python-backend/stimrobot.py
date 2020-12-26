@@ -104,13 +104,16 @@ while block_counter <= blocks:
         time.sleep(rest_choice) # rest duration
         
         if (trial_counter == block_counter*trials_per_class*2) :
-            print("Block ended, PAUSE for ", pause_duration, " seconds")
-            time.sleep(pause_duration)
-            block_counter += 1 
-
-outlet.push_sample(['6']) # end
-print("END")
-print("Left Trials: ", left_counter)
-print("Right Trials: ", right_counter)
-print("Total: ", trial_counter)
-time.sleep(60)
+            if (trial_counter == blocks*trials_per_class*2):
+                print("Blocks completed")
+                playsound('E:\\bci\\assets\\complete.wav', False)
+                outlet.push_sample(['6']) # end
+                print("END")
+                print("Left Trials: ", left_counter)
+                print("Right Trials: ", right_counter)
+                print("Total: ", trial_counter)
+                time.sleep(60)
+            else:
+                print("Block ended, PAUSE for ", pause_duration, " seconds")
+                time.sleep(pause_duration)
+                block_counter += 1
