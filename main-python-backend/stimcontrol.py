@@ -106,9 +106,9 @@ while block_counter <= blocks:
                 print("Left Trials: ", left_counter)
                 print("Right Trials: ", right_counter)
                 print("Total: ", trial_counter)
+                time.sleep(60)
             else:
                 print("Block ended, PAUSE for ", pause_duration, " seconds")
                 time.sleep(pause_duration)
                 block_counter += 1
             
-time.sleep(60)
