@@ -44,12 +44,13 @@ sns.catplot(
     data = results, kind="bar",
     x="condition", y="score", ci="sd"
 )
+plt.show()
 
 # %%
 """ Repeated Measures ANOVA """
 from statsmodels.stats.anova import AnovaRM
 
-print(AnovaRM(data=imported_data, depvar='score', subject='condition', within=['session']).fit())
+print(AnovaRM(data=results, depvar='score', subject='condition', within=['session']).fit())
 
 # Ha : p-value < 0.05
 # Reporting : statistically significant (F(3,9) = 11.4315, p = 0.0020)
@@ -82,5 +83,41 @@ plt.ylim(20,100)
 plt.show()
 
 # %%
+""" Interactions """
+from statsmodels.graphics.factorplots import interaction_plot
+
+inter_columns = ['visual', 'kinaesthetic', 'session', 'score']
+inter_data = pd.DataFrame(columns = inter_columns)
+
+for i in range(len(results)):
+    if results['condition'][i] == 'a':
+        inter_entry_sesh = results['session'][i]
+        inter_entry_score = results['score'][i]
+        inter_entry = pd.DataFrame([['VR', 'Robot', inter_entry_sesh, inter_entry_score]], columns = inter_columns)
+        inter_data = inter_data.append(inter_entry, ignore_index = True)
+        
+    elif results['condition'][i] == 'b':
+        inter_entry_sesh = results['session'][i]
+        inter_entry_score = results['score'][i]
+        inter_entry = pd.DataFrame([['No VR', 'Robot', inter_entry_sesh, inter_entry_score]], columns = inter_columns)
+        inter_data = inter_data.append(inter_entry, ignore_index = True)
+
+    elif results['condition'][i] == 'c':
+        inter_entry_sesh = results['session'][i]
+        inter_entry_score = results['score'][i]
+        inter_entry = pd.DataFrame([['VR', 'No Robot', inter_entry_sesh, inter_entry_score]], columns = inter_columns)
+        inter_data = inter_data.append(inter_entry, ignore_index = True)
+
+    elif results['condition'][i] == 'd':
+        inter_entry_sesh = results['session'][i]
+        inter_entry_score = results['score'][i]
+        inter_entry = pd.DataFrame([['No VR', 'No Robot', inter_entry_sesh, inter_entry_score]], columns = inter_columns)
+        inter_data = inter_data.append(inter_entry, ignore_index = True)
+
+print(inter_data)
+
+# %%
+# Make interaction plot
+interaction_plot(inter_data['visual'], inter_data['kinaesthetic'], inter_data['score'])
 
 # %%
