@@ -10,10 +10,10 @@ Using Keyestudio 16-channel Servo Motor Drive Shield For Arduino
 Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 
 // set initial pulse length count (out of 4096)
-int LeftFingerAngle = 150;
-int LeftThumbAngle = 250;
-int RightFingerAngle = 350;
-int RightThumbAngle = 250;
+float LeftFingerAngle = 150;
+float LeftThumbAngle = 250;
+float RightFingerAngle = 350;
+float RightThumbAngle = 250;
 
 int switchState = 0; // initial switch button state
 const int ledPin = 13; // the pin the LED is attached to
@@ -62,22 +62,22 @@ void leftClose() // Servo L1, PIN 1 + Servo L2, PIN 2
 
 void rightClose() // Servo R1, PIN 4 + Servo R2, PIN 3
 {
-  for (int pos = 0; pos < 100; pos++) 
+  for (int pos = 0; pos < 400; pos++) 
   {
     pwm.setPWM(2, 0, RightFingerAngle);
-    RightFingerAngle-=2;
+    RightFingerAngle-=0.5;
 
     pwm.setPWM(6, 0, RightThumbAngle);
-    RightThumbAngle++;
+    RightThumbAngle+=0.25;
   }
   delay(1000); // pause after closing
-  for (int pos = 100; pos > 0; pos--) 
+  for (int pos = 400; pos > 0; pos--) 
   {
     pwm.setPWM(2, 0, RightFingerAngle);
-    RightFingerAngle+=2;
+    RightFingerAngle+=0.5;
 
     pwm.setPWM(6, 0, RightThumbAngle);
-    RightThumbAngle--;
+    RightThumbAngle-=0.25;
   }
   delay(370); // doesnt matter it is rest
 }
@@ -96,7 +96,9 @@ void loop()
         digitalWrite(ledPin, LOW);
         delay(250);
         rightClose();
+        delay(250);
         rightClose();
+        delay(250);
         rightClose();
         delay(1500);
         digitalWrite(ledPin, HIGH);
@@ -106,7 +108,9 @@ void loop()
         digitalWrite(ledPin, LOW);
         delay(250);
         rightClose();
+        delay(250);
         rightClose();
+        delay(250);
         rightClose();
         delay(1500);
         digitalWrite(ledPin, HIGH);
