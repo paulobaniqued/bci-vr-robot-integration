@@ -1,5 +1,9 @@
+### STIMPRES.py MODULE for the CONTROL CONDITION ### 
+### by: Paul Dominick E. Baniqued
+### Website: paulobaniqued.github.io
+
 #%%
-"""BCI Stimuli Presenter for NeuroPype (VR-only condition, Serial disabled)"""
+"""BCI Stimuli Presenter for NeuroPype (Control Condition)"""
 import time
 import random
 from tkinter import *

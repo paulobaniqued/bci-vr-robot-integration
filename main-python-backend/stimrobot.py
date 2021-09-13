@@ -1,3 +1,7 @@
+### STIMPRES.py MODULE for the ROBOT ONLY CONDITION (Serial Enabled) ### 
+### by: Paul Dominick E. Baniqued
+### Website: paulobaniqued.github.io
+
 #%%
 """BCI Stimuli Presenter for NeuroPype"""
 import time

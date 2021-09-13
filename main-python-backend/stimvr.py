@@ -1,5 +1,9 @@
+### STIMPRES.py MODULE for the VR ONLY CONDITION (Serial Disabled) ### 
+### by: Paul Dominick E. Baniqued
+### Website: paulobaniqued.github.io
+
 #%%
-"""BCI Stimuli Presenter for NeuroPype (VR-only condition, Serial disabled)"""
+"""BCI Stimuli Presenter for NeuroPype"""
 import time
 import random
 from pylsl import StreamInfo, StreamOutlet

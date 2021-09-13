@@ -1,3 +1,6 @@
+### LOGGER.py MODULE ### 
+### by: Paul Dominick E. Baniqued
+### Website: paulobaniqued.github.io
 """Test prediction stream output from NeuroPype."""
 import numpy as np
 import pandas as pd
